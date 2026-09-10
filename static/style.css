@@ -1,1 +1,18 @@
-
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f4f4f5;color:#18181b}
+.card{max-width:680px;margin:30px auto;padding:24px;background:#fff;border-radius:18px;box-shadow:0 8px 30px #0001}
+.card.small{max-width:420px}
+h1{margin-top:0}
+section{margin-top:28px;padding-top:20px;border-top:1px solid #ddd}
+input[type=password],input[type=file]{width:100%;padding:12px;margin:8px 0 14px}
+button,.button{display:inline-block;border:0;border-radius:10px;padding:12px 16px;cursor:pointer;text-decoration:none;background:#18181b;color:#fff;font-weight:600}
+.danger{background:#b42318}
+.secondary{background:#e4e4e7;color:#18181b}
+.inline{display:inline;margin-left:8px}
+.status,.error{padding:12px;border-radius:10px;margin:12px 0;background:#f4f4f5}
+.error{background:#fee4e2;color:#912018}
+.hint{color:#666;font-size:14px}
+.barcode{display:block;width:100%;max-width:620px;height:auto;background:#fff;border:1px solid #ddd;padding:12px;margin:15px 0}
+.viewer{background:#000;min-height:100vh;display:grid;place-items:center}
+.video{width:100%;max-height:100vh}
+.empty{color:#fff;text-align:center;padding:30px}
