@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Admin</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main class="card">
+<h1>Video Admin</h1>
+<p><strong>Your barcode never changes.</strong> It points to the permanent video page.</p>
+
+<section>
+<h2>Current video</h2>
+{% if current %}
+<div class="status">Active video: {{ current }}</div>
+<form method="post" action="/admin/delete" onsubmit="return confirm('Delete the current video?');">
+<button class="danger" type="submit">Delete Current Video</button>
+</form>
+{% else %}
+<div class="status">No video uploaded.</div>
+{% endif %}
+</section>
+
+<section>
+<h2>Upload new video</h2>
+<form method="post" action="/admin/upload" enctype="multipart/form-data">
+<input type="file" name="video" accept="video/mp4,video/webm,video/quicktime,video/x-m4v" required>
+<button type="submit">Upload New Video</button>
+</form>
+<p class="hint">The new video is uploaded first. After a successful upload it becomes active and the old video is removed.</p>
+</section>
+
+<section>
+<h2>Permanent barcode</h2>
+<p>Print this barcode once. Keep using the same barcode when you replace videos.</p>
+{% if public_url %}
+<img class="barcode" src="/admin/barcode" alt="Permanent Code 128 barcode">
+<p class="hint">{{ public_url }}</p>
+{% else %}
+<div class="error">Set PUBLIC_URL after deployment to generate the barcode.</div>
+{% endif %}
+</section>
+
+<section>
+<a class="button secondary" href="/video" target="_blank">Open Public Video Page</a>
+<form method="post" action="/admin/logout" class="inline">
+<button class="secondary" type="submit">Logout</button>
+</form>
+</section>
+</main>
+</body>
+</html>

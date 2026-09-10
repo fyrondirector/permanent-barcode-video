@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="viewer">
+{% if video_url %}
+<video class="video" controls autoplay playsinline preload="metadata">
+  <source src="{{ video_url }}">
+  Your browser does not support video playback.
+</video>
+{% else %}
+<div class="empty"><h2>No video available</h2><p>{{ message }}</p></div>
+{% endif %}
+</body>
+</html>
