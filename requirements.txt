@@ -6,3 +6,4 @@ itsdangerous
 boto3
 python-barcode
 pillow
+supabase
