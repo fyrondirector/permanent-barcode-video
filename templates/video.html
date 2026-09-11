@@ -3,287 +3,221 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Happy Birthday ❤️</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet"
     >
 
+
     <style>
 
         /* =====================================================
-           GLOBAL
-           ===================================================== */
+           GLOBAL RESET
+        ===================================================== */
 
-        * {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
         }
 
-        html,
-        body {
+
+        html {
+            width: 100%;
+            height: 100%;
+
             margin: 0;
             padding: 0;
-            width: 100%;
-            min-height: 100%;
+
+            overflow: hidden;
         }
 
+
         body {
+            width: 100%;
+            height: 100%;
+
+            margin: 0;
+            padding: 0;
+
+            overflow: hidden;
 
             font-family: "DM Sans", sans-serif;
 
             color: #ffffff;
 
-            overflow-x: hidden;
-
             background:
                 radial-gradient(
                     circle at 20% 15%,
-                    rgba(255, 100, 160, 0.15),
+                    rgba(255, 80, 150, 0.16),
                     transparent 30%
                 ),
                 radial-gradient(
                     circle at 80% 85%,
-                    rgba(160, 100, 255, 0.12),
+                    rgba(160, 70, 180, 0.12),
                     transparent 30%
                 ),
-                radial-gradient(
-                    circle at 50% 50%,
-                    rgba(255, 80, 150, 0.05),
-                    transparent 45%
-                ),
-                #09090d;
+                #08070b;
         }
 
 
         /* =====================================================
-   COMMON PAGE TRANSITION
-   ===================================================== */
+           ROOT
+        ===================================================== */
 
-.stage {
-    width: 100%;
-    min-height: 100vh;
-
-    /* Completely remove inactive stages from layout */
-    display: none;
-
-    opacity: 0;
-    visibility: hidden;
-
-    transform: translateY(25px);
-
-    overflow: hidden;
-}
-
-
-/* =====================================================
-   ACTIVE STAGE
-   ===================================================== */
-
-.stage.show {
-    display: flex;
-
-    opacity: 1;
-    visibility: visible;
-
-    transform: translateY(0);
-
-    animation: stageReveal 0.9s ease forwards;
-}
-
-
-/* =====================================================
-   STAGE REVEAL
-   ===================================================== */
-
-@keyframes stageReveal {
-
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-        /* =====================================================
-           BIRTHDAY INTRO
-           ===================================================== */
-
-        .birthday-intro {
-
+        .app {
             position: fixed;
 
             inset: 0;
 
-            z-index: 9999;
+            width: 100vw;
+            height: 100vh;
 
-            display: flex;
+            overflow: hidden;
+        }
 
-            align-items: center;
 
-            justify-content: center;
+        /* =====================================================
+           COMMON STAGE
+
+           IMPORTANT:
+           Every stage is FIXED and removed from layout when
+           inactive. Therefore there is no page-height problem.
+        ===================================================== */
+
+        .stage {
+            position: fixed;
+
+            inset: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            min-height: 100vh;
+            max-height: 100vh;
+
+            display: none;
 
             overflow: hidden;
 
-            background:
-                radial-gradient(
-                    circle at 50% 48%,
-                    rgba(255, 90, 160, 0.13),
-                    transparent 35%
-                ),
-                #08080c;
-
-            opacity: 1;
-
-            visibility: visible;
-
-            transition:
-                opacity 1s ease,
-                visibility 1s ease;
-        }
-
-        .birthday-intro.hide {
-
             opacity: 0;
-
             visibility: hidden;
 
             pointer-events: none;
         }
 
 
+        .stage.active {
+            display: flex;
+
+            opacity: 1;
+            visibility: visible;
+
+            pointer-events: auto;
+
+            animation:
+                stageEnter
+                0.8s
+                cubic-bezier(.16, 1, .3, 1)
+                forwards;
+        }
+
+
+        @keyframes stageEnter {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
         /* =====================================================
-           INTRO GLOW
-           ===================================================== */
+           BACKGROUND GLOW
+        ===================================================== */
 
-        .intro-glow {
-
+        .background-glow {
             position: absolute;
 
-            width: 520px;
-            height: 520px;
+            width: 620px;
+            height: 620px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
 
             border-radius: 50%;
 
             background:
                 radial-gradient(
                     circle,
-                    rgba(255, 120, 175, 0.12),
+                    rgba(255, 70, 145, 0.12),
                     transparent 68%
                 );
 
-            filter: blur(10px);
-
-            animation:
-                glowPulse 3s ease-in-out infinite;
+            filter: blur(18px);
 
             pointer-events: none;
         }
 
-        @keyframes glowPulse {
-
-            0%,
-            100% {
-                transform: scale(0.9);
-                opacity: 0.55;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-        }
-
 
         /* =====================================================
-           CONFETTI
-           ===================================================== */
+           1. BIRTHDAY OPENING
+        ===================================================== */
 
-        .confetti-container {
+        .birthday-intro {
+            z-index: 100;
 
-            position: absolute;
+            align-items: center;
+            justify-content: center;
 
-            inset: 0;
-
-            z-index: 5;
-
-            pointer-events: none;
-
-            overflow: hidden;
-        }
-
-        .confetti {
-
-            position: absolute;
-
-            width: 8px;
-            height: 13px;
-
-            top: 42%;
-            left: 50%;
-
-            border-radius: 2px;
-
-            opacity: 0;
-
-            animation:
-                confettiBlast
-                2.8s
-                cubic-bezier(.15, .7, .25, 1)
-                forwards;
-        }
-
-        @keyframes confettiBlast {
-
-            0% {
-
-                opacity: 1;
-
-                transform:
-                    translate(0, 0)
-                    rotate(0deg)
-                    scale(0.6);
-            }
-
-            15% {
-                opacity: 1;
-            }
-
-            100% {
-
-                opacity: 0;
-
-                transform:
-                    translate(var(--x), var(--y))
-                    rotate(var(--rotation))
-                    scale(1);
-            }
+            background:
+                radial-gradient(
+                    circle at 50% 48%,
+                    rgba(255, 90, 160, 0.15),
+                    transparent 40%
+                ),
+                #08070b;
         }
 
 
-        /* =====================================================
-           BIRTHDAY MESSAGE
-           ===================================================== */
-
-        .birthday-message {
-
+        .intro-content {
             position: relative;
 
             z-index: 20;
 
-            width: min(1000px, 92vw);
-
-            text-align: center;
+            width: min(950px, 92vw);
 
             display: flex;
 
@@ -293,48 +227,11 @@
 
             justify-content: center;
 
-            opacity: 0;
-
-            transform:
-                translateY(25px)
-                scale(0.94);
-
-            animation:
-                messageReveal
-                1.3s
-                cubic-bezier(.16, 1, .3, 1)
-                0.65s
-                forwards;
+            text-align: center;
         }
 
-        @keyframes messageReveal {
-
-            0% {
-
-                opacity: 0;
-
-                transform:
-                    translateY(25px)
-                    scale(0.94);
-            }
-
-            100% {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-            }
-        }
-
-
-        /* =====================================================
-           SMALL INTRO TITLE
-           ===================================================== */
 
         .birthday-small {
-
             margin-bottom: 18px;
 
             display: flex;
@@ -345,7 +242,7 @@
 
             gap: 10px;
 
-            color: #f5b3cc;
+            color: #f6b4cf;
 
             font-size: 12px;
 
@@ -361,40 +258,23 @@
                 fadeUp
                 0.8s
                 ease
-                0.8s
+                0.25s
                 forwards;
         }
 
-        @keyframes fadeUp {
-
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-        /* =====================================================
-           BIRTHDAY TITLE
-           ===================================================== */
 
         .birthday-title {
-
             margin: 0;
-
             padding: 0;
 
-            font-family: "Playfair Display", serif;
+            font-family:
+                "Playfair Display",
+                serif;
 
             font-size:
                 clamp(42px, 7vw, 78px);
 
-            line-height: 1.05;
+            line-height: 1.04;
 
             font-weight: 700;
 
@@ -403,26 +283,25 @@
             text-align: center;
         }
 
-        .birthday-line {
 
+        .birthday-line {
             display: block;
 
             opacity: 0;
 
             transform:
-                translateY(20px)
-                scale(0.96);
+                translateY(25px)
+                scale(.96);
 
             background:
                 linear-gradient(
                     120deg,
                     #ffffff 10%,
-                    #ffd5e5 50%,
+                    #ffd3e4 50%,
                     #ffffff 90%
                 );
 
             -webkit-background-clip: text;
-
             background-clip: text;
 
             -webkit-text-fill-color: transparent;
@@ -430,39 +309,38 @@
             color: transparent;
         }
 
-        .birthday-line.one {
 
+        .birthday-line.one {
             animation:
-                titleLineReveal
+                titleReveal
                 1s
-                cubic-bezier(.16, 1, .3, 1)
-                1s
+                cubic-bezier(.16,1,.3,1)
+                .55s
                 forwards;
         }
+
 
         .birthday-line.two {
-
             animation:
-                titleLineReveal
+                titleReveal
                 1s
-                cubic-bezier(.16, 1, .3, 1)
-                1.25s
+                cubic-bezier(.16,1,.3,1)
+                .85s
                 forwards;
         }
 
-        @keyframes titleLineReveal {
 
-            0% {
+        @keyframes titleReveal {
 
+            from {
                 opacity: 0;
 
                 transform:
                     translateY(25px)
-                    scale(0.96);
+                    scale(.96);
             }
 
-            100% {
-
+            to {
                 opacity: 1;
 
                 transform:
@@ -473,101 +351,67 @@
 
 
         /* =====================================================
-           PROPER HEART
-           ===================================================== */
+           HEART
+        ===================================================== */
 
         .heart-wrapper {
+            width: 64px;
+            height: 64px;
 
-            width: 62px;
-            height: 62px;
+            margin-top: 20px;
 
-            position: relative;
+            display: flex;
 
-            margin-top: 25px;
+            align-items: center;
+            justify-content: center;
 
             opacity: 0;
 
             animation:
                 heartReveal
-                0.8s
-                cubic-bezier(.16, 1, .3, 1)
-                1.65s
+                .9s
+                cubic-bezier(.16,1,.3,1)
+                1.2s
                 forwards;
         }
 
-        .heart {
 
-            position: absolute;
+        .heart-svg {
+            width: 48px;
+            height: 48px;
 
-            width: 34px;
-            height: 34px;
+            overflow: visible;
 
-            left: 50%;
-            top: 50%;
-
-            background: #ff6f9f;
-
-            transform:
-                translate(-50%, -50%)
-                rotate(-45deg);
-
-            border-radius:
-                5px 0 5px 0;
-
-            box-shadow:
-                0 0 20px rgba(255, 111, 159, 0.55),
-                0 0 50px rgba(255, 111, 159, 0.25);
+            filter:
+                drop-shadow(
+                    0 0 12px
+                    rgba(255,80,150,.65)
+                )
+                drop-shadow(
+                    0 0 30px
+                    rgba(255,80,150,.25)
+                );
 
             animation:
                 heartBeat
                 1.25s
                 ease-in-out
-                2.4s
+                2.1s
                 infinite;
         }
 
-        .heart::before,
-        .heart::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 34px;
-            height: 34px;
-
-            background: #ff6f9f;
-
-            border-radius: 50%;
-        }
-
-        .heart::before {
-
-            top: -17px;
-
-            left: 0;
-        }
-
-        .heart::after {
-
-            top: 0;
-
-            left: 17px;
-        }
 
         @keyframes heartReveal {
 
-            0% {
-
+            from {
                 opacity: 0;
 
                 transform:
-                    scale(0.2)
-                    rotate(-20deg);
+                    scale(.2)
+                    rotate(-15deg);
             }
 
             70% {
-
                 opacity: 1;
 
                 transform:
@@ -575,8 +419,7 @@
                     rotate(5deg);
             }
 
-            100% {
-
+            to {
                 opacity: 1;
 
                 transform:
@@ -585,513 +428,8 @@
             }
         }
 
+
         @keyframes heartBeat {
-
-            0%,
-            100% {
-
-                transform:
-                    translate(-50%, -50%)
-                    rotate(-45deg)
-                    scale(1);
-            }
-
-            50% {
-
-                transform:
-                    translate(-50%, -50%)
-                    rotate(-45deg)
-                    scale(1.14);
-            }
-        }
-
-
-        /* =====================================================
-           INTRO SUBTITLE
-           ===================================================== */
-
-        .birthday-subtitle {
-
-            margin: 16px 0 0;
-
-            color: #9f9fa8;
-
-            font-size: 14px;
-
-            letter-spacing: 0.4px;
-
-            opacity: 0;
-
-            animation:
-                fadeUp
-                0.8s
-                ease
-                1.9s
-                forwards;
-        }
-
-
-        /* =====================================================
-           PARTY POPPERS
-           ===================================================== */
-
-        .popper {
-
-            position: absolute;
-
-            z-index: 15;
-
-            bottom: 10%;
-
-            width: 90px;
-            height: 180px;
-
-            opacity: 0;
-
-            pointer-events: none;
-        }
-
-        .popper.left {
-
-            left: 4%;
-
-            transform-origin: bottom center;
-
-            animation:
-                leftPopper
-                0.85s
-                cubic-bezier(.17, .67, .25, 1.2)
-                0.15s
-                forwards;
-        }
-
-        .popper.right {
-
-            right: 4%;
-
-            transform-origin: bottom center;
-
-            animation:
-                rightPopper
-                0.85s
-                cubic-bezier(.17, .67, .25, 1.2)
-                0.15s
-                forwards;
-        }
-
-        .popper-body {
-
-            position: absolute;
-
-            bottom: 0;
-
-            left: 30px;
-
-            width: 35px;
-
-            height: 105px;
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #f9a8d4,
-                    #fb7185
-                );
-
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .popper-body::before {
-
-            content: "";
-
-            position: absolute;
-
-            top: -13px;
-
-            left: 3px;
-
-            width: 29px;
-            height: 29px;
-
-            border-radius: 50%;
-
-            background: #ffe4ed;
-
-            box-shadow:
-                0 0 18px rgba(255, 220, 235, 0.35);
-        }
-
-        .popper.left .popper-body {
-            transform: rotate(-32deg);
-        }
-
-        .popper.right .popper-body {
-            transform: rotate(32deg);
-        }
-
-        @keyframes leftPopper {
-
-            0% {
-
-                opacity: 0;
-
-                transform:
-                    translate(-80px, 100px)
-                    rotate(-15deg)
-                    scale(0.6);
-            }
-
-            35% {
-
-                opacity: 1;
-
-                transform:
-                    translate(0, 0)
-                    rotate(-8deg)
-                    scale(1.05);
-            }
-
-            55% {
-
-                opacity: 1;
-
-                transform:
-                    translate(0, -10px)
-                    rotate(-8deg)
-                    scale(1.1);
-            }
-
-            100% {
-
-                opacity: 0;
-
-                transform:
-                    translate(0, -15px)
-                    rotate(-8deg)
-                    scale(1);
-            }
-        }
-
-        @keyframes rightPopper {
-
-            0% {
-
-                opacity: 0;
-
-                transform:
-                    translate(80px, 100px)
-                    rotate(15deg)
-                    scale(0.6);
-            }
-
-            35% {
-
-                opacity: 1;
-
-                transform:
-                    translate(0, 0)
-                    rotate(8deg)
-                    scale(1.05);
-            }
-
-            55% {
-
-                opacity: 1;
-
-                transform:
-                    translate(0, -10px)
-                    rotate(8deg)
-                    scale(1.1);
-            }
-
-            100% {
-
-                opacity: 0;
-
-                transform:
-                    translate(0, -15px)
-                    rotate(8deg)
-                    scale(1);
-            }
-        }
-
-
-        /* =====================================================
-           PRECIOUS MEMORIES
-           ===================================================== */
-
-        #memoriesPage {
-
-            position: relative;
-
-            width: 100%;
-
-            min-height: 100vh;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding:
-                55px 20px;
-
-            background:
-                radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255, 70, 140, 0.13),
-                    transparent 45%
-                ),
-                #09090d;
-        }
-
-        .memories-header {
-
-            text-align: center;
-
-            margin-bottom: 30px;
-
-            flex-shrink: 0;
-        }
-
-        .memories-label {
-
-            color: #f9a8d4;
-
-            font-size: 12px;
-
-            font-weight: 600;
-
-            letter-spacing: 2.5px;
-
-            text-transform: uppercase;
-
-            margin-bottom: 10px;
-        }
-
-        .memories-title {
-
-            margin: 0;
-
-            font-family: "Playfair Display", serif;
-
-            font-size:
-                clamp(32px, 5vw, 52px);
-
-            line-height: 1.1;
-
-            font-weight: 700;
-        }
-
-        .memories-subtitle {
-
-            margin: 10px 0 0;
-
-            color: #9f9fa8;
-
-            font-size: 14px;
-        }
-
-
-        /* =====================================================
-           MEMORY VIEWPORT
-
-           Exactly four cards are visible.
-
-           Initial:
-           10 [1] 2 3
-
-           Then:
-           1 [2] 3 4
-
-           Then:
-           2 [3] 4 5
-
-           ...
-
-           Final:
-           9 [10] 1 2
-           ===================================================== */
-
-        .memories-viewport {
-
-            width: min(1120px, 96vw);
-
-            overflow: hidden;
-
-            padding:
-                25px 0 30px;
-
-            position: relative;
-        }
-
-
-        /* =====================================================
-           MEMORY TRACK
-           ===================================================== */
-
-        .memories-track {
-
-            display: flex;
-
-            gap: 18px;
-
-            width: max-content;
-
-            transition:
-                transform 0.75s
-                cubic-bezier(.22, .61, .36, 1);
-
-            will-change: transform;
-        }
-
-
-        /* =====================================================
-           MEMORY CARD
-           ===================================================== */
-
-        .memory-card {
-
-            width: 250px;
-
-            flex: 0 0 250px;
-
-            position: relative;
-
-            padding: 10px;
-
-            border-radius: 6px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #fffdf8,
-                    #ece5d9
-                );
-
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.38);
-
-            transform:
-                scale(0.88)
-                translateY(10px);
-
-            opacity: 0.52;
-
-            transition:
-                transform 0.7s ease,
-                opacity 0.7s ease,
-                box-shadow 0.7s ease;
-        }
-
-
-        /* =====================================================
-           ACTIVE MEMORY
-
-           ALWAYS THE SECOND CARD
-           ===================================================== */
-
-        .memory-card.active {
-
-            transform:
-                scale(1.04)
-                translateY(0);
-
-            opacity: 1;
-
-            z-index: 5;
-
-            box-shadow:
-                0 22px 48px rgba(0, 0, 0, 0.55),
-                0 0 40px rgba(255, 80, 145, 0.28);
-        }
-
-
-        .memory-card img {
-
-            display: block;
-
-            width: 100%;
-
-            aspect-ratio: 3 / 4;
-
-            object-fit: cover;
-
-            border-radius: 2px;
-
-            background: #ddd;
-        }
-
-
-        /* =====================================================
-           PHOTO CAPTION
-           ===================================================== */
-
-        .memory-caption {
-
-            color: #242024;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size: 13px;
-
-            text-align: center;
-
-            padding:
-                9px 4px 3px;
-        }
-
-
-        /* =====================================================
-           HEART ON ACTIVE PHOTO
-           ===================================================== */
-
-        .memory-card.active::after {
-
-            content: "♥";
-
-            position: absolute;
-
-            top: -14px;
-
-            right: -11px;
-
-            width: 31px;
-
-            height: 31px;
-
-            display: grid;
-
-            place-items: center;
-
-            color: white;
-
-            font-size: 15px;
-
-            background: #f45b91;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 5px 18px rgba(244, 91, 145, 0.5);
-
-            animation:
-                smallHeartBeat
-                1s
-                ease-in-out
-                infinite;
-        }
-
-        @keyframes smallHeartBeat {
 
             0%,
             100% {
@@ -1104,203 +442,709 @@
         }
 
 
-        /* =====================================================
-           MEMORY COUNTER
-           ===================================================== */
+        .birthday-subtitle {
+            margin: 14px 0 0;
 
-        .memory-progress {
+            color: #a4a0a8;
 
-            color: #77717a;
+            font-size: 14px;
 
-            font-size: 11px;
+            letter-spacing: .4px;
 
-            letter-spacing: 1px;
+            opacity: 0;
+
+            animation:
+                fadeUp
+                .8s
+                ease
+                1.45s
+                forwards;
         }
 
-        .memory-progress span {
 
-            color: #f9a8d4;
+        @keyframes fadeUp {
 
-            font-weight: 700;
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
         }
 
 
         /* =====================================================
-           VIDEO PAGE
-           ===================================================== */
+           CONFETTI
+        ===================================================== */
 
-        #mainPage {
+        .confetti-container {
+            position: absolute;
 
-            min-height: 100vh;
+            inset: 0;
 
-            display: flex;
+            z-index: 5;
 
-            flex-direction: column;
+            overflow: hidden;
 
-            align-items: center;
+            pointer-events: none;
+        }
 
-            /* justify-content: center; */
 
-            padding:
-                32px 16px;
+        .confetti {
+            position: absolute;
+
+            width: 8px;
+            height: 13px;
+
+            top: 42%;
+            left: 50%;
+
+            border-radius: 2px;
+
+            opacity: 0;
+
+            animation:
+                confettiBlast
+                2.8s
+                cubic-bezier(.15,.7,.25,1)
+                forwards;
+        }
+
+
+        @keyframes confettiBlast {
+
+            0% {
+                opacity: 1;
+
+                transform:
+                    translate(0,0)
+                    rotate(0deg)
+                    scale(.5);
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(
+                        var(--x),
+                        var(--y)
+                    )
+                    rotate(var(--rotation))
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           PARTY POPPERS
+        ===================================================== */
+
+        .popper {
+            position: absolute;
+
+            bottom: 8%;
+
+            width: 90px;
+            height: 180px;
+
+            z-index: 8;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        .popper.left {
+            left: 4%;
+
+            animation:
+                popperLeft
+                1s
+                cubic-bezier(.17,.67,.25,1.2)
+                .2s
+                forwards;
+        }
+
+
+        .popper.right {
+            right: 4%;
+
+            animation:
+                popperRight
+                1s
+                cubic-bezier(.17,.67,.25,1.2)
+                .2s
+                forwards;
+        }
+
+
+        .popper-body {
+            position: absolute;
+
+            bottom: 0;
+            left: 28px;
+
+            width: 36px;
+            height: 105px;
+
+            border-radius: 18px;
 
             background:
-                radial-gradient(
-                    circle at 50% 40%,
-                    rgba(255, 80, 150, 0.07),
-                    transparent 45%
-                ),
-                #09090d;
+                linear-gradient(
+                    135deg,
+                    #f9a8d4,
+                    #fb7185
+                );
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.4);
         }
 
 
-        /* =====================================================
-           VIDEO HEADER
-           ===================================================== */
+        .popper-body::before {
+            content: "";
 
-        .header {
+            position: absolute;
 
-            width: 100%;
+            top: -13px;
+            left: 3px;
 
-            max-width: 1000px;
-
-            text-align: center;
-
-            margin-bottom: 24px;
-        }
-
-        .badge {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            padding:
-                8px 15px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(255, 255, 255, 0.07);
-
-            border:
-                1px solid rgba(255, 255, 255, 0.12);
-
-            color: #f4d4df;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
-
-            backdrop-filter: blur(10px);
-        }
-
-        .badge-dot {
-
-            width: 7px;
-
-            height: 7px;
+            width: 30px;
+            height: 30px;
 
             border-radius: 50%;
 
-            background: #fb7185;
-
-            box-shadow:
-                0 0 10px rgba(251, 113, 133, 0.9);
+            background: #ffe4ed;
         }
 
-        .title {
 
-            margin:
-                17px 0 0;
+        .popper.left .popper-body {
+            transform: rotate(-32deg);
+        }
+
+
+        .popper.right .popper-body {
+            transform: rotate(32deg);
+        }
+
+
+        @keyframes popperLeft {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    translate(-80px,100px)
+                    rotate(-15deg)
+                    scale(.6);
+            }
+
+            35% {
+                opacity: 1;
+
+                transform:
+                    translate(0,0)
+                    rotate(-8deg)
+                    scale(1.05);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(0,-15px)
+                    rotate(-8deg)
+                    scale(1);
+            }
+        }
+
+
+        @keyframes popperRight {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    translate(80px,100px)
+                    rotate(15deg)
+                    scale(.6);
+            }
+
+            35% {
+                opacity: 1;
+
+                transform:
+                    translate(0,0)
+                    rotate(8deg)
+                    scale(1.05);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(0,-15px)
+                    rotate(8deg)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           2. PRECIOUS MEMORIES
+        ===================================================== */
+
+        .memories-stage {
+            z-index: 80;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            background:
+                radial-gradient(
+                    circle at 50% 45%,
+                    rgba(255,60,130,.11),
+                    transparent 45%
+                ),
+                #09080c;
+        }
+
+
+        .memories-content {
+            position: relative;
+
+            z-index: 10;
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            padding: 0;
+
+            margin: 0 auto;
+
+            text-align: center;
+        }
+
+
+        .section-kicker {
+            margin-bottom: 9px;
+
+            color: #f3a6c5;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 2.5px;
+
+            text-transform: uppercase;
+        }
+
+
+        .memories-title {
+            margin: 0;
 
             font-family:
                 "Playfair Display",
                 serif;
 
             font-size:
-                clamp(32px, 6vw, 55px);
+                clamp(30px,5vw,50px);
 
             line-height: 1.1;
-
-            font-weight: 700;
-
-            letter-spacing: -0.7px;
         }
 
-        .subtitle {
 
+        .memories-subtitle {
             margin:
-                11px auto 0;
+                9px 0 0;
 
-            max-width: 620px;
+            color: #96929a;
 
-            color: #b4b4bd;
-
-            font-size: 15px;
-
-            line-height: 1.6;
+            font-size: 14px;
         }
 
 
         /* =====================================================
-           VIDEO
-           ===================================================== */
+           MEMORY WINDOW
 
-        .video-wrapper {
+           No horizontal page scrolling.
+           Four cards are rendered in place.
 
+           Example:
+
+           10  1  2  3
+               ↑
+             active
+
+           1  2  3  4
+               ↑
+             active
+        ===================================================== */
+
+        .memory-window {
             width: 100%;
 
-            max-width: 1000px;
+            margin-top: 30px;
 
-            padding: 8px;
+            padding: 0;
 
-            border-radius: 24px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.09),
-                    rgba(255, 255, 255, 0.035)
-                );
-
-            border:
-                1px solid rgba(255, 255, 255, 0.11);
-
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.60),
-                0 0 80px rgba(255, 100, 160, 0.08);
-
-            backdrop-filter: blur(18px);
+            overflow: hidden;
         }
 
-        .video-container {
 
+        .memory-track {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            align-items: center;
+
+            gap: 18px;
+
+            padding:
+                15px
+                28px
+                20px;
+        }
+
+
+        .memory-card {
             position: relative;
 
             width: 100%;
 
-            overflow: hidden;
+            min-width: 0;
 
-            border-radius: 18px;
+            aspect-ratio: 3 / 4;
 
-            background: #000;
+            border-radius: 8px;
 
-            aspect-ratio: 16 / 9;
+            opacity: .42;
+
+            transform:
+                scale(.90)
+                translateY(8px);
+
+            transition:
+                opacity .55s ease,
+                transform .55s ease,
+                filter .55s ease;
+
+            overflow: visible;
         }
 
-        .video {
 
+        .memory-card img {
             display: block;
 
             width: 100%;
+            height: 100%;
 
+            object-fit: cover;
+
+            border-radius: 7px;
+
+            border:
+                3px solid
+                rgba(255,255,255,.78);
+
+            background: #151319;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.45);
+
+            transition:
+                border-color .55s ease,
+                box-shadow .55s ease;
+        }
+
+
+        /* =====================================================
+           ACTIVE MEMORY
+
+           The highlighted image is ALWAYS the second visible
+           card.
+
+           Example:
+           [10] [1] [2] [3]
+                ACTIVE
+        ===================================================== */
+
+        .memory-card.active {
+            opacity: 1;
+
+            transform:
+                scale(1.08)
+                translateY(-6px);
+
+            z-index: 10;
+
+            filter:
+                brightness(1.08);
+        }
+
+
+        .memory-card.active img {
+            border-color:
+                rgba(255,160,195,.98);
+
+            box-shadow:
+                0 20px 50px
+                rgba(255,70,140,.28),
+                0 0 30px
+                rgba(255,100,160,.18);
+        }
+
+
+        /* =====================================================
+           MEMORY LABEL
+        ===================================================== */
+
+        .memory-label {
+            position: absolute;
+
+            left: 50%;
+            bottom: -25px;
+
+            transform:
+                translateX(-50%);
+
+            width: max-content;
+
+            max-width: 100%;
+
+            white-space: nowrap;
+
+            color: #d4cbd0;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 11px;
+
+            font-style: italic;
+
+            opacity: 0;
+
+            transition:
+                opacity .4s ease;
+        }
+
+
+        .memory-card.active .memory-label {
+            opacity: 1;
+        }
+
+
+        /* =====================================================
+           MEMORY PROGRESS
+        ===================================================== */
+
+        .memory-progress {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 22px;
+        }
+
+
+        .memory-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.18);
+
+            transition:
+                all .35s ease;
+        }
+
+
+        .memory-dot.active {
+            width: 22px;
+
+            border-radius: 20px;
+
+            background: #f66e9f;
+
+            box-shadow:
+                0 0 10px
+                rgba(246,110,159,.5);
+        }
+
+
+        /* =====================================================
+           3. SPECIAL VIDEO
+
+           IMPORTANT:
+           No min-content scrolling.
+           No extra section height.
+           Entire stage is exactly viewport height.
+        ===================================================== */
+
+        .video-stage {
+            z-index: 70;
+
+            display: none;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 100vw;
+            height: 100vh;
+
+            padding:
+                0
+                16px;
+
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255,70,140,.08),
+                    transparent 45%
+                ),
+                #09080c;
+        }
+
+
+        .video-stage.active {
+            display: flex;
+        }
+
+
+        .video-header {
+            width: min(1000px,94vw);
+
+            margin: 0 0 18px;
+
+            padding: 0;
+
+            flex-shrink: 0;
+
+            text-align: center;
+        }
+
+
+        .video-header .section-kicker {
+            margin-bottom: 7px;
+        }
+
+
+        .video-title {
+            margin: 0;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(28px,5vw,46px);
+
+            line-height: 1.1;
+        }
+
+
+        .video-subtitle {
+            margin:
+                8px 0 0;
+
+            color: #98949c;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           VIDEO WRAPPER
+        ===================================================== */
+
+        .video-wrapper {
+            width: min(1000px,94vw);
+
+            flex-shrink: 0;
+
+            padding: 7px;
+
+            margin: 0;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.10),
+                    rgba(255,255,255,.025)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.11);
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,.65),
+                0 0 80px
+                rgba(255,80,150,.07);
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .video-container {
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 16 / 9;
+
+            overflow: hidden;
+
+            border-radius: 16px;
+
+            background: #000;
+        }
+
+
+        .video {
+            display: block;
+
+            width: 100%;
             height: 100%;
 
             object-fit: contain;
@@ -1310,205 +1154,227 @@
 
 
         /* =====================================================
-           VIDEO FOOTER
-           ===================================================== */
+           VIDEO FALLBACK MESSAGE
+        ===================================================== */
 
-        .footer {
+        .video-message {
+            position: absolute;
 
-            width: 100%;
+            left: 50%;
+            bottom: 20px;
 
-            max-width: 1000px;
+            transform:
+                translateX(-50%);
 
-            margin-top: 18px;
+            z-index: 5;
 
-            display: flex;
+            padding:
+                10px
+                16px;
 
-            justify-content: space-between;
+            border-radius: 999px;
 
-            align-items: center;
+            background:
+                rgba(0,0,0,.72);
 
-            color: #71717a;
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            backdrop-filter:
+                blur(10px);
+
+            color: #ffffff;
 
             font-size: 12px;
+
+            white-space: nowrap;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity .3s ease;
         }
 
-        .footer-left {
 
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-        }
-
-        .lock {
-            font-size: 13px;
-        }
-
-        .footer-right {
-            opacity: 0.7;
+        .video-message.show {
+            opacity: 1;
         }
 
 
         /* =====================================================
-           LETTER PAGE
-           ===================================================== */
+           VIDEO FOOTER
+        ===================================================== */
 
-        #letterPage {
+        .video-footer {
+            width: min(1000px,94vw);
 
-            min-height: 100vh;
+            flex-shrink: 0;
+
+            margin:
+                12px 0
+                0;
+
+            padding: 0;
 
             display: flex;
 
             align-items: center;
 
+            justify-content: space-between;
+
+            color: #706b73;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           4. LETTER
+        ===================================================== */
+
+        .letter-stage {
+            z-index: 60;
+
+            align-items: center;
             justify-content: center;
 
-            padding:
-                60px 20px;
+            padding: 0;
 
             background:
                 radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255, 70, 140, 0.14),
-                    transparent 48%
+                    circle at center,
+                    rgba(255,60,130,.12),
+                    transparent 50%
                 ),
-                #09090d;
+                #08070b;
         }
+
 
         .letter-container {
+            width: min(700px,92vw);
 
-            width: min(850px, 94vw);
+            max-height: calc(100vh - 40px);
 
-            text-align: center;
-        }
-
-        .letter-label {
-
-            color: #f9a8d4;
-
-            font-size: 12px;
-
-            font-weight: 600;
-
-            letter-spacing: 2.5px;
-
-            text-transform: uppercase;
-
-            margin-bottom: 12px;
-        }
-
-        .letter-title {
+            overflow: hidden;
 
             margin: 0;
 
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                clamp(34px, 6vw, 58px);
-
-            line-height: 1.1;
-        }
-
-        .letter-subtitle {
-
-            margin:
-                10px 0 30px;
-
-            color: #9f9fa8;
-
-            font-size: 14px;
-        }
-
-        .letter-card {
-
-            position: relative;
-
-            width: 100%;
-
             padding:
-                55px 65px;
+                42px
+                clamp(25px,6vw,65px);
 
-            border-radius: 24px;
+            border-radius: 28px;
 
             background:
                 linear-gradient(
                     145deg,
-                    rgba(255, 255, 255, 0.08),
-                    rgba(255, 255, 255, 0.035)
+                    rgba(255,255,255,.075),
+                    rgba(255,70,140,.035)
                 );
 
             border:
-                1px solid rgba(255, 255, 255, 0.11);
+                1px solid
+                rgba(255,255,255,.12);
 
             box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                0 0 70px rgba(255, 80, 150, 0.08);
+                0 35px 90px
+                rgba(0,0,0,.55),
+                0 0 80px
+                rgba(255,80,150,.07);
 
-            backdrop-filter: blur(18px);
+            backdrop-filter:
+                blur(20px);
+
+            text-align: center;
+
+            animation:
+                letterAppear
+                1s
+                cubic-bezier(.16,1,.3,1);
         }
 
-        .letter-card::before {
 
-            content: "♥";
+        @keyframes letterAppear {
 
-            position: absolute;
+            from {
+                opacity: 0;
 
-            top: 22px;
+                transform:
+                    translateY(30px)
+                    scale(.94);
+            }
 
-            left: 28px;
+            to {
+                opacity: 1;
 
-            color:
-                rgba(255, 111, 159, 0.45);
-
-            font-size: 25px;
-
-            transform:
-                rotate(-15deg);
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
         }
 
-        .letter-card::after {
 
-            content: "♥";
+        .letter-heart {
+            margin-bottom: 12px;
 
-            position: absolute;
+            font-size: 38px;
 
-            bottom: 22px;
-
-            right: 28px;
-
-            color:
-                rgba(255, 111, 159, 0.45);
-
-            font-size: 25px;
-
-            transform:
-                rotate(15deg);
+            filter:
+                drop-shadow(
+                    0 0 15px
+                    rgba(255,70,140,.5)
+                );
         }
 
-        .letter-text {
 
-            color: #ddd5da;
+        .letter-kicker {
+            color: #f4a6c5;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            font-weight: 600;
+        }
+
+
+        .letter-title {
+            margin:
+                11px 0 22px;
 
             font-family:
                 "Playfair Display",
                 serif;
 
             font-size:
-                clamp(15px, 2vw, 18px);
+                clamp(30px,5vw,48px);
 
-            line-height: 2;
-
-            white-space: pre-line;
+            line-height: 1.1;
         }
 
+
+        .letter-text {
+            max-width: 560px;
+
+            margin: 0 auto;
+
+            color: #c0bac0;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+        }
+
+
         .letter-signature {
+            margin-top: 26px;
 
-            margin-top: 28px;
-
-            color: #f9a8d4;
+            color: #f2a1c3;
 
             font-family:
                 "Playfair Display",
@@ -1519,96 +1385,81 @@
             font-style: italic;
         }
 
-        .letter-heart {
 
-            margin-top: 25px;
+        .letter-bottom {
+            margin-top: 16px;
 
-            font-size: 28px;
+            color: #6e6870;
 
-            animation:
-                heartBeatEmoji
-                1.2s
-                ease-in-out
-                infinite;
-        }
+            font-size: 10px;
 
-        @keyframes heartBeatEmoji {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.18);
-            }
+            letter-spacing: 1px;
         }
 
 
         /* =====================================================
            EMPTY STATE
-           ===================================================== */
+        ===================================================== */
 
-        .empty-page {
+        .empty-state {
+            position: fixed;
 
-            min-height: 100vh;
+            inset: 0;
+
+            width: 100vw;
+            height: 100vh;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
-            padding: 25px;
+            padding: 20px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255,60,130,.10),
+                    transparent 50%
+                ),
+                #08070b;
         }
 
-        .empty-card {
 
+        .empty-card {
             width: 100%;
 
             max-width: 480px;
 
-            text-align: center;
-
             padding:
-                50px 30px;
+                45px
+                30px;
 
             border-radius: 28px;
 
             background:
-                rgba(255, 255, 255, 0.06);
+                rgba(255,255,255,.06);
 
             border:
-                1px solid rgba(255, 255, 255, 0.10);
+                1px solid
+                rgba(255,255,255,.10);
 
             box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.45);
+                0 30px 80px
+                rgba(0,0,0,.45);
 
-            backdrop-filter: blur(18px);
+            text-align: center;
         }
+
 
         .empty-icon {
+            margin-bottom: 18px;
 
-            width: 70px;
-            height: 70px;
-
-            margin:
-                0 auto 22px;
-
-            display: grid;
-
-            place-items: center;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255, 255, 255, 0.08);
-
-            font-size: 28px;
+            font-size: 45px;
         }
 
-        .empty-card h1 {
 
+        .empty-card h1 {
             margin: 0;
 
             font-family:
@@ -1618,204 +1469,319 @@
             font-size: 30px;
         }
 
-        .empty-card p {
 
+        .empty-card p {
             margin:
                 12px 0 0;
 
             color: #a1a1aa;
 
             line-height: 1.6;
+        }
 
-            font-size: 14px;
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .memory-track {
+                gap: 13px;
+
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+
+            .video-stage {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
         }
 
 
         /* =====================================================
            MOBILE
-           ===================================================== */
+        ===================================================== */
 
         @media (max-width: 700px) {
 
             .birthday-title {
-
                 font-size:
-                    clamp(37px, 10vw, 52px);
-
-                line-height: 1.08;
-
-                letter-spacing: -0.8px;
+                    clamp(38px,10vw,55px);
             }
 
-            .birthday-small {
 
+            .birthday-small {
                 font-size: 9px;
 
                 letter-spacing: 2.5px;
             }
 
-            .birthday-subtitle {
 
+            .birthday-subtitle {
                 font-size: 12px;
             }
+
 
             .popper.left {
                 left: -45px;
             }
+
 
             .popper.right {
                 right: -45px;
             }
 
 
-            /* Memories */
-
-            #memoriesPage {
-
-                padding:
-                    40px 10px;
+            .memories-content {
+                width: 100%;
             }
 
-            .memories-header {
 
-                margin-bottom: 15px;
+            .section-kicker {
+                font-size: 10px;
+
+                letter-spacing: 2px;
             }
+
 
             .memories-title {
-
-                font-size: 32px;
+                font-size:
+                    clamp(27px,8vw,38px);
             }
 
+
             .memories-subtitle {
+                margin-top: 7px;
 
                 font-size: 12px;
             }
 
-            .memories-viewport {
 
-                width: 100%;
+            .memory-window {
+                margin-top: 20px;
+            }
+
+
+            .memory-track {
+                gap: 9px;
 
                 padding:
-                    25px 0 25px;
+                    12px
+                    10px
+                    18px;
             }
 
-            .memories-track {
-
-                gap: 10px;
-            }
 
             .memory-card {
-
-                width: 180px;
-
-                flex-basis: 180px;
-
-                padding: 7px;
-            }
-
-            .memory-caption {
-
-                font-size: 10px;
-
-                padding:
-                    7px 2px 2px;
-            }
-
-            .memory-card.active::after {
-
-                width: 27px;
-                height: 27px;
-
-                top: -12px;
-                right: -8px;
-
-                font-size: 13px;
+                border-radius: 5px;
             }
 
 
-            /* Video */
+            .memory-card img {
+                border-width: 2px;
 
-            #mainPage {
-
-                padding:
-                    24px 10px;
+                border-radius: 5px;
             }
 
-            .header {
 
-                margin-bottom: 17px;
+            .memory-card.active {
+                transform:
+                    scale(1.08)
+                    translateY(-5px);
             }
 
-            .badge {
 
-                font-size: 10px;
+            .memory-label {
+                bottom: -21px;
 
-                padding:
-                    7px 12px;
+                font-size: 8px;
             }
 
-            .title {
 
-                font-size: 32px;
+            .memory-progress {
+                margin-top: 19px;
+
+                gap: 5px;
             }
 
-            .subtitle {
 
-                font-size: 13px;
+            .memory-dot {
+                width: 5px;
+                height: 5px;
             }
+
+
+            .memory-dot.active {
+                width: 18px;
+            }
+
+
+            .video-header {
+                width: 94vw;
+
+                margin-bottom: 10px;
+            }
+
+
+            .video-header .section-kicker {
+                margin-bottom: 5px;
+            }
+
+
+            .video-title {
+                font-size:
+                    clamp(25px,7vw,34px);
+            }
+
+
+            .video-subtitle {
+                margin-top: 5px;
+
+                font-size: 11px;
+            }
+
 
             .video-wrapper {
+                width: 96vw;
 
                 padding: 5px;
 
-                border-radius: 17px;
+                border-radius: 16px;
             }
+
 
             .video-container {
-
-                border-radius: 13px;
+                border-radius: 11px;
             }
 
-            .footer {
+
+            .video-footer {
+                width: 96vw;
+
+                margin-top: 8px;
+
+                font-size: 9px;
+            }
+
+
+            .letter-container {
+                width: 92vw;
+
+                max-height:
+                    calc(100vh - 30px);
 
                 padding:
-                    0 4px;
+                    32px
+                    20px;
 
-                font-size: 10px;
+                border-radius: 22px;
             }
 
 
-            /* Letter */
+            .letter-heart {
+                font-size: 32px;
 
-            #letterPage {
-
-                padding:
-                    45px 12px;
+                margin-bottom: 10px;
             }
 
-            .letter-card {
 
-                padding:
-                    40px 22px;
+            .letter-kicker {
+                font-size: 9px;
+
+                letter-spacing: 2.4px;
             }
+
+
+            .letter-title {
+                margin:
+                    9px 0 17px;
+
+                font-size:
+                    clamp(27px,8vw,38px);
+            }
+
 
             .letter-text {
+                font-size: 12px;
 
-                font-size: 14px;
-
-                line-height: 1.8;
+                line-height: 1.7;
             }
 
-            .letter-signature {
 
-                font-size: 18px;
+            .letter-signature {
+                margin-top: 20px;
+
+                font-size: 17px;
+            }
+
+
+            .letter-bottom {
+                margin-top: 12px;
+
+                font-size: 9px;
             }
         }
 
 
         /* =====================================================
-           REDUCE MOTION
-           ===================================================== */
+           VERY SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 400px) {
+
+            .memory-track {
+                gap: 6px;
+
+                padding-left: 7px;
+                padding-right: 7px;
+            }
+
+
+            .memory-card {
+                transform:
+                    scale(.88)
+                    translateY(7px);
+            }
+
+
+            .memory-card.active {
+                transform:
+                    scale(1.05)
+                    translateY(-4px);
+            }
+
+
+            .memory-label {
+                display: none;
+            }
+
+
+            .video-footer {
+                font-size: 8px;
+            }
+
+
+            .letter-container {
+                padding:
+                    25px
+                    17px;
+            }
+
+
+            .letter-text {
+                font-size: 11px;
+
+                line-height: 1.65;
+            }
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
@@ -1824,16 +1790,13 @@
             *::after {
 
                 animation-duration:
-                    0.01ms !important;
+                    .01ms !important;
 
                 animation-iteration-count:
                     1 !important;
 
-                scroll-behavior:
-                    auto !important;
-
                 transition-duration:
-                    0.01ms !important;
+                    .01ms !important;
             }
         }
 
@@ -1847,288 +1810,449 @@
 
 {% if video_url %}
 
-
-<!-- =====================================================
-     1. BIRTHDAY OPENING
-     ===================================================== -->
-
-<div
-    id="birthdayIntro"
-    class="birthday-intro"
->
-
-    <div class="intro-glow"></div>
+<div class="app">
 
 
-    <!-- CONFETTI -->
+    <!-- =====================================================
+         1. BIRTHDAY OPENING
+    ===================================================== -->
 
-    <div
-        id="confettiContainer"
-        class="confetti-container"
-    ></div>
+    <section
+        id="birthdayIntro"
+        class="stage birthday-intro active"
+    >
 
-
-    <!-- LEFT POPPER -->
-
-    <div class="popper left">
-
-        <div class="popper-body"></div>
-
-    </div>
+        <div class="background-glow"></div>
 
 
-    <!-- RIGHT POPPER -->
-
-    <div class="popper right">
-
-        <div class="popper-body"></div>
-
-    </div>
-
-
-    <!-- BIRTHDAY MESSAGE -->
-
-    <div class="birthday-message">
-
-        <div class="birthday-small">
-
-            <span>🎂</span>
-
-            <span>A Special Day</span>
-
-            <span>🎂</span>
-
-        </div>
-
-
-        <h1 class="birthday-title">
-
-            <span class="birthday-line one">
-                Happy Birthday
-            </span>
-
-            <span class="birthday-line two">
-                My Dear Pisasu
-            </span>
-
-        </h1>
-
-
-        <!-- PROPER FULL HEART -->
-
-        <div class="heart-wrapper">
-
-            <div class="heart"></div>
-
-        </div>
-
-
-        <p class="birthday-subtitle">
-            Today is all about you. ✨
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     2. PRECIOUS MEMORIES
-     ===================================================== -->
-
-<section
-    id="memoriesPage"
-    class="stage"
->
-
-    <header class="memories-header">
-
-        <div class="memories-label">
-            💕 Our Precious Memories 💕
-        </div>
-
-        <h1 class="memories-title">
-            Moments That Mean Everything
-        </h1>
-
-        <p class="memories-subtitle">
-            Every picture holds a little piece of us.
-        </p>
-
-    </header>
-
-
-    <div class="memories-viewport">
+        <!-- CONFETTI -->
 
         <div
-            id="memoriesTrack"
-            class="memories-track"
+            id="confettiContainer"
+            class="confetti-container"
         ></div>
 
-    </div>
 
+        <!-- LEFT POPPER -->
 
-    <div class="memory-progress">
+        <div class="popper left">
 
-        Memory
-        <span id="memoryNumber">1</span>
-        / 10
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     3. SPECIAL VIDEO
-     ===================================================== -->
-
-<main
-    id="mainPage"
-    class="stage"
->
-
-    <header class="header">
-
-        <div class="badge">
-
-            <span class="badge-dot"></span>
-
-            Special Video
+            <div class="popper-body"></div>
 
         </div>
 
 
-        <h1 class="title">
-            A Little Birthday Memory ❤️
-        </h1>
+        <!-- RIGHT POPPER -->
+
+        <div class="popper right">
+
+            <div class="popper-body"></div>
+
+        </div>
 
 
-        <p class="subtitle">
-            A special moment, made just for you.
-        </p>
+        <!-- CONTENT -->
 
-    </header>
+        <div class="intro-content">
+
+            <div class="birthday-small">
+
+                <span>🎂</span>
+
+                <span>A Special Day</span>
+
+                <span>🎂</span>
+
+            </div>
 
 
-    <section class="video-wrapper">
+            <h1 class="birthday-title">
 
-        <div class="video-container">
+                <span class="birthday-line one">
+                    Happy Birthday
+                </span>
 
-            <video
-                id="birthdayVideo"
-                class="video"
-                controls
-                playsinline
-                preload="auto"
-                controlsList="nodownload noplaybackrate"
-                disablePictureInPicture
-                oncontextmenu="return false;"
-            >
+                <span class="birthday-line two">
+                    My Dear Pisasu
+                </span>
 
-                <source
-                    src="{{ video_url }}"
-                    type="video/mp4"
+            </h1>
+
+
+            <!-- HEART -->
+
+            <div class="heart-wrapper">
+
+                <svg
+                    class="heart-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                 >
 
-                Your browser does not support video playback.
+                    <path
+                        d="
+                            M12 21.35
+                            L10.55 20.03
+                            C5.4 15.36
+                            2 12.28
+                            2 8.5
+                            C2 5.42
+                            4.42 3
+                            7.5 3
+                            C9.24 3
+                            10.91 3.81
+                            12 5.09
+                            C13.09 3.81
+                            14.76 3
+                            16.5 3
+                            C19.58 3
+                            22 5.42
+                            22 8.5
+                            C22 12.28
+                            18.6 15.36
+                            13.45 20.04
+                            L12 21.35Z
+                        "
 
-            </video>
+                        fill="#ff6f9f"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <p class="birthday-subtitle">
+                Today is all about you. ✨
+            </p>
 
         </div>
 
     </section>
 
 
-    <footer class="footer">
+    <!-- =====================================================
+         2. OUR PRECIOUS MEMORIES
+    ===================================================== -->
 
-        <div class="footer-left">
+    <section
+        id="memoriesStage"
+        class="stage memories-stage"
+    >
 
-            <span class="lock">
-                🔒
+        <div class="background-glow"></div>
+
+
+        <div class="memories-content">
+
+            <div class="section-kicker">
+                💕 Our Precious Memories 💕
+            </div>
+
+
+            <h2 class="memories-title">
+                Moments that mean everything
+            </h2>
+
+
+            <p class="memories-subtitle">
+                Every picture holds a little piece of us.
+            </p>
+
+
+            <!-- =================================================
+                 CIRCULAR MEMORY DISPLAY
+
+                 JS changes these four cards.
+
+                 1:
+                 10  1  2  3
+                     ↑
+
+                 2:
+                 1   2  3  4
+                     ↑
+
+                 3:
+                 2   3  4  5
+                     ↑
+
+                 ...
+
+                 10:
+                 9  10  1  2
+                     ↑
+            ================================================== -->
+
+            <div class="memory-window">
+
+                <div
+                    id="memoryTrack"
+                    class="memory-track"
+                >
+
+                    <!-- CARD 1 -->
+
+                    <div
+                        class="memory-card"
+                        data-slot="0"
+                    >
+
+                        <img
+                            src="/static/memories/10.jpg"
+                            alt="Our memory"
+                        >
+
+                        <div class="memory-label"></div>
+
+                    </div>
+
+
+                    <!-- CARD 2 - ACTIVE -->
+
+                    <div
+                        class="memory-card active"
+                        data-slot="1"
+                    >
+
+                        <img
+                            src="/static/memories/1.jpg"
+                            alt="Our memory"
+                        >
+
+                        <div class="memory-label">
+                            Our Beginning ❤️
+                        </div>
+
+                    </div>
+
+
+                    <!-- CARD 3 -->
+
+                    <div
+                        class="memory-card"
+                        data-slot="2"
+                    >
+
+                        <img
+                            src="/static/memories/2.jpg"
+                            alt="Our memory"
+                        >
+
+                        <div class="memory-label"></div>
+
+                    </div>
+
+
+                    <!-- CARD 4 -->
+
+                    <div
+                        class="memory-card"
+                        data-slot="3"
+                    >
+
+                        <img
+                            src="/static/memories/3.jpg"
+                            alt="Our memory"
+                        >
+
+                        <div class="memory-label"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div
+                id="memoryProgress"
+                class="memory-progress"
+            >
+
+                <span class="memory-dot active"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+                <span class="memory-dot"></span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         3. SPECIAL VIDEO
+    ===================================================== -->
+
+    <section
+        id="videoStage"
+        class="stage video-stage"
+    >
+
+        <div class="background-glow"></div>
+
+
+        <header class="video-header">
+
+            <div class="section-kicker">
+                💕 Our Special Video 💕
+            </div>
+
+
+            <h2 class="video-title">
+                A little movie of us
+            </h2>
+
+
+            <p class="video-subtitle">
+                Some moments are meant to be remembered forever.
+            </p>
+
+        </header>
+
+
+        <!-- VIDEO -->
+
+        <section class="video-wrapper">
+
+            <div class="video-container">
+
+                <video
+                    id="birthdayVideo"
+                    class="video"
+                    controls
+                    playsinline
+                    preload="auto"
+                    controlsList="nodownload noplaybackrate"
+                    disablePictureInPicture
+                    oncontextmenu="return false;"
+                >
+
+                    <source
+                        src="{{ video_url }}"
+                        type="video/mp4"
+                    >
+
+                    Your browser does not support video playback.
+
+                </video>
+
+
+                <!-- Shown only if browser blocks autoplay -->
+
+                <div
+                    id="videoMessage"
+                    class="video-message"
+                >
+                    Tap the video to start with sound ❤️
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="video-footer">
+
+            <span>
+                🔒 A special memory
             </span>
 
             <span>
-                A special memory
+                Made with ❤️
             </span>
 
         </div>
 
-
-        <div class="footer-right">
-            Made with ❤️
-        </div>
-
-    </footer>
-
-</main>
+    </section>
 
 
-<!-- =====================================================
-     4. LETTER FROM YOU
-     ===================================================== -->
+    <!-- =====================================================
+         4. LOVE LETTER
+    ===================================================== -->
 
-<section
-    id="letterPage"
-    class="stage"
->
+    <section
+        id="letterStage"
+        class="stage letter-stage"
+    >
 
-    <div class="letter-container">
-
-        <div class="letter-label">
-            💕 A Letter From You 💕
-        </div>
+        <div class="background-glow"></div>
 
 
-        <h1 class="letter-title">
-            For My Dear Pisasu
-        </h1>
+        <div class="letter-container">
 
-
-        <p class="letter-subtitle">
-            Words from my heart, just for you.
-        </p>
-
-
-        <div class="letter-card">
-
-            <div class="letter-text">
-
-To the most amazing person in my life,
-
-You make every day brighter just by being you.
-
-Thank you for your love, your kindness
-and for being my constant happiness.
-
-I am so lucky to have you in my life.
-
-I hope this birthday brings you as much joy
-as you bring into my life.
-
-Happy Birthday, my love! ❤️
-
+            <div class="letter-heart">
+                💗
             </div>
+
+
+            <div class="letter-kicker">
+                A Letter From You
+            </div>
+
+
+            <h2 class="letter-title">
+                To My Dear Pisasu,
+            </h2>
+
+
+            <p class="letter-text">
+
+                To the most amazing person in my life,
+
+                <br><br>
+
+                Today isn't just your birthday.
+                It's a reminder of how lucky I am
+                to have you in my life.
+
+                <br><br>
+
+                Thank you for every smile,
+                every little moment,
+                every memory,
+                and every time you've made
+                my world a little brighter.
+
+                <br><br>
+
+                I hope this birthday brings you
+                all the happiness you deserve.
+
+                <br><br>
+
+                And no matter where life takes us,
+                I hope you always remember
+                how special you are to me.
+
+            </p>
 
 
             <div class="letter-signature">
-
-                Forever yours,<br>
-
-                Pisasu ❤️
-
+                Forever yours ❤️
             </div>
 
 
-            <div class="letter-heart">
-                ❤️
+            <div class="letter-bottom">
+                Happy Birthday, Pisasu ✨
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+</div>
 
 
 {% else %}
@@ -2136,9 +2260,9 @@ Happy Birthday, my love! ❤️
 
 <!-- =====================================================
      EMPTY STATE
-     ===================================================== -->
+===================================================== -->
 
-<main class="empty-page">
+<main class="empty-state">
 
     <section class="empty-card">
 
@@ -2165,91 +2289,229 @@ Happy Birthday, my love! ❤️
 {% endif %}
 
 
-
 <script>
 
     /* =====================================================
-       ELEMENTS
-       ===================================================== */
+       ELEMENT REFERENCES
+    ===================================================== */
 
-    const intro =
-        document.getElementById("birthdayIntro");
+    const birthdayIntro =
+        document.getElementById(
+            "birthdayIntro"
+        );
 
-    const memoriesPage =
-        document.getElementById("memoriesPage");
 
-    const memoriesTrack =
-        document.getElementById("memoriesTrack");
+    const memoriesStage =
+        document.getElementById(
+            "memoriesStage"
+        );
 
-    const memoryNumber =
-        document.getElementById("memoryNumber");
 
-    const mainPage =
-        document.getElementById("mainPage");
+    const videoStage =
+        document.getElementById(
+            "videoStage"
+        );
 
-    const letterPage =
-        document.getElementById("letterPage");
+
+    const letterStage =
+        document.getElementById(
+            "letterStage"
+        );
+
 
     const video =
-        document.getElementById("birthdayVideo");
+        document.getElementById(
+            "birthdayVideo"
+        );
+
+
+    const videoMessage =
+        document.getElementById(
+            "videoMessage"
+        );
+
 
     const confettiContainer =
-        document.getElementById("confettiContainer");
+        document.getElementById(
+            "confettiContainer"
+        );
+
+
+    const memoryCards =
+        document.querySelectorAll(
+            ".memory-card"
+        );
+
+
+    const memoryDots =
+        document.querySelectorAll(
+            ".memory-dot"
+        );
 
 
     /* =====================================================
        MEMORY DATA
-       ===================================================== */
+    ===================================================== */
 
-    const memoryImages = [
+    const memories = [
 
-        "/static/images/1.jpg",
-        "/static/images/2.jpg",
-        "/static/images/3.jpg",
-        "/static/images/4.jpg",
-        "/static/images/5.jpg",
-        "/static/images/6.jpg",
-        "/static/images/7.jpg",
-        "/static/images/8.jpg",
-        "/static/images/9.jpg",
-        "/static/images/10.jpg"
+        {
+            image:
+                "/static/memories/1.jpg",
+
+            label:
+                "Our Beginning ❤️"
+        },
+
+        {
+            image:
+                "/static/memories/2.jpg",
+
+            label:
+                "Beautiful Moment"
+        },
+
+        {
+            image:
+                "/static/memories/3.jpg",
+
+            label:
+                "Together ❤️"
+        },
+
+        {
+            image:
+                "/static/memories/4.jpg",
+
+            label:
+                "Our Smile"
+        },
+
+        {
+            image:
+                "/static/memories/5.jpg",
+
+            label:
+                "Favorite Memory"
+        },
+
+        {
+            image:
+                "/static/memories/6.jpg",
+
+            label:
+                "Just Us ❤️"
+        },
+
+        {
+            image:
+                "/static/memories/7.jpg",
+
+            label:
+                "Sweet Days"
+        },
+
+        {
+            image:
+                "/static/memories/8.jpg",
+
+            label:
+                "Forever ❤️"
+        },
+
+        {
+            image:
+                "/static/memories/9.jpg",
+
+            label:
+                "My Favorite Person"
+        },
+
+        {
+            image:
+                "/static/memories/10.jpg",
+
+            label:
+                "Always You ❤️"
+        }
 
     ];
 
 
-    const memoryCaptions = [
+    /* =====================================================
+       CURRENT MEMORY
 
-        "Our Smile",
-        "Our Favorite Moment",
-        "Together Forever",
-        "My Happy Place",
-        "Beautiful Days",
-        "Just Us",
-        "Little Moments",
-        "Forever Memories",
-        "You & Me",
-        "Always You"
-
-    ];
-
-
-    /*
-     * Current memory:
-     *
-     * 0 = photo 1
-     * 1 = photo 2
-     * ...
-     * 9 = photo 10
-     */
+       0 = photo 1
+       1 = photo 2
+       ...
+       9 = photo 10
+    ===================================================== */
 
     let currentMemory = 0;
+
 
     let memoryTimer = null;
 
 
+    let videoStarted = false;
+
+
     /* =====================================================
-       CREATE PARTY CONFETTI
-       ===================================================== */
+       STAGE SWITCHER
+
+       This is the important part for fixing the blank
+       scrolling problem.
+
+       Only ONE .stage receives .active.
+
+       All other stages use:
+
+           display: none
+
+       Therefore they occupy ZERO layout space.
+    ===================================================== */
+
+    function showStage(stage) {
+
+        document
+            .querySelectorAll(".stage")
+            .forEach(element => {
+
+                element.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        if (!stage) {
+            return;
+        }
+
+
+        stage.classList.add(
+            "active"
+        );
+
+
+        /*
+         * Force the document back to the top.
+         * Normally unnecessary because body is locked,
+         * but this prevents browser scroll restoration
+         * from causing visual movement.
+         */
+
+        window.scrollTo(
+            0,
+            0
+        );
+
+    }
+
+
+    /* =====================================================
+       CONFETTI
+    ===================================================== */
 
     function createConfetti() {
 
@@ -2282,51 +2544,40 @@ Happy Birthday, my love! ❤️
         ) {
 
             const piece =
-                document.createElement("span");
+                document.createElement(
+                    "span"
+                );
 
 
             piece.className =
                 "confetti";
 
 
-            /*
-             * Start around the center.
-             */
-
-            piece.style.left =
-                "50%";
-
-            piece.style.top =
-                "42%";
-
-
-            /*
-             * Random direction.
-             */
-
             const angle =
-                Math.random() *
-                Math.PI *
+                Math.random()
+                *
+                Math.PI
+                *
                 2;
 
 
-            /*
-             * Random distance.
-             */
-
             const distance =
-                180 +
+                180
+                +
                 Math.random() * 500;
 
 
             const x =
-                Math.cos(angle) *
+                Math.cos(angle)
+                *
                 distance;
 
 
             const y =
-                Math.sin(angle) *
-                distance +
+                Math.sin(angle)
+                *
+                distance
+                +
                 200;
 
 
@@ -2345,62 +2596,64 @@ Happy Birthday, my love! ❤️
             piece.style.setProperty(
                 "--rotation",
                 (
-                    Math.random() *
-                    1000 -
+                    Math.random() * 1000
+                    -
                     500
                 ) + "deg"
             );
 
 
-            /*
-             * Random color.
-             */
-
             piece.style.background =
                 colors[
                     Math.floor(
-                        Math.random() *
+                        Math.random()
+                        *
                         colors.length
                     )
                 ];
 
 
-            /*
-             * Random size.
-             */
-
             piece.style.width =
                 (
-                    5 +
+                    5
+                    +
                     Math.random() * 7
-                ) + "px";
+                )
+                +
+                "px";
 
 
             piece.style.height =
                 (
-                    8 +
+                    8
+                    +
                     Math.random() * 11
-                ) + "px";
+                )
+                +
+                "px";
 
-
-            /*
-             * Random timing.
-             */
 
             piece.style.animationDelay =
                 (
-                    Math.random() * 0.45
-                ) + "s";
+                    Math.random() * .45
+                )
+                +
+                "s";
 
 
             piece.style.animationDuration =
                 (
-                    2.4 +
+                    2.4
+                    +
                     Math.random() * 1.3
-                ) + "s";
+                )
+                +
+                "s";
 
 
-            confettiContainer.appendChild(piece);
+            confettiContainer.appendChild(
+                piece
+            );
 
         }
 
@@ -2408,232 +2661,157 @@ Happy Birthday, my love! ❤️
 
 
     /* =====================================================
-       BUILD MEMORY TRACK
-       =====================================================
+       UPDATE MEMORY CAROUSEL
 
-       We create this order:
+       THIS CREATES THE EXACT CIRCULAR BEHAVIOUR:
 
-       10
-       1
-       2
-       3
-       4
-       5
-       6
-       7
-       8
-       9
-       10
-       1
-       2
+       currentMemory = 0
 
-       This allows the track to move naturally.
+       10 1 2 3
+       ↑  ↑
+       previous
+          ACTIVE
 
-       Position 0:
 
-       10 [1] 2 3
+       currentMemory = 1
 
-       Position 1:
+       1 2 3 4
+         ↑
+         ACTIVE
 
-       1 [2] 3 4
+
+       currentMemory = 2
+
+       2 3 4 5
+         ↑
+         ACTIVE
+
 
        ...
 
-       Position 9:
+       currentMemory = 9
 
-       9 [10] 1 2
-       ===================================================== */
+       9 10 1 2
+          ↑
+          ACTIVE
+    ===================================================== */
 
-    function buildMemoryTrack() {
+    function updateMemory() {
 
-        if (!memoriesTrack) {
+        if (
+            memoryCards.length !== 4
+        ) {
             return;
         }
 
 
-        memoriesTrack.innerHTML = "";
+        /*
+         * Four visible positions:
+         *
+         * slot 0 = previous image
+         * slot 1 = active image
+         * slot 2 = next image
+         * slot 3 = next-next image
+         */
 
 
-        const indexes = [
+        const visibleIndexes = [
 
-            9,   // 10
+            (
+                currentMemory
+                -
+                1
+                +
+                memories.length
+            )
+            %
+            memories.length,
 
-            0,   // 1
-            1,   // 2
-            2,   // 3
-            3,   // 4
-            4,   // 5
-            5,   // 6
-            6,   // 7
-            7,   // 8
-            8,   // 9
-            9,   // 10
 
-            0,   // 1
-            1    // 2
+            currentMemory,
+
+
+            (
+                currentMemory
+                +
+                1
+            )
+            %
+            memories.length,
+
+
+            (
+                currentMemory
+                +
+                2
+            )
+            %
+            memories.length
 
         ];
 
 
-        indexes.forEach(
-            (index, trackIndex) => {
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                card.className =
-                    "memory-card";
-
-
-                /*
-                 * The highlighted card is
-                 * always the second visible card.
-                 *
-                 * At trackIndex 1:
-                 *
-                 * 10 [1] 2 3
-                 */
-
-                if (
-                    trackIndex ===
-                    currentMemory + 1
-                ) {
-
-                    card.classList.add(
-                        "active"
-                    );
-
-                }
-
+        memoryCards.forEach(
+            (
+                card,
+                slot
+            ) => {
 
                 const image =
-                    document.createElement(
+                    card.querySelector(
                         "img"
                     );
 
 
-                image.src =
-                    memoryImages[index];
-
-
-                image.alt =
-                    "Memory " +
-                    (index + 1);
-
-
-                const caption =
-                    document.createElement(
-                        "div"
+                const label =
+                    card.querySelector(
+                        ".memory-label"
                     );
 
 
-                caption.className =
-                    "memory-caption";
+                const memoryIndex =
+                    visibleIndexes[slot];
 
 
-                caption.textContent =
-                    memoryCaptions[index];
+                const memory =
+                    memories[
+                        memoryIndex
+                    ];
 
 
-                card.appendChild(image);
-
-                card.appendChild(caption);
-
-                memoriesTrack.appendChild(card);
-
-            }
-        );
-
-    }
+                if (!memory) {
+                    return;
+                }
 
 
-    /* =====================================================
-       MOVE MEMORY TRACK
-       ===================================================== */
-
-    function moveMemoryTrack() {
-
-        if (!memoriesTrack) {
-            return;
-        }
+                image.src =
+                    memory.image;
 
 
-        const cards =
-            memoriesTrack.querySelectorAll(
-                ".memory-card"
-            );
+                image.alt =
+                    "Our memory " +
+                    (
+                        memoryIndex + 1
+                    );
 
 
-        if (!cards.length) {
-            return;
-        }
+                label.textContent =
+                    memory.label;
 
 
-        /*
-         * Width of one card.
-         */
+                /*
+                 * ONLY SLOT 1 IS ACTIVE.
+                 */
 
-        const cardWidth =
-            cards[0].getBoundingClientRect().width;
-
-
-        /*
-         * Find gap from CSS.
-         */
-
-        const styles =
-            window.getComputedStyle(
-                memoriesTrack
-            );
-
-
-        const gap =
-            parseFloat(
-                styles.columnGap ||
-                styles.gap ||
-                0
-            );
-
-
-        const moveDistance =
-            cardWidth + gap;
-
-
-        /*
-         * Move one card for every
-         * one second.
-         */
-
-        memoriesTrack.style.transform =
-            "translateX(-" +
-            (
-                currentMemory *
-                moveDistance
-            ) +
-            "px)";
-
-
-        /*
-         * Update highlighted card.
-         */
-
-        cards.forEach(
-            (card, index) => {
-
-                card.classList.remove(
-                    "active"
-                );
-
-
-                if (
-                    index ===
-                    currentMemory + 1
-                ) {
+                if (slot === 1) {
 
                     card.classList.add(
+                        "active"
+                    );
+
+                } else {
+
+                    card.classList.remove(
                         "active"
                     );
 
@@ -2644,157 +2822,144 @@ Happy Birthday, my love! ❤️
 
 
         /*
-         * Update counter.
+         * Update progress dots.
          */
 
-        if (memoryNumber) {
+        memoryDots.forEach(
+            (
+                dot,
+                index
+            ) => {
 
-            memoryNumber.textContent =
-                currentMemory + 1;
+                if (
+                    index ===
+                    currentMemory
+                ) {
 
-        }
+                    dot.classList.add(
+                        "active"
+                    );
+
+                } else {
+
+                    dot.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
 
     }
 
 
     /* =====================================================
-       START MEMORY SECTION
-       ===================================================== */
+       START MEMORIES
+    ===================================================== */
 
-    function startMemorySlideshow() {
+    function startMemories() {
 
-        if (!memoriesPage) {
+        if (
+            memories.length === 0
+        ) {
+
+            startSpecialVideo();
+
             return;
+
         }
 
+
+        /*
+         * Start with:
+         *
+         * 10 1 2 3
+         *    ↑
+         *    1 highlighted
+         */
 
         currentMemory = 0;
 
 
-        /*
-         * Build initial:
-
-         * 10 [1] 2 3
-         */
-
-        buildMemoryTrack();
+        updateMemory();
 
 
         /*
-         * Wait for browser to calculate
-         * card dimensions.
-         */
-
-        requestAnimationFrame(() => {
-
-            moveMemoryTrack();
-
-        });
-
-
-        /*
-         * Every 1 second move to next photo.
+         * Change exactly every 1 second.
          */
 
         memoryTimer =
-            setInterval(() => {
+            setInterval(
+                () => {
 
-                currentMemory++;
-
-
-                /*
-                 * After photo 10:
-                 *
-                 * 9 [10] 1 2
-                 *
-                 * Then finish.
-                 */
-
-                if (
-                    currentMemory >= 10
-                ) {
-
-                    clearInterval(
-                        memoryTimer
-                    );
-
-                    memoryTimer = null;
+                    currentMemory++;
 
 
                     /*
-                     * Keep the final position
-                     * visible for one second.
+                     * After photo 10,
+                     * stop the memory sequence.
                      */
 
-                    setTimeout(() => {
+                    if (
+                        currentMemory
+                        >=
+                        memories.length
+                    ) {
 
-                        finishMemories();
-
-                    }, 1000);
-
-
-                    return;
-
-                }
+                        clearInterval(
+                            memoryTimer
+                        );
 
 
-                moveMemoryTrack();
+                        memoryTimer =
+                            null;
 
-            }, 1000);
+
+                        /*
+                         * Give photo 10 a small
+                         * moment before video.
+                         */
+
+                        setTimeout(
+                            () => {
+
+                                startSpecialVideo();
+
+                            },
+                            450
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    updateMemory();
+
+                },
+                1000
+            );
 
     }
 
 
     /* =====================================================
-       FINISH MEMORIES
-       ===================================================== */
+       START SPECIAL VIDEO
+    ===================================================== */
 
-    function finishMemories() {
+    async function startSpecialVideo() {
 
-        /*
-         * Hide memories.
-         */
-
-        if (memoriesPage) {
-
-            memoriesPage.classList.remove(
-                "show"
-            );
-
+        if (!videoStage) {
+            return;
         }
 
 
-        /*
-         * Show video after transition.
-         */
+        showStage(
+            videoStage
+        );
 
-        setTimeout(() => {
-
-            if (mainPage) {
-
-                mainPage.classList.add(
-                    "show"
-                );
-
-            }
-
-
-            /*
-             * Start video.
-             */
-
-            startVideo();
-
-        }, 850);
-
-    }
-
-
-    /* =====================================================
-       START VIDEO
-       ===================================================== */
-
-    async function startVideo() {
 
         if (!video) {
             return;
@@ -2802,38 +2967,93 @@ Happy Birthday, my love! ❤️
 
 
         /*
+         * Reset video to beginning.
+         */
+
+        try {
+
+            video.pause();
+
+            video.currentTime = 0;
+
+        } catch (error) {
+
+            console.log(
+                "Could not reset video."
+            );
+
+        }
+
+
+        /*
          * IMPORTANT:
          *
-         * We are NOT setting:
+         * We DO NOT set:
          *
-         * video.muted = true
+         *     video.muted = true
          *
-         * The video is requested to play
-         * with its original audio.
+         * anymore.
+         *
+         * The browser is allowed to attempt
+         * normal sound playback.
          */
+
 
         video.muted = false;
 
+
+        video.volume = 1;
+
+
+        videoStarted = false;
+
+
+        /*
+         * Attempt normal autoplay WITH SOUND.
+         *
+         * Modern browsers may still reject this
+         * because unmuted autoplay is controlled
+         * by browser autoplay policy.
+         */
 
         try {
 
             await video.play();
 
+
+            videoStarted = true;
+
+
+            if (videoMessage) {
+
+                videoMessage.classList.remove(
+                    "show"
+                );
+
+            }
+
         } catch (error) {
 
             /*
-             * Some browsers prevent
-             * unmuted autoplay.
+             * Browser blocked unmuted autoplay.
              *
-             * We do NOT force mute.
+             * We do NOT mute the video.
              *
-             * The normal video controls
-             * remain available to the user.
+             * Instead, user can click the video.
              */
 
             console.log(
                 "Unmuted autoplay was blocked by the browser."
             );
+
+
+            if (videoMessage) {
+
+                videoMessage.classList.add(
+                    "show"
+                );
+
+            }
 
         }
 
@@ -2841,54 +3061,73 @@ Happy Birthday, my love! ❤️
 
 
     /* =====================================================
-       VIDEO FINISHED
-       ===================================================== */
+       VIDEO CLICK FALLBACK
+
+       If browser blocks autoplay, clicking the video
+       starts it with sound.
+    ===================================================== */
 
     if (video) {
+
+        video.addEventListener(
+            "click",
+            () => {
+
+                video.muted = false;
+
+                video.volume = 1;
+
+
+                video.play()
+                    .then(
+                        () => {
+
+                            videoStarted =
+                                true;
+
+
+                            if (
+                                videoMessage
+                            ) {
+
+                                videoMessage
+                                    .classList
+                                    .remove(
+                                        "show"
+                                    );
+
+                            }
+
+                        }
+                    )
+                    .catch(
+                        error => {
+
+                            console.log(
+                                "Video playback failed.",
+                                error
+                            );
+
+                        }
+                    );
+
+            }
+        );
+
+
+        /* =================================================
+           VIDEO ENDED
+
+           VIDEO → LETTER
+        ================================================= */
 
         video.addEventListener(
             "ended",
             () => {
 
-                /*
-                 * Hide video.
-                 */
-
-                if (mainPage) {
-
-                    mainPage.classList.remove(
-                        "show"
-                    );
-
-                }
-
-
-                /*
-                 * Show letter after
-                 * smooth transition.
-                 */
-
-                setTimeout(() => {
-
-                    if (letterPage) {
-
-                        letterPage.classList.add(
-                            "show"
-                        );
-
-                    }
-
-                    /*
-                     * Scroll to the beginning
-                     * of the letter.
-                     */
-
-                    window.scrollTo({
-                        top: 0,
-                        behavior: "smooth"
-                    });
-
-                }, 850);
+                showStage(
+                    letterStage
+                );
 
             }
         );
@@ -2897,97 +3136,317 @@ Happy Birthday, my love! ❤️
 
 
     /* =====================================================
-       BIRTHDAY OPENING
-       ===================================================== */
+       USER INTERACTION
+
+       If the browser blocked unmuted autoplay, any
+       interaction can attempt to start the video.
+
+       IMPORTANT:
+       We never force mute.
+    ===================================================== */
+
+    function tryEnableVideoSound() {
+
+        if (!video) {
+            return;
+        }
+
+
+        if (
+            !videoStage ||
+            !videoStage.classList.contains(
+                "active"
+            )
+        ) {
+            return;
+        }
+
+
+        if (
+            video.paused
+        ) {
+
+            video.muted = false;
+
+            video.volume = 1;
+
+
+            video.play()
+                .then(
+                    () => {
+
+                        videoStarted =
+                            true;
+
+
+                        if (
+                            videoMessage
+                        ) {
+
+                            videoMessage
+                                .classList
+                                .remove(
+                                    "show"
+                                );
+
+                        }
+
+                    }
+                )
+                .catch(
+                    () => {}
+                );
+
+        }
+
+    }
+
+
+    document.addEventListener(
+        "click",
+        tryEnableVideoSound
+    );
+
+
+    document.addEventListener(
+        "touchstart",
+        tryEnableVideoSound,
+        {
+            passive: true
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        tryEnableVideoSound
+    );
+
+
+    /* =====================================================
+       PRELOAD MEMORY IMAGES
+
+       This prevents delay when changing every second.
+    ===================================================== */
+
+    function preloadMemories() {
+
+        memories.forEach(
+            memory => {
+
+                const image =
+                    new Image();
+
+
+                image.src =
+                    memory.image;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       START COMPLETE BIRTHDAY SEQUENCE
+    ===================================================== */
 
     function startBirthdaySequence() {
 
         /*
-         * Create confetti.
+         * Make sure no browser scroll position
+         * survives page loading.
+         */
+
+        window.scrollTo(
+            0,
+            0
+        );
+
+
+        /*
+         * Create opening confetti.
          */
 
         createConfetti();
 
 
         /*
-         * Birthday opening stays visible
-         * for approximately 3 seconds.
+         * Preload all ten photos.
          */
 
-        setTimeout(() => {
+        preloadMemories();
 
-            /*
-             * Hide birthday intro.
-             */
 
-            if (intro) {
+        /*
+         * STAGE 1
+         *
+         * Birthday opening.
+         */
 
-                intro.classList.add(
-                    "hide"
+        showStage(
+            birthdayIntro
+        );
+
+
+        /*
+         * After 3 seconds:
+         *
+         * Birthday → Memories
+         */
+
+        setTimeout(
+            () => {
+
+                showStage(
+                    memoriesStage
                 );
 
-            }
 
+                startMemories();
 
-            /*
-             * Show memories.
-             */
-
-            setTimeout(() => {
-
-                if (memoriesPage) {
-
-                    memoriesPage.classList.add(
-                        "show"
-                    );
-
-                }
-
-
-                /*
-                 * Start 10-second
-                 * memory slideshow.
-                 */
-
-                startMemorySlideshow();
-
-            }, 450);
-
-        }, 3000);
+            },
+            3000
+        );
 
     }
 
 
     /* =====================================================
        PAGE LOAD
-       ===================================================== */
+    ===================================================== */
 
-    window.addEventListener(
-        "load",
-        startBirthdaySequence
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            startBirthdaySequence
+        );
+
+    } else {
+
+        startBirthdaySequence();
+
+    }
+
+
+    /* =====================================================
+       PREVENT WHEEL / TOUCH PAGE SCROLL
+
+       The experience is a fixed four-stage sequence.
+       There should never be a page scroll.
+    ===================================================== */
+
+    document.addEventListener(
+        "wheel",
+        event => {
+
+            /*
+             * Do not allow browser page scrolling.
+             */
+
+            if (
+                !event.target.closest(
+                    "video"
+                )
+            ) {
+
+                event.preventDefault();
+
+            }
+
+        },
+        {
+            passive: false
+        }
     );
 
 
     /* =====================================================
-       RESIZE
-       =====================================================
+       PREVENT TOUCH PAGE SCROLL
 
-       Recalculate the memory position when
-       the browser/mobile orientation changes.
-       ===================================================== */
+       This prevents accidental vertical movement on mobile.
+    ===================================================== */
 
-    window.addEventListener(
-        "resize",
-        () => {
+    document.addEventListener(
+        "touchmove",
+        event => {
+
+            /*
+             * Allow normal interaction with video
+             * controls.
+             */
 
             if (
-                memoriesPage &&
-                memoriesPage.classList.contains(
-                    "show"
+                event.target.closest(
+                    "video"
                 )
             ) {
 
-                moveMemoryTrack();
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /* =====================================================
+       PREVENT KEYBOARD PAGE SCROLL
+
+       Space / Arrow keys can otherwise scroll the page.
+       We only block them when video is not focused.
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            const tag =
+                event.target.tagName;
+
+
+            if (
+                tag === "VIDEO" ||
+                tag === "INPUT" ||
+                tag === "TEXTAREA" ||
+                tag === "BUTTON"
+            ) {
+
+                return;
+
+            }
+
+
+            const scrollKeys = [
+
+                " ",
+                "ArrowUp",
+                "ArrowDown",
+                "PageUp",
+                "PageDown",
+                "Home",
+                "End"
+
+            ];
+
+
+            if (
+                scrollKeys.includes(
+                    event.key
+                )
+            ) {
+
+                event.preventDefault();
 
             }
 
