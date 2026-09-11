@@ -704,303 +704,547 @@
         }
 
 
-        /* =====================================================
-           2. PRECIOUS MEMORIES
-        ===================================================== */
+/* =====================================================
+   MEMORIES PAGE
+   ===================================================== */
 
-        .memories-stage {
-            z-index: 80;
+.memories-stage {
 
-            align-items: center;
-            justify-content: center;
+    width: 100%;
 
-            padding: 0;
+    min-height: 100vh;
 
-            background:
-                radial-gradient(
-                    circle at 50% 45%,
-                    rgba(255,60,130,.11),
-                    transparent 45%
-                ),
-                #09080c;
-        }
+    display: flex;
 
+    align-items: center;
 
-        .memories-content {
-            position: relative;
+    justify-content: center;
 
-            z-index: 10;
+    overflow: hidden;
 
-            width: 100%;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 80, 150, 0.08),
+            transparent 42%
+        );
 
-            max-width: 1200px;
+    padding: 35px 0;
+}
 
-            padding: 0;
 
-            margin: 0 auto;
+.memories-container {
 
-            text-align: center;
-        }
+    width: 100%;
 
+    display: flex;
 
-        .section-kicker {
-            margin-bottom: 9px;
+    flex-direction: column;
 
-            color: #f3a6c5;
+    align-items: center;
 
-            font-size: 12px;
+    justify-content: center;
+}
 
-            font-weight: 600;
 
-            letter-spacing: 2.5px;
+/* =====================================================
+   HEADER
+   ===================================================== */
 
-            text-transform: uppercase;
-        }
+.memories-header {
 
+    width: 100%;
 
-        .memories-title {
-            margin: 0;
+    text-align: center;
 
-            font-family:
-                "Playfair Display",
-                serif;
+    margin-bottom: 55px;
 
-            font-size:
-                clamp(30px,5vw,50px);
+    padding: 0 20px;
+}
 
-            line-height: 1.1;
-        }
 
+.memories-label {
 
-        .memories-subtitle {
-            margin:
-                9px 0 0;
+    margin-bottom: 18px;
 
-            color: #96929a;
+    color: #ff9ec2;
 
-            font-size: 14px;
-        }
+    font-size: 13px;
 
+    font-weight: 700;
 
-        /* =====================================================
-           MEMORY WINDOW
+    letter-spacing: 3px;
 
-           No horizontal page scrolling.
-           Four cards are rendered in place.
+    text-transform: uppercase;
+}
 
-           Example:
 
-           10  1  2  3
-               ↑
-             active
+.memories-title {
 
-           1  2  3  4
-               ↑
-             active
-        ===================================================== */
+    margin: 0;
 
-        .memory-window {
-            width: 100%;
+    font-family:
+        "Playfair Display",
+        serif;
 
-            margin-top: 30px;
+    font-size:
+        clamp(38px, 5vw, 58px);
 
-            padding: 0;
+    line-height: 1.1;
 
-            overflow: hidden;
-        }
+    color: #ffffff;
 
+    font-weight: 700;
 
-        .memory-track {
-            width: 100%;
+    letter-spacing: -1px;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                repeat(4, 1fr);
+.memories-subtitle {
 
-            align-items: center;
+    margin: 13px 0 0;
 
-            gap: 18px;
+    color: #a8a8b3;
 
-            padding:
-                15px
-                28px
-                20px;
-        }
+    font-size: 16px;
 
+    line-height: 1.5;
+}
 
-        .memory-card {
-            position: relative;
 
-            width: 100%;
+/* =====================================================
+   CAROUSEL
+   ===================================================== */
 
-            min-width: 0;
+.memory-carousel {
 
-            aspect-ratio: 3 / 4;
+    position: relative;
 
-            border-radius: 8px;
+    width: 100%;
 
-            opacity: .42;
+    height: 470px;
 
-            transform:
-                scale(.90)
-                translateY(8px);
+    overflow: hidden;
 
-            transition:
-                opacity .55s ease,
-                transform .55s ease,
-                filter .55s ease;
+    display: flex;
 
-            overflow: visible;
-        }
+    align-items: center;
 
+    justify-content: center;
+}
 
-        .memory-card img {
-            display: block;
 
-            width: 100%;
-            height: 100%;
+/*
+   Soft fade at both sides
+*/
 
-            object-fit: cover;
+.memory-carousel::before,
+.memory-carousel::after {
 
-            border-radius: 7px;
+    content: "";
 
-            border:
-                3px solid
-                rgba(255,255,255,.78);
+    position: absolute;
 
-            background: #151319;
+    top: 0;
 
-            box-shadow:
-                0 15px 35px
-                rgba(0,0,0,.45);
+    bottom: 0;
 
-            transition:
-                border-color .55s ease,
-                box-shadow .55s ease;
-        }
+    width: 18%;
 
+    z-index: 20;
 
-        /* =====================================================
-           ACTIVE MEMORY
+    pointer-events: none;
+}
 
-           The highlighted image is ALWAYS the second visible
-           card.
 
-           Example:
-           [10] [1] [2] [3]
-                ACTIVE
-        ===================================================== */
+.memory-carousel::before {
 
-        .memory-card.active {
-            opacity: 1;
+    left: 0;
 
-            transform:
-                scale(1.08)
-                translateY(-6px);
+    background:
+        linear-gradient(
+            to right,
+            #09090d,
+            transparent
+        );
+}
 
-            z-index: 10;
 
-            filter:
-                brightness(1.08);
-        }
+.memory-carousel::after {
 
+    right: 0;
 
-        .memory-card.active img {
-            border-color:
-                rgba(255,160,195,.98);
+    background:
+        linear-gradient(
+            to left,
+            #09090d,
+            transparent
+        );
+}
 
-            box-shadow:
-                0 20px 50px
-                rgba(255,70,140,.28),
-                0 0 30px
-                rgba(255,100,160,.18);
-        }
 
+/* =====================================================
+   MEMORY TRACK
+   ===================================================== */
 
-        /* =====================================================
-           MEMORY LABEL
-        ===================================================== */
+.memory-track {
 
-        .memory-label {
-            position: absolute;
+    position: absolute;
 
-            left: 50%;
-            bottom: -25px;
+    left: 50%;
 
-            transform:
-                translateX(-50%);
+    top: 50%;
 
-            width: max-content;
+    height: 100%;
 
-            max-width: 100%;
+    display: flex;
 
-            white-space: nowrap;
+    align-items: center;
 
-            color: #d4cbd0;
+    gap: 38px;
 
-            font-family:
-                "Playfair Display",
-                serif;
+    transform:
+        translate(-50%, -50%);
 
-            font-size: 11px;
+    transition:
+        transform 0.8s
+        cubic-bezier(.22, .61, .36, 1);
 
-            font-style: italic;
+    will-change: transform;
+}
 
-            opacity: 0;
 
-            transition:
-                opacity .4s ease;
-        }
+/* =====================================================
+   MEMORY CARD
+   ===================================================== */
 
+.memory-card {
 
-        .memory-card.active .memory-label {
-            opacity: 1;
-        }
+    position: relative;
 
+    flex: 0 0 275px;
 
-        /* =====================================================
-           MEMORY PROGRESS
-        ===================================================== */
+    width: 275px;
 
-        .memory-progress {
-            display: flex;
+    height: 390px;
 
-            align-items: center;
+    padding: 12px;
 
-            justify-content: center;
+    background:
+        linear-gradient(
+            145deg,
+            #f8f5ef,
+            #e7e0d5
+        );
 
-            gap: 6px;
+    border-radius: 7px;
 
-            margin-top: 22px;
-        }
+    box-shadow:
+        0 18px 45px
+        rgba(0, 0, 0, 0.45);
 
+    transform:
+        scale(0.84)
+        rotate(var(--rotation, 0deg));
 
-        .memory-dot {
-            width: 6px;
-            height: 6px;
+    opacity: 0.48;
 
-            border-radius: 50%;
+    filter:
+        brightness(0.72)
+        saturate(0.65);
 
-            background:
-                rgba(255,255,255,.18);
+    transition:
+        transform 0.8s
+        cubic-bezier(.22, .61, .36, 1),
 
-            transition:
-                all .35s ease;
-        }
+        opacity 0.8s ease,
 
+        filter 0.8s ease,
 
-        .memory-dot.active {
-            width: 22px;
+        box-shadow 0.8s ease;
+}
 
-            border-radius: 20px;
 
-            background: #f66e9f;
+/* =====================================================
+   CARD IMAGE
+   ===================================================== */
 
-            box-shadow:
-                0 0 10px
-                rgba(246,110,159,.5);
-        }
+.memory-image {
+
+    width: 100%;
+
+    height: 330px;
+
+    display: block;
+
+    object-fit: cover;
+
+    background: #d8d8d8;
+
+    border-radius: 2px;
+}
+
+
+/* =====================================================
+   MEMORY LABEL
+   ===================================================== */
+
+.memory-label-text {
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #27232a;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   ACTIVE CARD
+   ===================================================== */
+
+.memory-card.active {
+
+    transform:
+        scale(1)
+        rotate(0deg);
+
+    opacity: 1;
+
+    filter:
+        brightness(1)
+        saturate(1);
+
+    z-index: 10;
+
+    box-shadow:
+
+        0 25px 60px
+        rgba(0, 0, 0, 0.60),
+
+        0 0 35px
+        rgba(255, 90, 160, 0.22),
+
+        0 0 80px
+        rgba(255, 90, 160, 0.08);
+}
+
+
+/* =====================================================
+   LEFT / RIGHT CARDS
+   ===================================================== */
+
+.memory-card.left-card {
+
+    transform:
+        scale(0.86)
+        rotate(-2deg);
+}
+
+
+.memory-card.right-card {
+
+    transform:
+        scale(0.86)
+        rotate(2deg);
+}
+
+
+/* =====================================================
+   FAR CARDS
+   ===================================================== */
+
+.memory-card.far-left {
+
+    transform:
+        scale(0.72)
+        rotate(-4deg);
+
+    opacity: 0.25;
+
+    filter:
+        brightness(0.55)
+        saturate(0.45);
+}
+
+
+.memory-card.far-right {
+
+    transform:
+        scale(0.72)
+        rotate(4deg);
+
+    opacity: 0.25;
+
+    filter:
+        brightness(0.55)
+        saturate(0.45);
+}
+
+
+/* =====================================================
+   MEMORY COUNTER
+   ===================================================== */
+
+.memory-counter {
+
+    margin-top: 28px;
+
+    padding: 7px 15px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    color: #c8a8b6;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .memories-stage {
+
+        padding: 25px 0;
+    }
+
+
+    .memories-header {
+
+        margin-bottom: 35px;
+    }
+
+
+    .memories-label {
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .memories-title {
+
+        font-size: 34px;
+
+        line-height: 1.08;
+    }
+
+
+    .memories-subtitle {
+
+        font-size: 13px;
+    }
+
+
+    .memory-carousel {
+
+        height: 390px;
+    }
+
+
+    .memory-track {
+
+        gap: 20px;
+    }
+
+
+    .memory-card {
+
+        flex-basis: 220px;
+
+        width: 220px;
+
+        height: 315px;
+
+        padding: 9px;
+    }
+
+
+    .memory-image {
+
+        height: 264px;
+    }
+
+
+    .memory-label-text {
+
+        height: 36px;
+
+        font-size: 12px;
+    }
+
+
+    .memory-counter {
+
+        margin-top: 18px;
+    }
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+   ===================================================== */
+
+@media (max-width: 420px) {
+
+    .memory-card {
+
+        flex-basis: 195px;
+
+        width: 195px;
+
+        height: 285px;
+    }
+
+
+    .memory-image {
+
+        height: 238px;
+    }
+
+
+    .memory-track {
+
+        gap: 15px;
+    }
+
+
+    .memory-carousel {
+
+        height: 350px;
+    }
+}
 
 
         /* =====================================================
@@ -1933,163 +2177,51 @@
 
 
     <!-- =====================================================
-         2. OUR PRECIOUS MEMORIES
-    ===================================================== -->
+     2. OUR PRECIOUS MEMORIES
+     ===================================================== -->
 
-    <section
-        id="memoriesStage"
-        class="stage memories-stage"
-    >
+<section id="memoriesPage" class="stage memories-stage">
 
-        <div class="background-glow"></div>
+    <div class="memories-container">
 
+        <div class="memories-header">
 
-        <div class="memories-content">
-
-            <div class="section-kicker">
-                💕 Our Precious Memories 💕
+            <div class="memories-label">
+                💕 OUR PRECIOUS MEMORIES 💕
             </div>
 
-
-            <h2 class="memories-title">
-                Moments that mean everything
-            </h2>
-
+            <h1 class="memories-title">
+                Moments That Mean Everything
+            </h1>
 
             <p class="memories-subtitle">
                 Every picture holds a little piece of us.
             </p>
 
-
-            <!-- =================================================
-                 CIRCULAR MEMORY DISPLAY
-
-                 JS changes these four cards.
-
-                 1:
-                 10  1  2  3
-                     ↑
-
-                 2:
-                 1   2  3  4
-                     ↑
-
-                 3:
-                 2   3  4  5
-                     ↑
-
-                 ...
-
-                 10:
-                 9  10  1  2
-                     ↑
-            ================================================== -->
-
-            <div class="memory-window">
-
-                <div
-                    id="memoryTrack"
-                    class="memory-track"
-                >
-
-                    <!-- CARD 1 -->
-
-                    <div
-                        class="memory-card"
-                        data-slot="0"
-                    >
-
-                        <img
-                            src="/static/memories/10.jpg"
-                            alt="Our memory"
-                        >
-
-                        <div class="memory-label"></div>
-
-                    </div>
+        </div>
 
 
-                    <!-- CARD 2 - ACTIVE -->
+        <!-- MEMORY CAROUSEL -->
 
-                    <div
-                        class="memory-card active"
-                        data-slot="1"
-                    >
-
-                        <img
-                            src="/static/memories/1.jpg"
-                            alt="Our memory"
-                        >
-
-                        <div class="memory-label">
-                            Our Beginning ❤️
-                        </div>
-
-                    </div>
-
-
-                    <!-- CARD 3 -->
-
-                    <div
-                        class="memory-card"
-                        data-slot="2"
-                    >
-
-                        <img
-                            src="/static/memories/2.jpg"
-                            alt="Our memory"
-                        >
-
-                        <div class="memory-label"></div>
-
-                    </div>
-
-
-                    <!-- CARD 4 -->
-
-                    <div
-                        class="memory-card"
-                        data-slot="3"
-                    >
-
-                        <img
-                            src="/static/memories/3.jpg"
-                            alt="Our memory"
-                        >
-
-                        <div class="memory-label"></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- PROGRESS -->
+        <div class="memory-carousel">
 
             <div
-                id="memoryProgress"
-                class="memory-progress"
-            >
-
-                <span class="memory-dot active"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-                <span class="memory-dot"></span>
-
-            </div>
+                class="memory-track"
+                id="memoryTrack"
+            ></div>
 
         </div>
 
-    </section>
 
+        <!-- MEMORY COUNTER -->
+
+        <div class="memory-counter" id="memoryCounter">
+            1 / 10
+        </div>
+
+    </div>
+
+</section>
 
     <!-- =====================================================
          3. SPECIAL VIDEO
@@ -2349,439 +2481,176 @@
         );
 
 
-    /* =====================================================
-       MEMORY DATA
-    ===================================================== */
-
-    const memories = [
-
-        {
-            image:
-                "/static/memories/1.jpg",
-
-            label:
-                "Our Beginning ❤️"
-        },
-
-        {
-            image:
-                "/static/memories/2.jpg",
-
-            label:
-                "Beautiful Moment"
-        },
-
-        {
-            image:
-                "/static/memories/3.jpg",
-
-            label:
-                "Together ❤️"
-        },
-
-        {
-            image:
-                "/static/memories/4.jpg",
-
-            label:
-                "Our Smile"
-        },
-
-        {
-            image:
-                "/static/memories/5.jpg",
-
-            label:
-                "Favorite Memory"
-        },
-
-        {
-            image:
-                "/static/memories/6.jpg",
-
-            label:
-                "Just Us ❤️"
-        },
-
-        {
-            image:
-                "/static/memories/7.jpg",
-
-            label:
-                "Sweet Days"
-        },
-
-        {
-            image:
-                "/static/memories/8.jpg",
-
-            label:
-                "Forever ❤️"
-        },
-
-        {
-            image:
-                "/static/memories/9.jpg",
-
-            label:
-                "My Favorite Person"
-        },
-
-        {
-            image:
-                "/static/memories/10.jpg",
-
-            label:
-                "Always You ❤️"
-        }
-
-    ];
+/* =====================================================
+   MEMORIES CAROUSEL
+   ===================================================== */
 
 
-    /* =====================================================
-       CURRENT MEMORY
+/*
+   Add your 10 image URLs here.
 
-       0 = photo 1
-       1 = photo 2
-       ...
-       9 = photo 10
-    ===================================================== */
+   Order is important:
 
-    let currentMemory = 0;
+   1, 2, 3, 4, 5,
+   6, 7, 8, 9, 10
+*/
+
+const memories = [
+
+    {
+        image: "{{ memory_1_url }}",
+        title: "Our Smile"
+    },
+
+    {
+        image: "{{ memory_2_url }}",
+        title: "Our Favorite Moment"
+    },
+
+    {
+        image: "{{ memory_3_url }}",
+        title: "Together Forever"
+    },
+
+    {
+        image: "{{ memory_4_url }}",
+        title: "My Happy Place"
+    },
+
+    {
+        image: "{{ memory_5_url }}",
+        title: "Beautiful Days"
+    },
+
+    {
+        image: "{{ memory_6_url }}",
+        title: "Just Us"
+    },
+
+    {
+        image: "{{ memory_7_url }}",
+        title: "Little Moments"
+    },
+
+    {
+        image: "{{ memory_8_url }}",
+        title: "Always Together"
+    },
+
+    {
+        image: "{{ memory_9_url }}",
+        title: "Our Story"
+    },
+
+    {
+        image: "{{ memory_10_url }}",
+        title: "Forever Us"
+    }
+
+];
 
 
-    let memoryTimer = null;
+const memoryTrack =
+    document.getElementById("memoryTrack");
 
 
-    let videoStarted = false;
+const memoryCounter =
+    document.getElementById("memoryCounter");
 
 
-    /* =====================================================
-       STAGE SWITCHER
-
-       This is the important part for fixing the blank
-       scrolling problem.
-
-       Only ONE .stage receives .active.
-
-       All other stages use:
-
-           display: none
-
-       Therefore they occupy ZERO layout space.
-    ===================================================== */
-
-    function showStage(stage) {
-
-        document
-            .querySelectorAll(".stage")
-            .forEach(element => {
-
-                element.classList.remove(
-                    "active"
-                );
-
-            });
+let currentMemory = 0;
 
 
-        if (!stage) {
-            return;
-        }
+/*
+   We create extra copies around the
+   original 10 cards.
 
+   This allows the carousel to behave
+   like a circular carousel.
+*/
 
-        stage.classList.add(
-            "active"
-        );
+function createMemoryCards() {
 
-
-        /*
-         * Force the document back to the top.
-         * Normally unnecessary because body is locked,
-         * but this prevents browser scroll restoration
-         * from causing visual movement.
-         */
-
-        window.scrollTo(
-            0,
-            0
-        );
-
+    if (!memoryTrack) {
+        return;
     }
 
 
-    /* =====================================================
-       CONFETTI
-    ===================================================== */
-
-    function createConfetti() {
-
-        if (!confettiContainer) {
-            return;
-        }
+    memoryTrack.innerHTML = "";
 
 
-        const colors = [
+    /*
+       Create:
 
-            "#f9a8d4",
-            "#fb7185",
-            "#fda4af",
-            "#fde68a",
-            "#fef3c7",
-            "#c4b5fd",
-            "#93c5fd",
-            "#ffffff"
+       10 1 2 3
+       1 2 3 4
+       2 3 4 5
+       ...
 
-        ];
-
-
-        const totalPieces = 130;
+       The track itself contains repeated
+       copies so the movement is seamless.
+    */
 
 
-        for (
-            let i = 0;
-            i < totalPieces;
-            i++
-        ) {
-
-            const piece =
-                document.createElement(
-                    "span"
-                );
+    const totalCopies = 5;
 
 
-            piece.className =
-                "confetti";
+    for (
+        let copy = 0;
+        copy < totalCopies;
+        copy++
+    ) {
+
+        memories.forEach(
+            (memory, index) => {
+
+                const card =
+                    document.createElement("div");
 
 
-            const angle =
-                Math.random()
-                *
-                Math.PI
-                *
-                2;
+                card.className =
+                    "memory-card";
 
 
-            const distance =
-                180
-                +
-                Math.random() * 500;
+                /*
+                   Small natural rotation
+                   for inactive cards.
+                */
 
-
-            const x =
-                Math.cos(angle)
-                *
-                distance;
-
-
-            const y =
-                Math.sin(angle)
-                *
-                distance
-                +
-                200;
-
-
-            piece.style.setProperty(
-                "--x",
-                x + "px"
-            );
-
-
-            piece.style.setProperty(
-                "--y",
-                y + "px"
-            );
-
-
-            piece.style.setProperty(
-                "--rotation",
-                (
-                    Math.random() * 1000
-                    -
-                    500
-                ) + "deg"
-            );
-
-
-            piece.style.background =
-                colors[
-                    Math.floor(
-                        Math.random()
-                        *
-                        colors.length
-                    )
+                const rotations = [
+                    -2,
+                    1.5,
+                    -1.5,
+                    2,
+                    -1,
+                    1,
+                    -2,
+                    1.5,
+                    -1,
+                    2
                 ];
 
 
-            piece.style.width =
-                (
-                    5
-                    +
-                    Math.random() * 7
-                )
-                +
-                "px";
+                card.style.setProperty(
+                    "--rotation",
+                    rotations[index] + "deg"
+                );
 
 
-            piece.style.height =
-                (
-                    8
-                    +
-                    Math.random() * 11
-                )
-                +
-                "px";
+                card.dataset.index =
+                    index;
 
 
-            piece.style.animationDelay =
-                (
-                    Math.random() * .45
-                )
-                +
-                "s";
-
-
-            piece.style.animationDuration =
-                (
-                    2.4
-                    +
-                    Math.random() * 1.3
-                )
-                +
-                "s";
-
-
-            confettiContainer.appendChild(
-                piece
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       UPDATE MEMORY CAROUSEL
-
-       THIS CREATES THE EXACT CIRCULAR BEHAVIOUR:
-
-       currentMemory = 0
-
-       10 1 2 3
-       ↑  ↑
-       previous
-          ACTIVE
-
-
-       currentMemory = 1
-
-       1 2 3 4
-         ↑
-         ACTIVE
-
-
-       currentMemory = 2
-
-       2 3 4 5
-         ↑
-         ACTIVE
-
-
-       ...
-
-       currentMemory = 9
-
-       9 10 1 2
-          ↑
-          ACTIVE
-    ===================================================== */
-
-    function updateMemory() {
-
-        if (
-            memoryCards.length !== 4
-        ) {
-            return;
-        }
-
-
-        /*
-         * Four visible positions:
-         *
-         * slot 0 = previous image
-         * slot 1 = active image
-         * slot 2 = next image
-         * slot 3 = next-next image
-         */
-
-
-        const visibleIndexes = [
-
-            (
-                currentMemory
-                -
-                1
-                +
-                memories.length
-            )
-            %
-            memories.length,
-
-
-            currentMemory,
-
-
-            (
-                currentMemory
-                +
-                1
-            )
-            %
-            memories.length,
-
-
-            (
-                currentMemory
-                +
-                2
-            )
-            %
-            memories.length
-
-        ];
-
-
-        memoryCards.forEach(
-            (
-                card,
-                slot
-            ) => {
+                /*
+                   IMAGE
+                */
 
                 const image =
-                    card.querySelector(
-                        "img"
-                    );
+                    document.createElement("img");
 
 
-                const label =
-                    card.querySelector(
-                        ".memory-label"
-                    );
-
-
-                const memoryIndex =
-                    visibleIndexes[slot];
-
-
-                const memory =
-                    memories[
-                        memoryIndex
-                    ];
-
-
-                if (!memory) {
-                    return;
-                }
+                image.className =
+                    "memory-image";
 
 
                 image.src =
@@ -2789,64 +2658,40 @@
 
 
                 image.alt =
-                    "Our memory " +
-                    (
-                        memoryIndex + 1
-                    );
+                    "Memory " +
+                    (index + 1);
 
 
-                label.textContent =
-                    memory.label;
+                image.loading =
+                    "lazy";
 
 
                 /*
-                 * ONLY SLOT 1 IS ACTIVE.
-                 */
+                   TITLE
+                */
 
-                if (slot === 1) {
-
-                    card.classList.add(
-                        "active"
-                    );
-
-                } else {
-
-                    card.classList.remove(
-                        "active"
-                    );
-
-                }
-
-            }
-        );
+                const label =
+                    document.createElement("div");
 
 
-        /*
-         * Update progress dots.
-         */
+                label.className =
+                    "memory-label-text";
 
-        memoryDots.forEach(
-            (
-                dot,
-                index
-            ) => {
 
-                if (
-                    index ===
-                    currentMemory
-                ) {
+                label.textContent =
+                    memory.title;
 
-                    dot.classList.add(
-                        "active"
-                    );
 
-                } else {
+                /*
+                   Add content.
+                */
 
-                    dot.classList.remove(
-                        "active"
-                    );
+                card.appendChild(image);
 
-                }
+                card.appendChild(label);
+
+
+                memoryTrack.appendChild(card);
 
             }
         );
@@ -2854,96 +2699,314 @@
     }
 
 
-    /* =====================================================
-       START MEMORIES
-    ===================================================== */
+    updateMemoryPosition();
 
-    function startMemories() {
+}
 
-        if (
-            memories.length === 0
-        ) {
 
-            startSpecialVideo();
+/* =====================================================
+   UPDATE CAROUSEL
+   ===================================================== */
 
-            return;
+function updateMemoryPosition() {
+
+    if (!memoryTrack) {
+        return;
+    }
+
+
+    const cards =
+        memoryTrack.querySelectorAll(
+            ".memory-card"
+        );
+
+
+    if (!cards.length) {
+        return;
+    }
+
+
+    /*
+       We use the middle copy.
+
+       Copies:
+
+       0 → memories 1-10
+       1 → memories 1-10
+       2 → memories 1-10
+       3 → memories 1-10
+       4 → memories 1-10
+
+       Middle copy starts at:
+
+       20
+    */
+
+    const middleStart =
+        memories.length * 2;
+
+
+    const activeIndex =
+        middleStart + currentMemory;
+
+
+    /*
+       Remove old states.
+    */
+
+    cards.forEach(
+        card => {
+
+            card.classList.remove(
+                "active",
+                "left-card",
+                "right-card",
+                "far-left",
+                "far-right"
+            );
 
         }
+    );
 
 
-        /*
-         * Start with:
-         *
-         * 10 1 2 3
-         *    ↑
-         *    1 highlighted
-         */
+    /*
+       Exactly one card becomes active.
+    */
+
+    cards[
+        activeIndex
+    ].classList.add(
+        "active"
+    );
+
+
+    /*
+       Nearby cards.
+
+       Example:
+
+       10 | 1 | 2 | 3
+
+       10 = left
+       1  = ACTIVE
+       2  = right
+       3  = far-right
+    */
+
+
+    if (cards[activeIndex - 1]) {
+
+        cards[
+            activeIndex - 1
+        ].classList.add(
+            "left-card"
+        );
+
+    }
+
+
+    if (cards[activeIndex + 1]) {
+
+        cards[
+            activeIndex + 1
+        ].classList.add(
+            "right-card"
+        );
+
+    }
+
+
+    if (cards[activeIndex - 2]) {
+
+        cards[
+            activeIndex - 2
+        ].classList.add(
+            "far-left"
+        );
+
+    }
+
+
+    if (cards[activeIndex + 2]) {
+
+        cards[
+            activeIndex + 2
+        ].classList.add(
+            "far-right"
+        );
+
+    }
+
+
+    /*
+       Calculate card position.
+    */
+
+    const activeCard =
+        cards[activeIndex];
+
+
+    const cardWidth =
+        activeCard.offsetWidth;
+
+
+    const computedStyle =
+        window.getComputedStyle(
+            memoryTrack
+        );
+
+
+    const gap =
+        parseFloat(
+            computedStyle.columnGap ||
+            computedStyle.gap ||
+            0
+        );
+
+
+    /*
+       Move the track so that the
+       active card is exactly in
+       the center of the screen.
+    */
+
+    const offset =
+        activeIndex *
+        (cardWidth + gap);
+
+
+    memoryTrack.style.transform =
+        `translate(
+            calc(-50% - ${offset}px),
+            -50%
+        )`;
+
+
+    /*
+       Counter.
+    */
+
+    if (memoryCounter) {
+
+        memoryCounter.textContent =
+            `${currentMemory + 1} / ${memories.length}`;
+
+    }
+
+}
+
+
+/* =====================================================
+   NEXT MEMORY
+   ===================================================== */
+
+function nextMemory() {
+
+    currentMemory++;
+
+    /*
+       After memory 10:
+
+       10 → 1
+    */
+
+    if (
+        currentMemory >=
+        memories.length
+    ) {
 
         currentMemory = 0;
 
-
-        updateMemory();
-
-
-        /*
-         * Change exactly every 1 second.
-         */
-
-        memoryTimer =
-            setInterval(
-                () => {
-
-                    currentMemory++;
+    }
 
 
-                    /*
-                     * After photo 10,
-                     * stop the memory sequence.
-                     */
+    updateMemoryPosition();
 
-                    if (
-                        currentMemory
-                        >=
-                        memories.length
-                    ) {
-
-                        clearInterval(
-                            memoryTimer
-                        );
+}
 
 
-                        memoryTimer =
-                            null;
+/* =====================================================
+   START AUTOMATIC MEMORY SHOW
+   ===================================================== */
+
+let memoryInterval = null;
 
 
-                        /*
-                         * Give photo 10 a small
-                         * moment before video.
-                         */
+function startMemoryCarousel() {
 
-                        setTimeout(
-                            () => {
+    if (memoryInterval) {
 
-                                startSpecialVideo();
-
-                            },
-                            450
-                        );
-
-
-                        return;
-
-                    }
-
-
-                    updateMemory();
-
-                },
-                1000
-            );
+        clearInterval(
+            memoryInterval
+        );
 
     }
 
+
+    /*
+       One memory every 1 second.
+    */
+
+    memoryInterval =
+        setInterval(
+            nextMemory,
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+function initializeMemories() {
+
+    if (!memoryTrack) {
+        return;
+    }
+
+
+    createMemoryCards();
+
+
+    /*
+       Wait for images/layout
+       before calculating position.
+    */
+
+    requestAnimationFrame(
+        () => {
+
+            updateMemoryPosition();
+
+            startMemoryCarousel();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   WINDOW RESIZE
+   ===================================================== */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        updateMemoryPosition();
+
+    }
+);
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+initializeMemories();
 
     /* =====================================================
        START SPECIAL VIDEO
