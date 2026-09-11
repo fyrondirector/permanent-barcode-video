@@ -1053,310 +1053,209 @@
         }
 
 
-        /* =====================================================
-           MEMORY VIEWPORT
+/* =====================================================
+   MEMORY VIEWPORT
+   4 CARDS VISIBLE
+   ===================================================== */
 
-           Four cards visible.
+.memories-viewport {
+    position: relative;
+    flex-shrink: 0;
 
-           10 [1] 2 3
-            1 [2] 3 4
-            2 [3] 4 5
-           ...
-            9 [10] 1 2
-           ===================================================== */
+    width: 100%;
+    max-width: 1000px;
 
-        .memories-viewport {
+    height: min(54vh, 480px);
 
-            position: relative;
+    overflow: hidden;
 
-            flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            width:
-                100%;
+    padding: 20px 0;
 
-            height:
-                min(
-                    52vh,
-                    470px
-                );
+    /* soft fade at the edges */
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 7%,
+        black 93%,
+        transparent 100%
+    );
 
-            overflow:
-                hidden;
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 7%,
+        black 93%,
+        transparent 100%
+    );
+}
 
-            display:
-                flex;
 
-            align-items:
-                center;
+/* =====================================================
+   MEMORY TRACK
+   ===================================================== */
 
-            justify-content:
-                center;
+.memories-track {
+    display: flex;
+    align-items: center;
 
-            padding:
-                15px 0;
-        }
+    gap: 18px;
 
+    width: max-content;
+    flex-shrink: 0;
 
-        /* =====================================================
-           MEMORY TRACK
-           ===================================================== */
+    transition:
+        transform 0.75s cubic-bezier(.22, .61, .36, 1);
 
-        .memories-track {
+    will-change: transform;
+}
 
-            display:
-                flex;
 
-            align-items:
-                center;
+/* =====================================================
+   MEMORY CARD
+   ===================================================== */
 
-            gap:
-                18px;
+.memory-card {
+    position: relative;
 
-            width:
-                max-content;
+    width: 205px;
+    flex: 0 0 205px;
 
-            flex-shrink:
-                0;
+    padding: 9px;
 
-            transition:
-                transform
-                0.75s
-                cubic-bezier(
-                    .22,
-                    .61,
-                    .36,
-                    1
-                );
+    border-radius: 7px;
 
-            will-change:
-                transform;
-        }
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf8,
+            #ece5d9
+        );
 
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.38);
 
-        /* =====================================================
-           MEMORY CARD
-           ===================================================== */
+    transform:
+        scale(0.86)
+        translateY(10px);
 
-        .memory-card {
+    opacity: 0.42;
 
-            position:
-                relative;
+    z-index: 1;
 
-            width:
-                250px;
+    transition:
+        transform 0.7s cubic-bezier(.22, .61, .36, 1),
+        opacity 0.7s ease,
+        filter 0.7s ease,
+        box-shadow 0.7s ease;
 
-            flex:
-                0 0 250px;
+    filter: brightness(0.72);
+}
 
-            padding:
-                10px;
 
-            border-radius:
-                6px;
+/* =====================================================
+   ACTIVE MEMORY CARD
+   ===================================================== */
 
-            background:
-                linear-gradient(
-                    145deg,
-                    #fffdf8,
-                    #ece5d9
-                );
+.memory-card.active {
+    transform:
+        scale(1.08)
+        translateY(0);
 
-            box-shadow:
-                0 15px 35px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.38
-                );
+    opacity: 1;
 
-            transform:
-                scale(0.88)
-                translateY(10px);
+    z-index: 10;
 
-            opacity:
-                0.52;
+    filter: brightness(1);
 
-            z-index:
-                1;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(255, 80, 145, 0.30);
+}
 
-            transition:
-                transform
-                0.7s
-                ease,
 
-                opacity
-                0.7s
-                ease,
+/* =====================================================
+   MEMORY IMAGE
+   ===================================================== */
 
-                box-shadow
-                0.7s
-                ease;
-        }
+.memory-card img {
+    display: block;
 
+    width: 100%;
 
-        /* =====================================================
-           ACTIVE MEMORY CARD
+    aspect-ratio: 3 / 4;
 
-           ALWAYS SECOND VISIBLE CARD
-           ===================================================== */
+    object-fit: cover;
 
-        .memory-card.active {
+    border-radius: 3px;
 
-            transform:
-                scale(1.04)
-                translateY(0);
+    background: #ddd;
 
-            opacity:
-                1;
+    /* prevents broken image from destroying layout */
+    min-height: 240px;
+}
 
-            z-index:
-                10;
 
-            box-shadow:
-                0 22px 48px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.55
-                ),
+/* =====================================================
+   MEMORY CAPTION
+   ===================================================== */
 
-                0 0 40px
-                rgba(
-                    255,
-                    80,
-                    145,
-                    0.28
-                );
-        }
+.memory-caption {
+    color: #242024;
 
+    font-family:
+        "Playfair Display",
+        serif;
 
-        /* =====================================================
-           MEMORY IMAGE
-           ===================================================== */
+    font-size: 13px;
 
-        .memory-card img {
+    font-weight: 600;
 
-            display:
-                block;
+    text-align: center;
 
-            width:
-                100%;
+    padding: 10px 4px 4px;
 
-            aspect-ratio:
-                3 / 4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-            object-fit:
-                cover;
 
-            border-radius:
-                2px;
+/* =====================================================
+   ACTIVE HEART
+   ===================================================== */
 
-            background:
-                #ddd;
-        }
+.memory-card.active::after {
+    content: "♥";
 
+    position: absolute;
 
-        /* =====================================================
-           MEMORY CAPTION
-           ===================================================== */
+    top: -13px;
+    right: -10px;
 
-        .memory-caption {
+    width: 30px;
+    height: 30px;
 
-            color:
-                #242024;
+    display: grid;
+    place-items: center;
 
-            font-family:
-                "Playfair Display",
-                serif;
+    color: #ffffff;
 
-            font-size:
-                13px;
+    font-size: 14px;
 
-            font-weight:
-                600;
+    background: #f45b91;
 
-            text-align:
-                center;
+    border-radius: 50%;
 
-            padding:
-                9px 4px 3px;
-        }
+    box-shadow:
+        0 5px 18px rgba(244, 91, 145, 0.5);
 
-
-        /* =====================================================
-           ACTIVE MEMORY HEART
-           ===================================================== */
-
-        .memory-card.active::after {
-
-            content:
-                "♥";
-
-            position:
-                absolute;
-
-            top:
-                -14px;
-
-            right:
-                -11px;
-
-            width:
-                31px;
-
-            height:
-                31px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            color:
-                #ffffff;
-
-            font-size:
-                15px;
-
-            background:
-                #f45b91;
-
-            border-radius:
-                50%;
-
-            box-shadow:
-                0 5px 18px
-                rgba(
-                    244,
-                    91,
-                    145,
-                    0.5
-                );
-
-            animation:
-                smallHeartBeat
-                1s
-                ease-in-out
-                infinite;
-        }
-
-
-        @keyframes smallHeartBeat {
-
-            0%,
-            100% {
-                transform:
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    scale(1.12);
-            }
-        }
+    animation:
+        smallHeartBeat 1s ease-in-out infinite;
+}
 
 
         /* =====================================================
@@ -2269,128 +2168,98 @@
                --------------------------------------------- */
 
             #memoriesPage {
+        padding: 20px 0 10px;
+    }
 
-                padding:
-                    20px 0 10px;
-            }
+    .memories-header {
+        width: 94vw;
+        margin-bottom: 5px;
+    }
 
+    .memories-label {
+        font-size: 9px;
+        letter-spacing: 2px;
+        margin-bottom: 7px;
+    }
 
-            .memories-header {
+    .memories-title {
+        font-size: 29px;
+    }
 
-                width:
-                    94vw;
+    .memories-subtitle {
+        font-size: 11px;
+        margin-top: 6px;
+    }
 
-                margin-bottom:
-                    5px;
-            }
+    .memories-viewport {
+        height: min(50vh, 390px);
+        padding: 12px 0;
+    }
 
+    .memories-track {
+        gap: 10px;
+    }
 
-            .memories-label {
+    .memory-card {
+        width: 155px;
+        flex-basis: 155px;
+        padding: 7px;
+    }
 
-                font-size:
-                    9px;
+    .memory-card img {
+        min-height: 185px;
+    }
 
-                letter-spacing:
-                    2px;
+    .memory-card.active {
+        transform:
+            scale(1.07)
+            translateY(0);
+    }
 
-                margin-bottom:
-                    7px;
-            }
+    .memory-caption {
+        font-size: 10px;
+        padding: 7px 2px 2px;
+    }
 
+    .memory-card.active::after {
+        width: 27px;
+        height: 27px;
 
-            .memories-title {
+        top: -11px;
+        right: -8px;
 
-                font-size:
-                    29px;
-            }
+        font-size: 13px;
+    }
 
-
-            .memories-subtitle {
-
-                font-size:
-                    11px;
-
-                margin-top:
-                    6px;
-            }
-
-
-            .memories-viewport {
-
-                height:
-                    min(
-                        50vh,
-                        390px
-                    );
-
-                padding:
-                    12px 0;
-            }
-
-
-            .memories-track {
-
-                gap:
-                    10px;
-            }
-
-
-            .memory-card {
-
-                width:
-                    180px;
-
-                flex-basis:
-                    180px;
-
-                padding:
-                    7px;
-            }
+    .memory-progress {
+        font-size: 10px;
+    }
+}
 
 
-            .memory-card.active {
+@media (max-width: 420px) {
 
-                transform:
-                    scale(1.04)
-                    translateY(0);
-            }
+    .memory-card {
+        width: 138px;
+        flex-basis: 138px;
+    }
 
+    .memory-card img {
+        min-height: 165px;
+    }
 
-            .memory-caption {
+    .memories-track {
+        gap: 8px;
+    }
 
-                font-size:
-                    10px;
+    .memories-viewport {
+        height: 330px;
+    }
 
-                padding:
-                    7px 2px 2px;
-            }
-
-
-            .memory-card.active::after {
-
-                width:
-                    27px;
-
-                height:
-                    27px;
-
-                top:
-                    -12px;
-
-                right:
-                    -8px;
-
-                font-size:
-                    13px;
-            }
-
-
-            .memory-progress {
-
-                font-size:
-                    10px;
-            }
-
+    .memories-title {
+        font-size: 26px;
+    }
+}
 
             /* ---------------------------------------------
                VIDEO
@@ -3550,138 +3419,147 @@ Happy Birthday, my love! ❤️
        9 [10] 1 2
        ===================================================== */
 
-    function moveMemoryTrack() {
+function moveMemoryTrack() {
 
-        if (!memoriesTrack) {
-            return;
-        }
+    if (!memoriesTrack) {
+        return;
+    }
 
+    const cards =
+        memoriesTrack.querySelectorAll(
+            ".memory-card"
+        );
 
-        const cards =
-            memoriesTrack.querySelectorAll(
-                ".memory-card"
-            );
+    if (!cards.length) {
+        return;
+    }
 
+    /*
+     * Track structure:
+     *
+     * 10 [1] 2 3
+     * 1  [2] 3 4
+     * 2  [3] 4 5
+     * ...
+     * 9  [10] 1 2
+     */
 
-        if (!cards.length) {
-            return;
-        }
+    const activeIndex =
+        currentMemory + 1;
 
+    const activeCard =
+        cards[activeIndex];
 
-        const activeIndex =
-            currentMemory + 1;
+    if (!activeCard) {
+        return;
+    }
 
+    const viewport =
+        memoriesTrack.parentElement;
 
-        const activeCard =
-            cards[
-                activeIndex
-            ];
-
-
-        if (!activeCard) {
-            return;
-        }
-
-
-        const viewport =
-            memoriesTrack.parentElement;
-
-
-        if (!viewport) {
-            return;
-        }
-
-
-        /*
-         * Get actual card dimensions.
-         */
-
-        const cardWidth =
-            activeCard.getBoundingClientRect()
-                .width;
+    if (!viewport) {
+        return;
+    }
 
 
-        /*
-         * Get actual gap.
-         */
+    /*
+     * IMPORTANT:
+     *
+     * Use the unscaled card width.
+     *
+     * getBoundingClientRect() includes
+     * CSS transform scale().
+     *
+     * offsetWidth does not.
+     */
 
-        const trackStyles =
-            window.getComputedStyle(
-                memoriesTrack
-            );
-
-
-        const gap =
-            parseFloat(
-                trackStyles.columnGap ||
-                trackStyles.gap ||
-                "0"
-            );
+    const cardWidth =
+        activeCard.offsetWidth;
 
 
-        const step =
-            cardWidth + gap;
+    /*
+     * Get actual gap.
+     */
 
+    const trackStyles =
+        window.getComputedStyle(
+            memoriesTrack
+        );
 
-        /*
-         * Center active card
-         * inside viewport.
-         */
-
-        const viewportWidth =
-            viewport.clientWidth;
-
-
-        const centerOffset =
-            (
-                viewportWidth -
-                cardWidth
-            ) / 2;
-
-
-        const targetOffset =
-            centerOffset -
-            (
-                activeIndex *
-                step
-            );
-
-
-        memoriesTrack.style.transform =
-            `translateX(${targetOffset}px)`;
-
-
-        /*
-         * Update active card.
-         */
-
-        cards.forEach(
-            (
-                card,
-                index
-            ) => {
-
-                card.classList.toggle(
-                    "active",
-                    index === activeIndex
-                );
-
-            }
+    const gap =
+        parseFloat(
+            trackStyles.columnGap ||
+            trackStyles.gap ||
+            "0"
         );
 
 
-        /*
-         * Update counter.
-         */
+    /*
+     * Distance from one card
+     * to the next card.
+     */
 
-        if (memoryNumber) {
+    const step =
+        cardWidth + gap;
 
-            memoryNumber.textContent =
-                currentMemory + 1;
+
+    /*
+     * Center the ACTIVE card.
+     */
+
+    const viewportWidth =
+        viewport.clientWidth;
+
+    const centerOffset =
+        (
+            viewportWidth -
+            cardWidth
+        ) / 2;
+
+
+    const targetOffset =
+        centerOffset -
+        (
+            activeIndex *
+            step
+        );
+
+
+    /*
+     * Move carousel.
+     */
+
+    memoriesTrack.style.transform =
+        `translate3d(${targetOffset}px, 0, 0)`;
+
+
+    /*
+     * Update active state.
+     */
+
+    cards.forEach(
+        (card, index) => {
+
+            card.classList.toggle(
+                "active",
+                index === activeIndex
+            );
 
         }
+    );
+
+
+    /*
+     * Update counter.
+     */
+
+    if (memoryNumber) {
+
+        memoryNumber.textContent =
+            currentMemory + 1;
 
     }
+}
 
 
     /* =====================================================
