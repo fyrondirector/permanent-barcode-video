@@ -30,6 +30,30 @@ from supabase import create_client, Client
 
 
 # ============================================================
+# BASE DIRECTORY
+# ============================================================
+#
+# This points to the directory containing main.py.
+#
+# On Render this should be:
+#
+# /opt/render/project/src
+#
+# Therefore:
+#
+# /opt/render/project/src/static
+# /opt/render/project/src/templates
+#
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+
+STATIC_DIR = BASE_DIR / "static"
+
+TEMPLATES_DIR = BASE_DIR / "templates"
+
+
+# ============================================================
 # ENVIRONMENT VARIABLES
 # ============================================================
 
@@ -37,8 +61,10 @@ APP_SECRET = os.environ["APP_SECRET"]
 
 ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
 
+
 # ------------------------------------------------------------
 # Render public URL
+#
 # Example:
 # https://permanent-barcode-video.onrender.com
 # ------------------------------------------------------------
@@ -64,6 +90,34 @@ SUPABASE_STORAGE_BUCKET = os.environ.get(
 
 
 # ============================================================
+# STARTUP PATH CHECK
+# ============================================================
+#
+# These messages will appear in Render logs.
+#
+# They help us confirm that Render actually contains:
+#
+# static/
+# templates/
+#
+# ============================================================
+
+print("============================================================")
+print("APPLICATION PATH CHECK")
+print("============================================================")
+
+print(f"BASE_DIR      : {BASE_DIR}")
+print(f"STATIC_DIR    : {STATIC_DIR}")
+print(f"TEMPLATES_DIR : {TEMPLATES_DIR}")
+
+print(f"BASE_DIR exists      : {BASE_DIR.exists()}")
+print(f"STATIC_DIR exists    : {STATIC_DIR.exists()}")
+print(f"TEMPLATES_DIR exists : {TEMPLATES_DIR.exists()}")
+
+print("============================================================")
+
+
+# ============================================================
 # FASTAPI APPLICATION
 # ============================================================
 
@@ -75,13 +129,33 @@ app = FastAPI(
 # ============================================================
 # STATIC FILES
 # ============================================================
-
-BASE_DIR = Path(__file__).resolve().parent
+#
+# This creates the route:
+#
+# /static/...
+#
+# Example:
+#
+# /static/style.css
+#
+# /static/images/1.jpeg
+#
+# /static/images/10.jpeg
+#
+# And gives the route the name:
+#
+# static
+#
+# Therefore this works inside Jinja:
+#
+# url_for('static', filename='images/1.jpeg')
+#
+# ============================================================
 
 app.mount(
     "/static",
     StaticFiles(
-        directory=BASE_DIR / "static"
+        directory=STATIC_DIR
     ),
     name="static",
 )
@@ -104,7 +178,7 @@ app.add_middleware(
 # ============================================================
 
 templates = Jinja2Templates(
-    directory="templates"
+    directory=TEMPLATES_DIR
 )
 
 
