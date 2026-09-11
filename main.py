@@ -3,11 +3,6 @@ import secrets
 from pathlib import Path
 from io import BytesIO
 
-import boto3
-from botocore.client import Config
-import barcode
-from barcode.writer import ImageWriter
-
 from fastapi import (
     FastAPI,
     File,
@@ -24,6 +19,9 @@ from fastapi.responses import (
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
+import barcode
+from barcode.writer import ImageWriter
+
 from supabase import create_client, Client
 
 
@@ -34,27 +32,18 @@ from supabase import create_client, Client
 APP_SECRET = os.environ["APP_SECRET"]
 ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
 
-# ------------------------------------------------------------
-# Cloudflare R2
-# ------------------------------------------------------------
-
-R2_ENDPOINT = os.environ["R2_ENDPOINT"]
-R2_ACCESS_KEY_ID = os.environ["R2_ACCESS_KEY_ID"]
-R2_SECRET_ACCESS_KEY = os.environ["R2_SECRET_ACCESS_KEY"]
-R2_BUCKET = os.environ["R2_BUCKET"]
-
-# ------------------------------------------------------------
-# Public URL
-# ------------------------------------------------------------
-
+# Public URL of the Render application
 PUBLIC_URL = os.environ.get("PUBLIC_URL", "").rstrip("/")
 
-# ------------------------------------------------------------
 # Supabase
-# ------------------------------------------------------------
-
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SECRET_KEY = os.environ["SUPABASE_SECRET_KEY"]
+
+# Supabase Storage bucket
+SUPABASE_STORAGE_BUCKET = os.environ.get(
+    "SUPABASE_STORAGE_BUCKET",
+    "videos",
+)
 
 
 # ============================================================
@@ -65,11 +54,6 @@ app = FastAPI(
     title="Permanent Barcode Video"
 )
 
-
-# ============================================================
-# SESSION MIDDLEWARE
-# ============================================================
-
 app.add_middleware(
     SessionMiddleware,
     secret_key=APP_SECRET,
@@ -77,29 +61,8 @@ app.add_middleware(
     same_site="lax",
 )
 
-
-# ============================================================
-# TEMPLATES
-# ============================================================
-
 templates = Jinja2Templates(
     directory="templates"
-)
-
-
-# ============================================================
-# CLOUDFLARE R2 CLIENT
-# ============================================================
-
-r2 = boto3.client(
-    "s3",
-    endpoint_url=R2_ENDPOINT,
-    aws_access_key_id=R2_ACCESS_KEY_ID,
-    aws_secret_access_key=R2_SECRET_ACCESS_KEY,
-    region_name="auto",
-    config=Config(
-        signature_version="s3v4"
-    ),
 )
 
 
@@ -117,22 +80,17 @@ supabase: Client = create_client(
 # CONSTANTS
 # ============================================================
 
-# This is the single row/key used to remember
-# which video is currently active.
-
 STATE_KEY = "current_video"
 
 
 # ============================================================
-# SUPABASE STATE FUNCTIONS
+# SUPABASE DATABASE FUNCTIONS
 # ============================================================
 
 def get_current_key():
     """
-    Get the currently active video key from Supabase.
-
-    Returns:
-        str | None
+    Get the currently active video path
+    from the Supabase app_state table.
     """
 
     try:
@@ -158,16 +116,13 @@ def get_current_key():
             f"Supabase get_current_key error: {exc}"
         )
 
-        # Do not expose database errors to the visitor.
-        raise HTTPException(
-            status_code=500,
-            detail="Unable to read video state.",
-        )
+        return None
 
 
 def set_current_key(key: str):
     """
-    Store the currently active video key in Supabase.
+    Store the currently active video path
+    in Supabase.
     """
 
     try:
@@ -197,8 +152,8 @@ def set_current_key(key: str):
 
 def clear_current_key():
     """
-    Remove the currently active video key
-    from Supabase.
+    Remove the currently active video
+    from the app_state table.
     """
 
     try:
@@ -222,53 +177,47 @@ def clear_current_key():
 
 
 # ============================================================
-# CLOUDFLARE R2 FUNCTIONS
+# SUPABASE STORAGE FUNCTIONS
 # ============================================================
 
-def delete_r2_video(key: str):
-    """
-    Delete a video from Cloudflare R2.
-    """
-
-    if not key:
-        return
-
-    try:
-        r2.delete_object(
-            Bucket=R2_BUCKET,
-            Key=key,
-        )
-
-    except Exception as exc:
-        print(
-            f"R2 delete error for {key}: {exc}"
-        )
-
-
-def upload_to_r2(
+def upload_to_storage(
     video: UploadFile,
     key: str,
 ):
     """
-    Upload an uploaded video to Cloudflare R2.
+    Upload the video to Supabase Storage.
     """
 
     try:
-        r2.upload_fileobj(
-            video.file,
-            R2_BUCKET,
-            key,
-            ExtraArgs={
-                "ContentType": (
-                    video.content_type
-                    or "video/mp4"
-                )
-            },
-        )
+        file_data = video.file.read()
+
+        if not file_data:
+            raise HTTPException(
+                status_code=400,
+                detail="Uploaded video is empty.",
+            )
+
+        supabase.storage \
+            .from_(SUPABASE_STORAGE_BUCKET) \
+            .upload(
+                path=key,
+                file=file_data,
+                file_options={
+                    "content-type": (
+                        video.content_type
+                        or "video/mp4"
+                    ),
+                    "cache-control": "3600",
+                    "upsert": "false",
+                },
+            )
+
+    except HTTPException:
+        raise
 
     except Exception as exc:
         print(
-            f"R2 upload error: {exc}"
+            f"Supabase Storage upload error: {exc}"
         )
 
         raise HTTPException(
@@ -277,25 +226,62 @@ def upload_to_r2(
         )
 
 
-def generate_video_url(key: str):
+def delete_storage_video(key: str):
     """
-    Generate a temporary signed URL
-    for the video stored in R2.
+    Delete a video from Supabase Storage.
     """
 
+    if not key:
+        return
+
     try:
-        return r2.generate_presigned_url(
-            "get_object",
-            Params={
-                "Bucket": R2_BUCKET,
-                "Key": key,
-            },
-            ExpiresIn=3600,
+        (
+            supabase.storage
+            .from_(SUPABASE_STORAGE_BUCKET)
+            .remove([key])
         )
 
     except Exception as exc:
         print(
-            f"R2 presigned URL error: {exc}"
+            f"Supabase Storage delete error "
+            f"for {key}: {exc}"
+        )
+
+
+def generate_video_url(key: str):
+    """
+    Generate a temporary signed URL for a
+    private Supabase Storage bucket.
+    """
+
+    try:
+        response = (
+            supabase.storage
+            .from_(SUPABASE_STORAGE_BUCKET)
+            .create_signed_url(
+                key,
+                3600,
+            )
+        )
+
+        # Different supabase-py versions may use
+        # slightly different response key names.
+        video_url = (
+            response.get("signedURL")
+            or response.get("signedUrl")
+            or response.get("signed_url")
+        )
+
+        if not video_url:
+            raise ValueError(
+                f"No signed URL returned: {response}"
+            )
+
+        return video_url
+
+    except Exception as exc:
+        print(
+            f"Supabase signed URL error: {exc}"
         )
 
         raise HTTPException(
@@ -309,11 +295,6 @@ def generate_video_url(key: str):
 # ============================================================
 
 def is_admin(request: Request):
-    """
-    Check whether the current session
-    belongs to an authenticated admin.
-    """
-
     return request.session.get("admin") is True
 
 
@@ -347,7 +328,6 @@ async def video_page(
 
     current_key = get_current_key()
 
-    # No active video
     if not current_key:
 
         return templates.TemplateResponse(
@@ -361,7 +341,6 @@ async def video_page(
             },
         )
 
-    # Generate temporary R2 URL
     video_url = generate_video_url(
         current_key
     )
@@ -388,7 +367,6 @@ async def admin_page(
     request: Request,
 ):
 
-    # Show login page if not authenticated
     if not is_admin(request):
 
         return templates.TemplateResponse(
@@ -401,7 +379,6 @@ async def admin_page(
 
     current_key = get_current_key()
 
-    # Permanent public URL
     public_video_url = (
         f"{PUBLIC_URL}/video"
         if PUBLIC_URL
@@ -429,7 +406,6 @@ async def admin_login(
     password: str = Form(...),
 ):
 
-    # Secure password comparison
     if not secrets.compare_digest(
         password,
         ADMIN_PASSWORD,
@@ -444,7 +420,6 @@ async def admin_login(
             status_code=401,
         )
 
-    # Create authenticated session
     request.session["admin"] = True
 
     return RedirectResponse(
@@ -463,20 +438,12 @@ async def upload_video(
     video: UploadFile = File(...),
 ):
 
-    # --------------------------------------------------------
-    # Authentication
-    # --------------------------------------------------------
-
     if not is_admin(request):
 
         raise HTTPException(
             status_code=401,
             detail="Login required.",
         )
-
-    # --------------------------------------------------------
-    # Validate filename
-    # --------------------------------------------------------
 
     if not video.filename:
 
@@ -485,10 +452,7 @@ async def upload_video(
             detail="Choose a video.",
         )
 
-    # --------------------------------------------------------
-    # Validate extension
-    # --------------------------------------------------------
-
+    # Supported video formats
     allowed_extensions = {
         ".mp4",
         ".webm",
@@ -509,35 +473,23 @@ async def upload_video(
             ),
         )
 
-    # --------------------------------------------------------
-    # Get current video
-    # --------------------------------------------------------
-
+    # Get currently active video
     old_key = get_current_key()
 
-    # --------------------------------------------------------
-    # Generate random R2 object name
-    # --------------------------------------------------------
-
+    # Generate a unique Storage path
     new_key = (
         f"videos/"
         f"{secrets.token_hex(16)}"
         f"{extension}"
     )
 
-    # --------------------------------------------------------
-    # Upload new video to R2
-    # --------------------------------------------------------
-
-    upload_to_r2(
+    # Upload new video
+    upload_to_storage(
         video,
         new_key,
     )
 
-    # --------------------------------------------------------
-    # Save new video state in Supabase
-    # --------------------------------------------------------
-
+    # Save new video state
     try:
 
         set_current_key(
@@ -546,29 +498,20 @@ async def upload_video(
 
     except Exception:
 
-        # Supabase failed.
-        # Remove the newly uploaded video
-        # to avoid leaving an unused file in R2.
-
-        delete_r2_video(
+        # If database update fails,
+        # remove the newly uploaded file.
+        delete_storage_video(
             new_key
         )
 
         raise
 
-    # --------------------------------------------------------
     # Delete previous video
-    # --------------------------------------------------------
-
     if old_key and old_key != new_key:
 
-        delete_r2_video(
+        delete_storage_video(
             old_key
         )
-
-    # --------------------------------------------------------
-    # Return to admin page
-    # --------------------------------------------------------
 
     return RedirectResponse(
         "/admin",
@@ -585,10 +528,6 @@ async def delete_video(
     request: Request,
 ):
 
-    # --------------------------------------------------------
-    # Authentication
-    # --------------------------------------------------------
-
     if not is_admin(request):
 
         raise HTTPException(
@@ -596,25 +535,15 @@ async def delete_video(
             detail="Login required.",
         )
 
-    # --------------------------------------------------------
-    # Get current video
-    # --------------------------------------------------------
-
     current_key = get_current_key()
 
     if current_key:
 
-        # ----------------------------------------------------
-        # Remove current state from Supabase
-        # ----------------------------------------------------
-
+        # Remove database state first
         clear_current_key()
 
-        # ----------------------------------------------------
-        # Remove actual video from R2
-        # ----------------------------------------------------
-
-        delete_r2_video(
+        # Remove actual video
+        delete_storage_video(
             current_key
         )
 
@@ -650,20 +579,12 @@ async def barcode_image(
     request: Request,
 ):
 
-    # --------------------------------------------------------
-    # Authentication
-    # --------------------------------------------------------
-
     if not is_admin(request):
 
         raise HTTPException(
             status_code=401,
             detail="Login required.",
         )
-
-    # --------------------------------------------------------
-    # Public URL required
-    # --------------------------------------------------------
 
     if not PUBLIC_URL:
 
@@ -672,27 +593,17 @@ async def barcode_image(
             detail="Set PUBLIC_URL first.",
         )
 
-    # --------------------------------------------------------
-    # Permanent barcode destination
-    # --------------------------------------------------------
+    # IMPORTANT:
+    # The barcode points to the permanent
+    # application URL, NOT the video file.
+    target = f"{PUBLIC_URL}/video"
 
-    target = (
-        f"{PUBLIC_URL}/video"
-    )
-
-    # --------------------------------------------------------
     # Generate Code 128 barcode
-    # --------------------------------------------------------
-
     code = barcode.get(
         "code128",
         target,
         writer=ImageWriter(),
     )
-
-    # --------------------------------------------------------
-    # Create PNG in memory
-    # --------------------------------------------------------
 
     buffer = BytesIO()
 
@@ -709,10 +620,6 @@ async def barcode_image(
     )
 
     buffer.seek(0)
-
-    # --------------------------------------------------------
-    # Return barcode image
-    # --------------------------------------------------------
 
     return StreamingResponse(
         buffer,
