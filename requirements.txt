@@ -3,7 +3,6 @@ uvicorn[standard]
 jinja2
 python-multipart
 itsdangerous
-boto3
 python-barcode
 pillow
 supabase
