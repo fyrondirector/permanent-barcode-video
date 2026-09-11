@@ -1,19 +1,378 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Video</title>
-<link rel="stylesheet" href="/static/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Our Special Video</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255, 150, 180, 0.18), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(150, 180, 255, 0.15), transparent 30%),
+                #09090d;
+            color: #ffffff;
+        }
+
+        /* =========================
+           VIDEO AVAILABLE
+           ========================= */
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 16px;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 13px;
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            color: #d4d4d8;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #7dd3fc;
+            box-shadow: 0 0 12px rgba(125, 211, 252, 0.8);
+        }
+
+        .title {
+            margin: 14px 0 0;
+
+            font-family: "Playfair Display", serif;
+            font-size: clamp(30px, 6vw, 52px);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            margin: 10px auto 0;
+            max-width: 600px;
+
+            color: #a1a1aa;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           VIDEO CONTAINER
+           ========================= */
+
+        .video-wrapper {
+            width: 100%;
+            max-width: 1000px;
+
+            padding: 8px;
+
+            border-radius: 24px;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.55),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
+
+            backdrop-filter: blur(15px);
+        }
+
+        .video-container {
+            position: relative;
+
+            width: 100%;
+
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            background: #000;
+
+            aspect-ratio: 16 / 9;
+        }
+
+        .video {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            background: #000;
+        }
+
+        /* =========================
+           BOTTOM MESSAGE
+           ========================= */
+
+        .footer {
+            width: 100%;
+            max-width: 1000px;
+
+            margin-top: 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: #71717a;
+            font-size: 12px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .lock {
+            font-size: 13px;
+        }
+
+        .footer-right {
+            opacity: 0.7;
+        }
+
+        /* =========================
+           EMPTY STATE
+           ========================= */
+
+        .empty-page {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .empty-card {
+            width: 100%;
+            max-width: 480px;
+
+            text-align: center;
+
+            padding: 48px 30px;
+
+            border-radius: 28px;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.45);
+
+            backdrop-filter: blur(18px);
+        }
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 22px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            font-size: 28px;
+        }
+
+        .empty-card h1 {
+            margin: 0;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: 30px;
+        }
+
+        .empty-card p {
+            margin: 12px 0 0;
+
+            color: #a1a1aa;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 22px 10px;
+            }
+
+            .header {
+                margin-bottom: 16px;
+            }
+
+            .title {
+                font-size: 31px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .video-wrapper {
+                padding: 5px;
+                border-radius: 17px;
+            }
+
+            .video-container {
+                border-radius: 13px;
+            }
+
+            .footer {
+                padding: 0 4px;
+                font-size: 10px;
+            }
+        }
+    </style>
 </head>
-<body class="viewer">
+
+<body>
+
 {% if video_url %}
-<video class="video" controls autoplay playsinline preload="metadata">
-  <source src="{{ video_url }}">
-  Your browser does not support video playback.
-</video>
+
+    <main class="page">
+
+        <header class="header">
+
+            <div class="badge">
+                <span class="badge-dot"></span>
+                Private Video
+            </div>
+
+            <h1 class="title">
+                A Moment Worth Watching
+            </h1>
+
+            <p class="subtitle">
+                Scan. Watch. Enjoy.
+            </p>
+
+        </header>
+
+
+        <section class="video-wrapper">
+
+            <div class="video-container">
+
+                <video
+                    class="video"
+                    controls
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                >
+
+                    <source
+                        src="{{ video_url }}"
+                        type="video/mp4"
+                    >
+
+                    Your browser does not support video playback.
+
+                </video>
+
+            </div>
+
+        </section>
+
+
+        <footer class="footer">
+
+            <div class="footer-left">
+                <span class="lock">🔒</span>
+                <span>Secure video access</span>
+            </div>
+
+            <div class="footer-right">
+                Permanent access link
+            </div>
+
+        </footer>
+
+    </main>
+
 {% else %}
-<div class="empty"><h2>No video available</h2><p>{{ message }}</p></div>
+
+    <main class="empty-page">
+
+        <section class="empty-card">
+
+            <div class="empty-icon">
+                ▶
+            </div>
+
+            <h1>
+                Video Coming Soon
+            </h1>
+
+            <p>
+                There is currently no video available.
+                Please check again later.
+            </p>
+
+        </section>
+
+    </main>
+
 {% endif %}
+
 </body>
 </html>
