@@ -19,6 +19,7 @@ from fastapi.responses import (
 )
 
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -68,6 +69,21 @@ SUPABASE_STORAGE_BUCKET = os.environ.get(
 
 app = FastAPI(
     title="Permanent Barcode Video"
+)
+
+
+# ============================================================
+# STATIC FILES
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+
+app.mount(
+    "/static",
+    StaticFiles(
+        directory=BASE_DIR / "static"
+    ),
+    name="static",
 )
 
 
