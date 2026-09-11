@@ -63,38 +63,57 @@
 
 
         /* =====================================================
-           COMMON PAGE TRANSITION
-           ===================================================== */
+   COMMON PAGE TRANSITION
+   ===================================================== */
 
-        .stage {
-            width: 100%;
-            min-height: 100vh;
+.stage {
+    width: 100%;
+    min-height: 100vh;
 
-            opacity: 0;
-            visibility: hidden;
+    /* Completely remove inactive stages from layout */
+    display: none;
 
-            transform: translateY(25px);
+    opacity: 0;
+    visibility: hidden;
 
-            transition:
-                opacity 0.9s ease,
-                transform 0.9s ease,
-                visibility 0.9s ease;
+    transform: translateY(25px);
 
-            position: absolute;
-            inset: 0;
+    overflow: hidden;
+}
 
-            overflow: hidden;
-        }
 
-        .stage.show {
-            opacity: 1;
-            visibility: visible;
+/* =====================================================
+   ACTIVE STAGE
+   ===================================================== */
 
-            transform: translateY(0);
+.stage.show {
+    display: flex;
 
-            position: relative;
-        }
+    opacity: 1;
+    visibility: visible;
 
+    transform: translateY(0);
+
+    animation: stageReveal 0.9s ease forwards;
+}
+
+
+/* =====================================================
+   STAGE REVEAL
+   ===================================================== */
+
+@keyframes stageReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
         /* =====================================================
            BIRTHDAY INTRO
