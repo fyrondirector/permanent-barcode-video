@@ -1,7 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,6 +18,10 @@
 
     <style>
 
+        /* =====================================================
+           GLOBAL
+           ===================================================== */
+
         * {
             box-sizing: border-box;
         }
@@ -30,37 +35,34 @@
         }
 
         body {
-            font-family: "DM Sans", sans-serif;
 
-            background:
-                radial-gradient(
-                    circle at 15% 15%,
-                    rgba(255, 120, 170, 0.22),
-                    transparent 32%
-                ),
-                radial-gradient(
-                    circle at 85% 85%,
-                    rgba(255, 180, 100, 0.16),
-                    transparent 32%
-                ),
-                radial-gradient(
-                    circle at 50% 50%,
-                    rgba(180, 100, 255, 0.08),
-                    transparent 45%
-                ),
-                #09090d;
+            font-family: "DM Sans", sans-serif;
 
             color: #ffffff;
 
             overflow-x: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 20% 15%,
+                    rgba(255, 100, 160, 0.15),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 80% 85%,
+                    rgba(160, 100, 255, 0.12),
+                    transparent 30%
+                ),
+                #09090d;
         }
 
 
         /* =====================================================
-           INTRO / BIRTHDAY REVEAL
+           BIRTHDAY INTRO
            ===================================================== */
 
         .birthday-intro {
+
             position: fixed;
 
             inset: 0;
@@ -70,28 +72,80 @@
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             overflow: hidden;
 
             background:
                 radial-gradient(
-                    circle at center,
-                    rgba(255, 100, 160, 0.12),
-                    transparent 45%
+                    circle at 50% 48%,
+                    rgba(255, 90, 160, 0.13),
+                    transparent 35%
                 ),
-                #09090d;
+                #08080c;
+
+            opacity: 1;
+
+            visibility: visible;
 
             transition:
-                opacity 1s ease,
-                visibility 1s ease;
+                opacity 1.2s ease,
+                visibility 1.2s ease;
         }
 
 
         .birthday-intro.hide {
+
             opacity: 0;
+
             visibility: hidden;
+
             pointer-events: none;
+        }
+
+
+        /* =====================================================
+           CENTER GLOW
+           ===================================================== */
+
+        .intro-glow {
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255, 120, 175, 0.11),
+                    transparent 68%
+                );
+
+            filter: blur(10px);
+
+            animation:
+                glowPulse 3s ease-in-out infinite;
+
+            pointer-events: none;
+        }
+
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+                opacity: 0.55;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
         }
 
 
@@ -100,121 +154,317 @@
            ===================================================== */
 
         .birthday-message {
+
             position: relative;
 
-            z-index: 10;
+            z-index: 20;
 
-            width: 90%;
+            width: min(1000px, 92vw);
 
             text-align: center;
 
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
             opacity: 0;
 
-            transform: scale(0.65) translateY(20px);
+            transform: translateY(25px) scale(0.94);
 
             animation:
-                birthdayAppear 1.3s
-                cubic-bezier(0.17, 0.67, 0.25, 1.2)
-                1.3s
+                messageReveal 1.3s
+                cubic-bezier(.16, 1, .3, 1)
+                1.05s
                 forwards;
         }
 
 
-        .birthday-small {
-            margin-bottom: 15px;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
-            letter-spacing: 3px;
-
-            text-transform: uppercase;
-
-            color: #f9a8d4;
-
-            opacity: 0.9;
-        }
-
-
-        .birthday-title {
-            margin: 0;
-
-            font-family: "Playfair Display", serif;
-
-            font-size: clamp(40px, 8vw, 76px);
-
-            line-height: 1.08;
-
-            font-weight: 700;
-
-            letter-spacing: -1px;
-
-            background:
-                linear-gradient(
-                    120deg,
-                    #ffffff,
-                    #ffd6e7,
-                    #ffffff
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-
-            text-shadow:
-                0 0 40px rgba(255, 150, 190, 0.20);
-        }
-
-
-        .birthday-heart {
-            display: inline-block;
-
-            margin-left: 5px;
-
-            animation:
-                heartBeat 1.2s
-                ease-in-out
-                infinite;
-        }
-
-
-        .birthday-subtitle {
-            margin: 18px 0 0;
-
-            color: #a1a1aa;
-
-            font-size: 14px;
-
-            letter-spacing: 0.5px;
-        }
-
-
-        @keyframes birthdayAppear {
+        @keyframes messageReveal {
 
             0% {
                 opacity: 0;
 
                 transform:
-                    scale(0.65)
-                    translateY(25px);
-            }
-
-            60% {
-                opacity: 1;
-
-                transform:
-                    scale(1.08)
-                    translateY(0);
+                    translateY(25px)
+                    scale(0.94);
             }
 
             100% {
                 opacity: 1;
 
                 transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           SMALL TITLE
+           ===================================================== */
+
+        .birthday-small {
+
+            margin-bottom: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            color: #f5b3cc;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 3.5px;
+
+            text-transform: uppercase;
+
+            opacity: 0;
+
+            animation:
+                fadeUp 0.8s
+                ease
+                0.8s
+                forwards;
+        }
+
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           MAIN BIRTHDAY TITLE
+           ===================================================== */
+
+        .birthday-title {
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(
+                42px,
+                7vw,
+                78px
+            );
+
+            line-height: 1.04;
+
+            font-weight: 700;
+
+            letter-spacing: -1.5px;
+
+            text-align: center;
+        }
+
+
+        .birthday-line {
+
+            display: block;
+
+            opacity: 0;
+
+            transform: translateY(20px);
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #ffffff 10%,
+                    #ffd5e5 50%,
+                    #ffffff 90%
+                );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            color: transparent;
+        }
+
+
+        .birthday-line.one {
+
+            animation:
+                titleLineReveal
+                1s
+                cubic-bezier(.16, 1, .3, 1)
+                1.1s
+                forwards;
+        }
+
+
+        .birthday-line.two {
+
+            animation:
+                titleLineReveal
+                1s
+                cubic-bezier(.16, 1, .3, 1)
+                1.35s
+                forwards;
+        }
+
+
+        @keyframes titleLineReveal {
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    translateY(25px)
+                    scale(0.96);
+            }
+
+            100% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           HEART
+           ===================================================== */
+
+        .heart-wrapper {
+
+            margin-top: 22px;
+
+            width: 42px;
+            height: 42px;
+
+            position: relative;
+
+            opacity: 0;
+
+            animation:
+                heartReveal
+                0.8s
+                cubic-bezier(.16, 1, .3, 1)
+                1.75s
+                forwards;
+        }
+
+
+        .heart {
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            width: 31px;
+            height: 31px;
+
+            background: #ff6f9f;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(-45deg);
+
+            border-radius:
+                5px 0 5px 0;
+
+            box-shadow:
+                0 0 20px rgba(255, 111, 159, 0.45),
+                0 0 45px rgba(255, 111, 159, 0.18);
+
+            animation:
+                heartBeat 1.25s
+                ease-in-out
+                2.4s
+                infinite;
+        }
+
+
+        .heart::before,
+        .heart::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 31px;
+            height: 31px;
+
+            background: #ff6f9f;
+
+            border-radius: 50%;
+        }
+
+
+        .heart::before {
+
+            top: -15px;
+
+            left: 0;
+        }
+
+
+        .heart::after {
+
+            left: 15px;
+
+            top: 0;
+        }
+
+
+        @keyframes heartReveal {
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    scale(0.2)
+                    rotate(-20deg);
+            }
+
+            70% {
+
+                opacity: 1;
+
+                transform:
+                    scale(1.15)
+                    rotate(5deg);
+            }
+
+            100% {
+
+                opacity: 1;
+
+                transform:
                     scale(1)
-                    translateY(0);
+                    rotate(0);
             }
         }
 
@@ -223,28 +473,62 @@
 
             0%,
             100% {
-                transform: scale(1);
+
+                transform:
+                    translate(-50%, -50%)
+                    rotate(-45deg)
+                    scale(1);
             }
 
             50% {
-                transform: scale(1.25);
+
+                transform:
+                    translate(-50%, -50%)
+                    rotate(-45deg)
+                    scale(1.16);
             }
         }
 
 
         /* =====================================================
-           PARTY POPPER CANNONS
+           SUBTITLE
+           ===================================================== */
+
+        .birthday-subtitle {
+
+            margin: 18px 0 0;
+
+            color: #9f9fa8;
+
+            font-size: 14px;
+
+            letter-spacing: 0.4px;
+
+            opacity: 0;
+
+            animation:
+                fadeUp
+                0.8s
+                ease
+                2s
+                forwards;
+        }
+
+
+        /* =====================================================
+           PARTY POPPERS
            ===================================================== */
 
         .popper {
+
             position: absolute;
 
-            z-index: 5;
+            z-index: 15;
 
-            bottom: 12%;
+            bottom: 10%;
 
-            width: 70px;
-            height: 150px;
+            width: 90px;
+            height: 180px;
 
             opacity: 0;
 
@@ -253,28 +537,46 @@
 
 
         .popper.left {
-            left: 5%;
 
-            transform: rotate(-35deg);
+            left: 4%;
+
+            transform-origin: bottom center;
+
+            animation:
+                leftPopper
+                0.85s
+                cubic-bezier(.17, .67, .25, 1.2)
+                0.2s
+                forwards;
         }
 
 
         .popper.right {
-            right: 5%;
 
-            transform: rotate(35deg) scaleX(-1);
+            right: 4%;
+
+            transform-origin: bottom center;
+
+            animation:
+                rightPopper
+                0.85s
+                cubic-bezier(.17, .67, .25, 1.2)
+                0.2s
+                forwards;
         }
 
 
         .popper-body {
+
             position: absolute;
 
             bottom: 0;
 
-            left: 20px;
+            left: 30px;
 
-            width: 32px;
-            height: 95px;
+            width: 35px;
+
+            height: 105px;
 
             border-radius: 18px;
 
@@ -286,101 +588,127 @@
                 );
 
             box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.3);
+                0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
 
-        .popper-body::after {
+        .popper-body::before {
+
             content: "";
 
             position: absolute;
 
-            top: -12px;
-            left: 4px;
+            top: -13px;
 
-            width: 24px;
-            height: 24px;
+            left: 3px;
+
+            width: 29px;
+            height: 29px;
 
             border-radius: 50%;
 
-            background: #fef3c7;
+            background: #ffe4ed;
+
+            box-shadow:
+                0 0 18px rgba(255, 220, 235, 0.35);
         }
 
 
-        .popper {
-            animation:
-                popperBlast 0.7s
-                ease-out
-                0.5s
-                forwards;
+        .popper.left .popper-body {
+
+            transform: rotate(-32deg);
         }
 
 
-        @keyframes popperBlast {
+        .popper.right .popper-body {
+
+            transform: rotate(32deg);
+        }
+
+
+        @keyframes leftPopper {
 
             0% {
+
                 opacity: 0;
 
                 transform:
-                    rotate(-35deg)
-                    translateY(50px)
-                    scale(0.7);
+                    translate(-80px, 100px)
+                    rotate(-15deg)
+                    scale(0.6);
             }
 
-            30% {
+            35% {
+
                 opacity: 1;
 
                 transform:
-                    rotate(-35deg)
-                    translateY(0)
+                    translate(0, 0)
+                    rotate(-8deg)
                     scale(1.05);
             }
 
+            55% {
+
+                opacity: 1;
+
+                transform:
+                    translate(0, -10px)
+                    rotate(-8deg)
+                    scale(1.1);
+            }
+
             100% {
+
                 opacity: 0;
 
                 transform:
-                    rotate(-35deg)
-                    translateY(-15px)
+                    translate(0, -15px)
+                    rotate(-8deg)
                     scale(1);
             }
         }
 
 
-        .right {
-            animation-name: popperBlastRight;
-        }
-
-
-        @keyframes popperBlastRight {
+        @keyframes rightPopper {
 
             0% {
+
                 opacity: 0;
 
                 transform:
-                    rotate(35deg)
-                    scaleX(-1)
-                    translateY(50px)
-                    scale(0.7);
+                    translate(80px, 100px)
+                    rotate(15deg)
+                    scale(0.6);
             }
 
-            30% {
+            35% {
+
                 opacity: 1;
 
                 transform:
-                    rotate(35deg)
-                    scaleX(-1)
-                    translateY(0)
+                    translate(0, 0)
+                    rotate(8deg)
                     scale(1.05);
             }
 
+            55% {
+
+                opacity: 1;
+
+                transform:
+                    translate(0, -10px)
+                    rotate(8deg)
+                    scale(1.1);
+            }
+
             100% {
+
                 opacity: 0;
 
                 transform:
-                    rotate(35deg)
-                    scaleX(-1)
-                    translateY(-15px)
+                    translate(0, -15px)
+                    rotate(8deg)
                     scale(1);
             }
         }
@@ -391,11 +719,12 @@
            ===================================================== */
 
         .confetti-container {
+
             position: absolute;
 
             inset: 0;
 
-            z-index: 4;
+            z-index: 5;
 
             pointer-events: none;
 
@@ -404,51 +733,66 @@
 
 
         .confetti {
+
             position: absolute;
 
-            top: -30px;
+            width: 9px;
+            height: 15px;
 
-            width: 8px;
-            height: 14px;
+            top: 45%;
+
+            left: 50%;
 
             border-radius: 2px;
 
             opacity: 0;
 
             animation:
-                confettiFall
+                confettiBlast
                 2.8s
-                ease-in
-                0.55s
+                cubic-bezier(.15, .7, .25, 1)
                 forwards;
         }
 
 
-        @keyframes confettiFall {
+        @keyframes confettiBlast {
 
             0% {
+
                 opacity: 1;
 
                 transform:
-                    translateY(0)
-                    rotate(0deg);
+                    translate(0, 0)
+                    rotate(0deg)
+                    scale(0.6);
+            }
+
+            15% {
+
+                opacity: 1;
             }
 
             100% {
+
                 opacity: 0;
 
                 transform:
-                    translateY(110vh)
-                    rotate(720deg);
+                    translate(
+                        var(--x),
+                        var(--y)
+                    )
+                    rotate(var(--rotation))
+                    scale(1);
             }
         }
 
 
         /* =====================================================
-           MAIN PAGE
+           MAIN VIDEO PAGE
            ===================================================== */
 
         .page {
+
             min-height: 100vh;
 
             display: flex;
@@ -466,12 +810,13 @@
             transform: translateY(25px);
 
             transition:
-                opacity 1.2s ease,
-                transform 1.2s ease;
+                opacity 1.3s ease,
+                transform 1.3s ease;
         }
 
 
         .page.show {
+
             opacity: 1;
 
             transform: translateY(0);
@@ -483,7 +828,9 @@
            ===================================================== */
 
         .header {
+
             width: 100%;
+
             max-width: 1000px;
 
             text-align: center;
@@ -493,6 +840,7 @@
 
 
         .badge {
+
             display: inline-flex;
 
             align-items: center;
@@ -503,9 +851,11 @@
 
             border-radius: 999px;
 
-            background: rgba(255, 255, 255, 0.07);
+            background:
+                rgba(255, 255, 255, 0.07);
 
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
 
             color: #f4d4df;
 
@@ -522,7 +872,9 @@
 
 
         .badge-dot {
+
             width: 7px;
+
             height: 7px;
 
             border-radius: 50%;
@@ -530,17 +882,18 @@
             background: #fb7185;
 
             box-shadow:
-                0 0 10px rgba(251, 113, 133, 0.9),
-                0 0 20px rgba(251, 113, 133, 0.35);
+                0 0 10px rgba(251, 113, 133, 0.9);
         }
 
 
         .title {
+
             margin: 17px 0 0;
 
             font-family: "Playfair Display", serif;
 
-            font-size: clamp(32px, 6vw, 55px);
+            font-size:
+                clamp(32px, 6vw, 55px);
 
             line-height: 1.1;
 
@@ -551,6 +904,7 @@
 
 
         .subtitle {
+
             margin: 11px auto 0;
 
             max-width: 620px;
@@ -568,7 +922,9 @@
            ===================================================== */
 
         .video-wrapper {
+
             width: 100%;
+
             max-width: 1000px;
 
             padding: 8px;
@@ -582,7 +938,8 @@
                     rgba(255, 255, 255, 0.035)
                 );
 
-            border: 1px solid rgba(255, 255, 255, 0.11);
+            border:
+                1px solid rgba(255, 255, 255, 0.11);
 
             box-shadow:
                 0 30px 80px rgba(0, 0, 0, 0.60),
@@ -593,6 +950,7 @@
 
 
         .video-container {
+
             position: relative;
 
             width: 100%;
@@ -608,9 +966,11 @@
 
 
         .video {
+
             display: block;
 
             width: 100%;
+
             height: 100%;
 
             object-fit: contain;
@@ -624,7 +984,9 @@
            ===================================================== */
 
         .footer {
+
             width: 100%;
+
             max-width: 1000px;
 
             margin-top: 18px;
@@ -642,6 +1004,7 @@
 
 
         .footer-left {
+
             display: flex;
 
             align-items: center;
@@ -665,6 +1028,7 @@
            ===================================================== */
 
         .empty-page {
+
             min-height: 100vh;
 
             display: flex;
@@ -678,7 +1042,9 @@
 
 
         .empty-card {
+
             width: 100%;
+
             max-width: 480px;
 
             text-align: center;
@@ -687,9 +1053,11 @@
 
             border-radius: 28px;
 
-            background: rgba(255, 255, 255, 0.06);
+            background:
+                rgba(255, 255, 255, 0.06);
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
 
             box-shadow:
                 0 30px 80px rgba(0, 0, 0, 0.45);
@@ -699,7 +1067,9 @@
 
 
         .empty-icon {
+
             width: 70px;
+
             height: 70px;
 
             margin: 0 auto 22px;
@@ -710,13 +1080,15 @@
 
             border-radius: 50%;
 
-            background: rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, 0.08);
 
             font-size: 28px;
         }
 
 
         .empty-card h1 {
+
             margin: 0;
 
             font-family: "Playfair Display", serif;
@@ -726,6 +1098,7 @@
 
 
         .empty-card p {
+
             margin: 12px 0 0;
 
             color: #a1a1aa;
@@ -743,69 +1116,127 @@
         @media (max-width: 600px) {
 
             .page {
-                padding: 24px 10px;
+
+                padding:
+                    24px 10px;
             }
 
+
             .header {
+
                 margin-bottom: 17px;
             }
 
+
             .badge {
+
                 font-size: 10px;
 
-                padding: 7px 12px;
+                padding:
+                    7px 12px;
             }
 
+
             .title {
+
                 font-size: 32px;
             }
 
+
             .subtitle {
+
                 font-size: 13px;
             }
 
+
             .video-wrapper {
+
                 padding: 5px;
 
                 border-radius: 17px;
             }
 
+
             .video-container {
+
                 border-radius: 13px;
             }
 
+
             .footer {
+
                 padding: 0 4px;
 
                 font-size: 10px;
             }
 
-            .birthday-title {
-                font-size: 38px;
 
-                padding: 0 10px;
+            .birthday-title {
+
+                font-size:
+                    clamp(37px, 10vw, 52px);
+
+                line-height: 1.08;
+
+                letter-spacing: -0.8px;
             }
+
 
             .birthday-small {
-                font-size: 10px;
 
-                letter-spacing: 2px;
+                font-size: 9px;
+
+                letter-spacing: 2.5px;
             }
 
+
             .birthday-subtitle {
+
                 font-size: 12px;
             }
 
-            .popper.left {
-                left: -8%;
+
+            .heart-wrapper {
+
+                margin-top: 18px;
             }
 
+
+            .popper.left {
+
+                left: -45px;
+            }
+
+
             .popper.right {
-                right: -8%;
+
+                right: -45px;
+            }
+        }
+
+
+        /* =====================================================
+           REDUCE MOTION
+           ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                scroll-behavior: auto !important;
+
+                transition-duration: 0.01ms !important;
             }
         }
 
     </style>
+
 </head>
 
 
@@ -824,6 +1255,11 @@
         class="birthday-intro"
     >
 
+        <!-- CENTER GLOW -->
+
+        <div class="intro-glow"></div>
+
+
         <!-- CONFETTI -->
 
         <div
@@ -832,7 +1268,7 @@
         ></div>
 
 
-        <!-- LEFT PARTY POPPER -->
+        <!-- LEFT POPPER -->
 
         <div class="popper left">
 
@@ -841,7 +1277,7 @@
         </div>
 
 
-        <!-- RIGHT PARTY POPPER -->
+        <!-- RIGHT POPPER -->
 
         <div class="popper right">
 
@@ -855,14 +1291,37 @@
         <div class="birthday-message">
 
             <div class="birthday-small">
-                🎂 A Special Day 🎂
+
+                <span>🎂</span>
+
+                <span>A Special Day</span>
+
+                <span>🎂</span>
+
             </div>
 
+
             <h1 class="birthday-title">
-                Happy Birthday<br>
-                My Dear Pisasu
-                <span class="birthday-heart">❤️</span>
+
+                <span class="birthday-line one">
+                    Happy Birthday
+                </span>
+
+                <span class="birthday-line two">
+                    My Dear Pisasu
+                </span>
+
             </h1>
+
+
+            <!-- PROPER FULL HEART -->
+
+            <div class="heart-wrapper">
+
+                <div class="heart"></div>
+
+            </div>
+
 
             <p class="birthday-subtitle">
                 Today is all about you. ✨
@@ -871,6 +1330,7 @@
         </div>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -1001,6 +1461,10 @@
 
 <script>
 
+    /* =====================================================
+       ELEMENTS
+       ===================================================== */
+
     const intro =
         document.getElementById("birthdayIntro");
 
@@ -1014,11 +1478,9 @@
         document.getElementById("confettiContainer");
 
 
-    /*
-     * =========================================================
-     * CREATE CONFETTI
-     * =========================================================
-     */
+    /* =====================================================
+       CREATE PARTY CONFETTI
+       ===================================================== */
 
     function createConfetti() {
 
@@ -1027,96 +1489,152 @@
         }
 
 
-        const pieces = 100;
+        const colors = [
+
+            "#f9a8d4",
+            "#fb7185",
+            "#fda4af",
+            "#fde68a",
+            "#fef3c7",
+            "#c4b5fd",
+            "#93c5fd",
+            "#ffffff"
+
+        ];
 
 
-        for (let i = 0; i < pieces; i++) {
+        const totalPieces = 130;
 
-            const confetti =
+
+        for (
+            let i = 0;
+            i < totalPieces;
+            i++
+        ) {
+
+            const piece =
                 document.createElement("span");
 
 
-            confetti.className = "confetti";
+            piece.className =
+                "confetti";
 
 
             /*
-             * Random horizontal position
+             * Start around the center.
              */
 
-            confetti.style.left =
-                Math.random() * 100 + "%";
+            piece.style.left =
+                "50%";
+
+            piece.style.top =
+                "42%";
 
 
             /*
-             * Different sizes
+             * Random direction.
              */
 
-            const width =
-                Math.random() * 7 + 5;
-
-            const height =
-                Math.random() * 10 + 8;
-
-
-            confetti.style.width =
-                width + "px";
-
-            confetti.style.height =
-                height + "px";
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
 
 
             /*
-             * Random colors
+             * Different blast distances.
              */
 
-            const colors = [
-                "#f9a8d4",
-                "#fb7185",
-                "#fda4af",
-                "#fde68a",
-                "#fef3c7",
-                "#c4b5fd",
-                "#93c5fd",
-                "#ffffff"
-            ];
+            const distance =
+                180 +
+                Math.random() * 500;
 
 
-            confetti.style.background =
+            const x =
+                Math.cos(angle) *
+                distance;
+
+
+            const y =
+                Math.sin(angle) *
+                distance +
+                200;
+
+
+            piece.style.setProperty(
+                "--x",
+                x + "px"
+            );
+
+
+            piece.style.setProperty(
+                "--y",
+                y + "px"
+            );
+
+
+            /*
+             * Random rotation.
+             */
+
+            piece.style.setProperty(
+                "--rotation",
+                (Math.random() * 1000 - 500) +
+                "deg"
+            );
+
+
+            /*
+             * Random color.
+             */
+
+            piece.style.background =
                 colors[
                     Math.floor(
-                        Math.random() * colors.length
+                        Math.random() *
+                        colors.length
                     )
                 ];
 
 
             /*
-             * Random falling speed
+             * Random size.
              */
 
-            confetti.style.animationDuration =
-                (Math.random() * 2 + 2.2) + "s";
+            piece.style.width =
+                (5 + Math.random() * 7) +
+                "px";
+
+
+            piece.style.height =
+                (8 + Math.random() * 11) +
+                "px";
 
 
             /*
-             * Random delay
+             * Different timing.
              */
 
-            confetti.style.animationDelay =
-                (Math.random() * 0.8) + "s";
+            piece.style.animationDelay =
+                (Math.random() * 0.45) +
+                "s";
 
 
-            confettiContainer.appendChild(confetti);
+            piece.style.animationDuration =
+                (2.4 + Math.random() * 1.3) +
+                "s";
+
+
+            confettiContainer.appendChild(piece);
 
         }
 
     }
 
 
-    /*
-     * =========================================================
-     * VIDEO AUTOPLAY
-     * =========================================================
-     */
+    /* =====================================================
+       START VIDEO
+       ===================================================== */
 
     async function startVideo() {
 
@@ -1126,8 +1644,7 @@
 
 
         /*
-         * Start muted because browsers commonly
-         * block autoplay with sound.
+         * Browser-friendly autoplay.
          */
 
         video.muted = true;
@@ -1139,7 +1656,7 @@
 
 
             /*
-             * Try to turn sound on.
+             * Attempt sound.
              */
 
             video.muted = false;
@@ -1152,8 +1669,7 @@
             } catch (error) {
 
                 /*
-                 * Browser blocked sound autoplay.
-                 * Keep video playing muted.
+                 * Browser rejected sound autoplay.
                  */
 
                 video.muted = true;
@@ -1163,7 +1679,7 @@
         } catch (error) {
 
             console.log(
-                "Video autoplay was blocked."
+                "Autoplay was blocked."
             );
 
         }
@@ -1171,11 +1687,9 @@
     }
 
 
-    /*
-     * =========================================================
-     * ENABLE SOUND AFTER FIRST USER INTERACTION
-     * =========================================================
-     */
+    /* =====================================================
+       ENABLE SOUND AFTER USER INTERACTION
+       ===================================================== */
 
     function enableSound() {
 
@@ -1208,58 +1722,54 @@
     }
 
 
-    /*
-     * =========================================================
-     * BIRTHDAY SEQUENCE
-     *
-     * 0.0s  → Page opens
-     * 0.5s  → Party poppers + confetti
-     * 1.8s  → Birthday message appears
-     * 4.8s  → Birthday intro disappears
-     * 5.8s  → Video visible
-     * 5.8s  → Video starts
-     * =========================================================
-     */
+    /* =====================================================
+       BIRTHDAY SEQUENCE
+       ===================================================== */
 
     function startBirthdaySequence() {
+
+        /*
+         * Create confetti immediately.
+         */
 
         createConfetti();
 
 
         /*
-         * Give the poppers and message
-         * time to play.
+         * Reveal video page behind
+         * the birthday introduction.
          */
 
         setTimeout(() => {
 
-            /*
-             * Show main page behind the intro.
-             */
-
             if (mainPage) {
-                mainPage.classList.add("show");
+
+                mainPage.classList.add(
+                    "show"
+                );
+
             }
 
-        }, 2500);
+        }, 3000);
 
 
         /*
-         * Remove birthday intro
+         * Finish birthday intro.
          */
 
         setTimeout(() => {
 
             if (intro) {
 
-                intro.classList.add("hide");
+                intro.classList.add(
+                    "hide"
+                );
 
             }
 
 
             /*
-             * Start video immediately
-             * when reveal finishes.
+             * Start video.
              */
 
             startVideo();
@@ -1269,11 +1779,9 @@
     }
 
 
-    /*
-     * =========================================================
-     * PAGE LOAD
-     * =========================================================
-     */
+    /* =====================================================
+       PAGE LOAD
+       ===================================================== */
 
     window.addEventListener(
         "load",
@@ -1281,11 +1789,9 @@
     );
 
 
-    /*
-     * =========================================================
-     * FIRST INTERACTION → ENABLE SOUND
-     * =========================================================
-     */
+    /* =====================================================
+       USER INTERACTION
+       ===================================================== */
 
     document.addEventListener(
         "click",
@@ -1313,10 +1819,9 @@
         }
     );
 
-
 </script>
 
 
 </body>
+
 </html>
-```
