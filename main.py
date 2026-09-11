@@ -16,6 +16,7 @@ from fastapi.responses import (
     HTMLResponse,
     RedirectResponse,
     StreamingResponse,
+    FileResponse,
 )
 
 from fastapi.templating import Jinja2Templates
@@ -32,25 +33,26 @@ from supabase import create_client, Client
 # ============================================================
 # BASE DIRECTORY
 # ============================================================
-#
-# This points to the directory containing main.py.
-#
-# On Render this should be:
-#
-# /opt/render/project/src
-#
-# Therefore:
-#
-# /opt/render/project/src/static
-# /opt/render/project/src/templates
-#
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent
 
 STATIC_DIR = BASE_DIR / "static"
 
+IMAGES_DIR = STATIC_DIR / "images"
+
 TEMPLATES_DIR = BASE_DIR / "templates"
+
+
+print("============================================================")
+print("APPLICATION PATHS")
+print("============================================================")
+print("BASE_DIR      :", BASE_DIR)
+print("STATIC_DIR    :", STATIC_DIR)
+print("IMAGES_DIR    :", IMAGES_DIR)
+print("TEMPLATES_DIR :", TEMPLATES_DIR)
+print("STATIC EXISTS :", STATIC_DIR.exists())
+print("IMAGES EXISTS :", IMAGES_DIR.exists())
+print("============================================================")
 
 
 # ============================================================
@@ -60,14 +62,6 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 APP_SECRET = os.environ["APP_SECRET"]
 
 ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
-
-
-# ------------------------------------------------------------
-# Render public URL
-#
-# Example:
-# https://permanent-barcode-video.onrender.com
-# ------------------------------------------------------------
 
 PUBLIC_URL = os.environ.get(
     "PUBLIC_URL",
@@ -90,34 +84,6 @@ SUPABASE_STORAGE_BUCKET = os.environ.get(
 
 
 # ============================================================
-# STARTUP PATH CHECK
-# ============================================================
-#
-# These messages will appear in Render logs.
-#
-# They help us confirm that Render actually contains:
-#
-# static/
-# templates/
-#
-# ============================================================
-
-print("============================================================")
-print("APPLICATION PATH CHECK")
-print("============================================================")
-
-print(f"BASE_DIR      : {BASE_DIR}")
-print(f"STATIC_DIR    : {STATIC_DIR}")
-print(f"TEMPLATES_DIR : {TEMPLATES_DIR}")
-
-print(f"BASE_DIR exists      : {BASE_DIR.exists()}")
-print(f"STATIC_DIR exists    : {STATIC_DIR.exists()}")
-print(f"TEMPLATES_DIR exists : {TEMPLATES_DIR.exists()}")
-
-print("============================================================")
-
-
-# ============================================================
 # FASTAPI APPLICATION
 # ============================================================
 
@@ -129,36 +95,63 @@ app = FastAPI(
 # ============================================================
 # STATIC FILES
 # ============================================================
-#
-# This creates the route:
-#
-# /static/...
-#
-# Example:
+
+# Main static directory:
 #
 # /static/style.css
-#
 # /static/images/1.jpeg
+# /static/images/2.jpeg
+# etc.
 #
-# /static/images/10.jpeg
-#
-# And gives the route the name:
-#
-# static
-#
-# Therefore this works inside Jinja:
-#
-# url_for('static', filename='images/1.jpeg')
-#
+# IMPORTANT:
+# This must execute before requests are handled.
+
+if not STATIC_DIR.exists():
+
+    print(
+        f"WARNING: Static directory does not exist: {STATIC_DIR}"
+    )
+
+else:
+
+    print(
+        f"Static directory found: {STATIC_DIR}"
+    )
+
+    app.mount(
+        "/static",
+        StaticFiles(
+            directory=str(STATIC_DIR)
+        ),
+        name="static",
+    )
+
+
+# ============================================================
+# FALLBACK IMAGE ROUTE
 # ============================================================
 
-app.mount(
-    "/static",
-    StaticFiles(
-        directory=STATIC_DIR
-    ),
-    name="static",
+@app.get(
+    "/memory-image/{filename}"
 )
+async def memory_image(
+    filename: str,
+):
+
+    # Prevent path traversal
+    safe_name = Path(filename).name
+
+    image_path = IMAGES_DIR / safe_name
+
+    if not image_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=f"Image not found: {safe_name}",
+        )
+
+    return FileResponse(
+        image_path
+    )
 
 
 # ============================================================
@@ -178,7 +171,7 @@ app.add_middleware(
 # ============================================================
 
 templates = Jinja2Templates(
-    directory=TEMPLATES_DIR
+    directory=str(TEMPLATES_DIR)
 )
 
 
@@ -200,10 +193,29 @@ STATE_KEY = "current_video"
 
 
 # ============================================================
+# MEMORY IMAGES
+# ============================================================
+
+MEMORY_IMAGES = [
+    "/static/images/1.jpeg",
+    "/static/images/2.jpeg",
+    "/static/images/3.jpeg",
+    "/static/images/4.jpeg",
+    "/static/images/5.jpeg",
+    "/static/images/6.jpeg",
+    "/static/images/7.jpeg",
+    "/static/images/8.jpeg",
+    "/static/images/9.jpeg",
+    "/static/images/10.jpeg",
+]
+
+
+# ============================================================
 # SUPABASE DATABASE
 # ============================================================
 
 def get_current_key():
+
     """
     Get the currently active video path
     from the Supabase app_state table.
@@ -222,9 +234,7 @@ def get_current_key():
 
         if response.data:
 
-            value = response.data[0].get(
-                "value"
-            )
+            value = response.data[0].get("value")
 
             if value:
                 return value
@@ -241,7 +251,10 @@ def get_current_key():
         return None
 
 
-def set_current_key(key: str):
+def set_current_key(
+    key: str,
+):
+
     """
     Store the currently active video path
     in Supabase.
@@ -276,6 +289,7 @@ def set_current_key(key: str):
 
 
 def clear_current_key():
+
     """
     Remove the current video state
     from Supabase.
@@ -312,6 +326,7 @@ def upload_to_storage(
     video: UploadFile,
     key: str,
 ):
+
     """
     Upload video to Supabase Storage.
     """
@@ -361,7 +376,10 @@ def upload_to_storage(
         )
 
 
-def delete_storage_video(key: str):
+def delete_storage_video(
+    key: str,
+):
+
     """
     Delete a video from Supabase Storage.
     """
@@ -388,7 +406,10 @@ def delete_storage_video(key: str):
         )
 
 
-def generate_video_url(key: str):
+def generate_video_url(
+    key: str,
+):
+
     """
     Generate a temporary signed URL
     for the private Supabase Storage bucket.
@@ -406,8 +427,7 @@ def generate_video_url(key: str):
             )
         )
 
-        # Supabase versions may return
-        # slightly different response formats.
+        video_url = None
 
         if isinstance(response, dict):
 
@@ -418,8 +438,6 @@ def generate_video_url(key: str):
             )
 
         else:
-
-            video_url = None
 
             try:
 
@@ -457,7 +475,9 @@ def generate_video_url(key: str):
 # ADMIN AUTHENTICATION
 # ============================================================
 
-def is_admin(request: Request):
+def is_admin(
+    request: Request,
+):
 
     return (
         request.session.get("admin")
@@ -510,6 +530,7 @@ async def video_page(
                 "message": (
                     "No video is available right now."
                 ),
+                "memory_images": MEMORY_IMAGES,
             },
         )
 
@@ -532,6 +553,7 @@ async def video_page(
             "request": request,
             "video_url": video_url,
             "message": None,
+            "memory_images": MEMORY_IMAGES,
         },
     )
 
@@ -861,23 +883,20 @@ async def barcode_image(
 
         raise HTTPException(
             status_code=500,
-            detail=(
-                "Set PUBLIC_URL first."
-            ),
+            detail="Set PUBLIC_URL first.",
         )
 
     # --------------------------------------------------------
     # IMPORTANT
     #
-    # The barcode ALWAYS points to:
+    # Barcode ALWAYS points to:
     #
     # /video
     #
-    # It does NOT point directly to the
-    # Supabase video file.
+    # It does NOT point directly to Supabase.
     #
-    # Therefore changing the video will
-    # NOT require a new barcode.
+    # Therefore changing the video does NOT
+    # require generating a new barcode.
     # --------------------------------------------------------
 
     target = (
@@ -922,3 +941,36 @@ async def barcode_image(
         buffer,
         media_type="image/png",
     )
+
+
+# ============================================================
+# DEBUG ROUTE - CHECK STATIC FILES
+# ============================================================
+
+@app.get(
+    "/debug/static"
+)
+async def debug_static():
+
+    images = []
+
+    if IMAGES_DIR.exists():
+
+        for file in sorted(
+            IMAGES_DIR.iterdir()
+        ):
+
+            if file.is_file():
+
+                images.append(
+                    file.name
+                )
+
+    return {
+        "base_dir": str(BASE_DIR),
+        "static_dir": str(STATIC_DIR),
+        "images_dir": str(IMAGES_DIR),
+        "static_exists": STATIC_DIR.exists(),
+        "images_exists": IMAGES_DIR.exists(),
+        "images": images,
+    }
