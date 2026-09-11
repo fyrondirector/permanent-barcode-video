@@ -2902,29 +2902,18 @@ Happy Birthday, my love! ❤️
        MEMORY DATA
        ===================================================== */
 
-    const memoryImages = [
-
-        "/static/images/1.jpeg",
-
-        "/static/images/2.jpeg",
-
-        "/static/images/3.jpeg",
-
-        "/static/images/4.jpeg",
-
-        "/static/images/5.jpeg",
-
-        "/static/images/6.jpeg",
-
-        "/static/images/7.jpeg",
-
-        "/static/images/8.jpeg",
-
-        "/static/images/9.jpeg",
-
-        "/static/images/10.jpeg"
-
-    ];
+const memoryImages = [
+    "{{ url_for('static', filename='images/1.jpeg') }}",
+    "{{ url_for('static', filename='images/2.jpeg') }}",
+    "{{ url_for('static', filename='images/3.jpeg') }}",
+    "{{ url_for('static', filename='images/4.jpeg') }}",
+    "{{ url_for('static', filename='images/5.jpeg') }}",
+    "{{ url_for('static', filename='images/6.jpeg') }}",
+    "{{ url_for('static', filename='images/7.jpeg') }}",
+    "{{ url_for('static', filename='images/8.jpeg') }}",
+    "{{ url_for('static', filename='images/9.jpeg') }}",
+    "{{ url_for('static', filename='images/10.jpeg') }}"
+];
 
 
     const memoryCaptions = [
