@@ -1,14 +1,19 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Our Special Video</title>
+    <title>A Birthday Moment ❤️</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
         * {
@@ -25,80 +30,122 @@
 
         body {
             font-family: "DM Sans", sans-serif;
+
             background:
-                radial-gradient(circle at 15% 20%, rgba(255, 150, 180, 0.18), transparent 30%),
-                radial-gradient(circle at 85% 80%, rgba(150, 180, 255, 0.15), transparent 30%),
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(255, 120, 170, 0.22),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 85%,
+                    rgba(255, 180, 100, 0.16),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 50% 50%,
+                    rgba(180, 100, 255, 0.08),
+                    transparent 45%
+                ),
                 #09090d;
+
             color: #ffffff;
         }
 
         /* =========================
-           VIDEO AVAILABLE
+           MAIN PAGE
            ========================= */
 
         .page {
             min-height: 100vh;
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 28px 16px;
+
+            padding: 32px 16px;
         }
+
+        /* =========================
+           HEADER
+           ========================= */
 
         .header {
             width: 100%;
             max-width: 1000px;
+
             text-align: center;
-            margin-bottom: 22px;
+
+            margin-bottom: 24px;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
 
-            padding: 7px 13px;
+            padding: 8px 15px;
+
             border-radius: 999px;
 
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.07);
+
             border: 1px solid rgba(255, 255, 255, 0.12);
 
-            color: #d4d4d8;
-            font-size: 12px;
+            color: #f4d4df;
+
+            font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1.4px;
+
+            letter-spacing: 1.5px;
+
             text-transform: uppercase;
+
+            backdrop-filter: blur(10px);
         }
 
         .badge-dot {
             width: 7px;
             height: 7px;
+
             border-radius: 50%;
-            background: #7dd3fc;
-            box-shadow: 0 0 12px rgba(125, 211, 252, 0.8);
+
+            background: #fb7185;
+
+            box-shadow:
+                0 0 10px rgba(251, 113, 133, 0.9),
+                0 0 20px rgba(251, 113, 133, 0.35);
         }
 
         .title {
-            margin: 14px 0 0;
+            margin: 17px 0 0;
 
             font-family: "Playfair Display", serif;
-            font-size: clamp(30px, 6vw, 52px);
+
+            font-size: clamp(32px, 6vw, 55px);
+
             line-height: 1.1;
+
             font-weight: 700;
-            letter-spacing: -0.5px;
+
+            letter-spacing: -0.7px;
         }
 
         .subtitle {
-            margin: 10px auto 0;
-            max-width: 600px;
+            margin: 11px auto 0;
 
-            color: #a1a1aa;
+            max-width: 620px;
+
+            color: #b4b4bd;
+
             font-size: 15px;
+
             line-height: 1.6;
         }
 
         /* =========================
-           VIDEO CONTAINER
+           VIDEO
            ========================= */
 
         .video-wrapper {
@@ -109,15 +156,20 @@
 
             border-radius: 24px;
 
-            background: rgba(255, 255, 255, 0.06);
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.09),
+                    rgba(255, 255, 255, 0.035)
+                );
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.11);
 
             box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.55),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
+                0 30px 80px rgba(0, 0, 0, 0.60),
+                0 0 80px rgba(255, 100, 160, 0.06);
 
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(18px);
         }
 
         .video-container {
@@ -146,7 +198,7 @@
         }
 
         /* =========================
-           BOTTOM MESSAGE
+           FOOTER
            ========================= */
 
         .footer {
@@ -156,16 +208,19 @@
             margin-top: 18px;
 
             display: flex;
+
             justify-content: space-between;
             align-items: center;
 
             color: #71717a;
+
             font-size: 12px;
         }
 
         .footer-left {
             display: flex;
             align-items: center;
+
             gap: 7px;
         }
 
@@ -185,6 +240,7 @@
             min-height: 100vh;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -197,7 +253,7 @@
 
             text-align: center;
 
-            padding: 48px 30px;
+            padding: 50px 30px;
 
             border-radius: 28px;
 
@@ -252,15 +308,20 @@
         @media (max-width: 600px) {
 
             .page {
-                padding: 22px 10px;
+                padding: 24px 10px;
             }
 
             .header {
-                margin-bottom: 16px;
+                margin-bottom: 17px;
+            }
+
+            .badge {
+                font-size: 10px;
+                padding: 7px 12px;
             }
 
             .title {
-                font-size: 31px;
+                font-size: 32px;
             }
 
             .subtitle {
@@ -269,6 +330,7 @@
 
             .video-wrapper {
                 padding: 5px;
+
                 border-radius: 17px;
             }
 
@@ -278,6 +340,7 @@
 
             .footer {
                 padding: 0 4px;
+
                 font-size: 10px;
             }
         }
@@ -294,15 +357,15 @@
 
             <div class="badge">
                 <span class="badge-dot"></span>
-                Private Video
+                Birthday Special
             </div>
 
             <h1 class="title">
-                A Moment Worth Watching
+                A Little Birthday Memory ❤️
             </h1>
 
             <p class="subtitle">
-                Scan. Watch. Enjoy.
+                A special moment, made just for you.
             </p>
 
         </header>
@@ -313,11 +376,16 @@
             <div class="video-container">
 
                 <video
+                    id="birthdayVideo"
                     class="video"
                     controls
                     autoplay
+                    muted
                     playsinline
-                    preload="metadata"
+                    preload="auto"
+                    controlsList="nodownload noplaybackrate"
+                    disablePictureInPicture
+                    oncontextmenu="return false;"
                 >
 
                     <source
@@ -338,11 +406,11 @@
 
             <div class="footer-left">
                 <span class="lock">🔒</span>
-                <span>Secure video access</span>
+                <span>A special memory</span>
             </div>
 
             <div class="footer-right">
-                Permanent access link
+                Made with ❤️
             </div>
 
         </footer>
@@ -356,16 +424,16 @@
         <section class="empty-card">
 
             <div class="empty-icon">
-                ▶
+                🎂
             </div>
 
             <h1>
-                Video Coming Soon
+                Your Birthday Surprise
             </h1>
 
             <p>
-                There is currently no video available.
-                Please check again later.
+                This special birthday memory isn't ready yet.
+                Please check again later. ❤️
             </p>
 
         </section>
@@ -374,5 +442,88 @@
 
 {% endif %}
 
+
+<script>
+    const video = document.getElementById("birthdayVideo");
+
+    if (video) {
+
+        /*
+         * Try to start the video automatically.
+         *
+         * Browsers generally block autoplay with sound.
+         * Therefore we first autoplay muted.
+         */
+
+        video.muted = true;
+
+        const startVideo = async () => {
+
+            try {
+                await video.play();
+
+                /*
+                 * Once playback has started, attempt
+                 * to enable sound.
+                 *
+                 * Some browsers will allow this,
+                 * others will keep it muted.
+                 */
+
+                video.muted = false;
+
+                try {
+                    await video.play();
+                } catch (error) {
+                    /*
+                     * Browser blocked autoplay with sound.
+                     * Video will continue playing muted.
+                     */
+                    video.muted = true;
+                }
+
+            } catch (error) {
+                console.log("Autoplay was blocked by the browser.");
+            }
+        };
+
+
+        /*
+         * Start automatically when the page loads.
+         */
+        window.addEventListener("load", startVideo);
+
+
+        /*
+         * If the browser blocked sound autoplay,
+         * enable sound after the visitor's first interaction.
+         */
+
+        const enableSound = () => {
+
+            video.muted = false;
+
+            video.play().catch(() => {});
+
+            document.removeEventListener("click", enableSound);
+            document.removeEventListener("touchstart", enableSound);
+            document.removeEventListener("keydown", enableSound);
+        };
+
+        document.addEventListener("click", enableSound, {
+            once: true
+        });
+
+        document.addEventListener("touchstart", enableSound, {
+            once: true
+        });
+
+        document.addEventListener("keydown", enableSound, {
+            once: true
+        });
+    }
+</script>
+
 </body>
 </html>
+```
