@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>A Birthday Moment ❤️</title>
+    <title>Happy Birthday ❤️</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,7 @@
     >
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -50,26 +51,436 @@
                 #09090d;
 
             color: #ffffff;
+
+            overflow-x: hidden;
         }
 
-        /* =========================
+
+        /* =====================================================
+           INTRO / BIRTHDAY REVEAL
+           ===================================================== */
+
+        .birthday-intro {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255, 100, 160, 0.12),
+                    transparent 45%
+                ),
+                #09090d;
+
+            transition:
+                opacity 1s ease,
+                visibility 1s ease;
+        }
+
+
+        .birthday-intro.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           BIRTHDAY MESSAGE
+           ===================================================== */
+
+        .birthday-message {
+            position: relative;
+
+            z-index: 10;
+
+            width: 90%;
+
+            text-align: center;
+
+            opacity: 0;
+
+            transform: scale(0.65) translateY(20px);
+
+            animation:
+                birthdayAppear 1.3s
+                cubic-bezier(0.17, 0.67, 0.25, 1.2)
+                1.3s
+                forwards;
+        }
+
+
+        .birthday-small {
+            margin-bottom: 15px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            color: #f9a8d4;
+
+            opacity: 0.9;
+        }
+
+
+        .birthday-title {
+            margin: 0;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(40px, 8vw, 76px);
+
+            line-height: 1.08;
+
+            font-weight: 700;
+
+            letter-spacing: -1px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #ffffff,
+                    #ffd6e7,
+                    #ffffff
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+
+            text-shadow:
+                0 0 40px rgba(255, 150, 190, 0.20);
+        }
+
+
+        .birthday-heart {
+            display: inline-block;
+
+            margin-left: 5px;
+
+            animation:
+                heartBeat 1.2s
+                ease-in-out
+                infinite;
+        }
+
+
+        .birthday-subtitle {
+            margin: 18px 0 0;
+
+            color: #a1a1aa;
+
+            font-size: 14px;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        @keyframes birthdayAppear {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    scale(0.65)
+                    translateY(25px);
+            }
+
+            60% {
+                opacity: 1;
+
+                transform:
+                    scale(1.08)
+                    translateY(0);
+            }
+
+            100% {
+                opacity: 1;
+
+                transform:
+                    scale(1)
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes heartBeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.25);
+            }
+        }
+
+
+        /* =====================================================
+           PARTY POPPER CANNONS
+           ===================================================== */
+
+        .popper {
+            position: absolute;
+
+            z-index: 5;
+
+            bottom: 12%;
+
+            width: 70px;
+            height: 150px;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        .popper.left {
+            left: 5%;
+
+            transform: rotate(-35deg);
+        }
+
+
+        .popper.right {
+            right: 5%;
+
+            transform: rotate(35deg) scaleX(-1);
+        }
+
+
+        .popper-body {
+            position: absolute;
+
+            bottom: 0;
+
+            left: 20px;
+
+            width: 32px;
+            height: 95px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f9a8d4,
+                    #fb7185
+                );
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .popper-body::after {
+            content: "";
+
+            position: absolute;
+
+            top: -12px;
+            left: 4px;
+
+            width: 24px;
+            height: 24px;
+
+            border-radius: 50%;
+
+            background: #fef3c7;
+        }
+
+
+        .popper {
+            animation:
+                popperBlast 0.7s
+                ease-out
+                0.5s
+                forwards;
+        }
+
+
+        @keyframes popperBlast {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    rotate(-35deg)
+                    translateY(50px)
+                    scale(0.7);
+            }
+
+            30% {
+                opacity: 1;
+
+                transform:
+                    rotate(-35deg)
+                    translateY(0)
+                    scale(1.05);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    rotate(-35deg)
+                    translateY(-15px)
+                    scale(1);
+            }
+        }
+
+
+        .right {
+            animation-name: popperBlastRight;
+        }
+
+
+        @keyframes popperBlastRight {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    rotate(35deg)
+                    scaleX(-1)
+                    translateY(50px)
+                    scale(0.7);
+            }
+
+            30% {
+                opacity: 1;
+
+                transform:
+                    rotate(35deg)
+                    scaleX(-1)
+                    translateY(0)
+                    scale(1.05);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    rotate(35deg)
+                    scaleX(-1)
+                    translateY(-15px)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           CONFETTI
+           ===================================================== */
+
+        .confetti-container {
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 4;
+
+            pointer-events: none;
+
+            overflow: hidden;
+        }
+
+
+        .confetti {
+            position: absolute;
+
+            top: -30px;
+
+            width: 8px;
+            height: 14px;
+
+            border-radius: 2px;
+
+            opacity: 0;
+
+            animation:
+                confettiFall
+                2.8s
+                ease-in
+                0.55s
+                forwards;
+        }
+
+
+        @keyframes confettiFall {
+
+            0% {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translateY(110vh)
+                    rotate(720deg);
+            }
+        }
+
+
+        /* =====================================================
            MAIN PAGE
-           ========================= */
+           ===================================================== */
 
         .page {
             min-height: 100vh;
 
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             justify-content: center;
 
             padding: 32px 16px;
+
+            opacity: 0;
+
+            transform: translateY(25px);
+
+            transition:
+                opacity 1.2s ease,
+                transform 1.2s ease;
         }
 
-        /* =========================
+
+        .page.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
            HEADER
-           ========================= */
+           ===================================================== */
 
         .header {
             width: 100%;
@@ -80,9 +491,12 @@
             margin-bottom: 24px;
         }
 
+
         .badge {
             display: inline-flex;
+
             align-items: center;
+
             gap: 8px;
 
             padding: 8px 15px;
@@ -96,6 +510,7 @@
             color: #f4d4df;
 
             font-size: 11px;
+
             font-weight: 600;
 
             letter-spacing: 1.5px;
@@ -104,6 +519,7 @@
 
             backdrop-filter: blur(10px);
         }
+
 
         .badge-dot {
             width: 7px;
@@ -117,6 +533,7 @@
                 0 0 10px rgba(251, 113, 133, 0.9),
                 0 0 20px rgba(251, 113, 133, 0.35);
         }
+
 
         .title {
             margin: 17px 0 0;
@@ -132,6 +549,7 @@
             letter-spacing: -0.7px;
         }
 
+
         .subtitle {
             margin: 11px auto 0;
 
@@ -144,9 +562,10 @@
             line-height: 1.6;
         }
 
-        /* =========================
+
+        /* =====================================================
            VIDEO
-           ========================= */
+           ===================================================== */
 
         .video-wrapper {
             width: 100%;
@@ -172,6 +591,7 @@
             backdrop-filter: blur(18px);
         }
 
+
         .video-container {
             position: relative;
 
@@ -186,6 +606,7 @@
             aspect-ratio: 16 / 9;
         }
 
+
         .video {
             display: block;
 
@@ -197,9 +618,10 @@
             background: #000;
         }
 
-        /* =========================
+
+        /* =====================================================
            FOOTER
-           ========================= */
+           ===================================================== */
 
         .footer {
             width: 100%;
@@ -210,6 +632,7 @@
             display: flex;
 
             justify-content: space-between;
+
             align-items: center;
 
             color: #71717a;
@@ -217,24 +640,29 @@
             font-size: 12px;
         }
 
+
         .footer-left {
             display: flex;
+
             align-items: center;
 
             gap: 7px;
         }
 
+
         .lock {
             font-size: 13px;
         }
+
 
         .footer-right {
             opacity: 0.7;
         }
 
-        /* =========================
+
+        /* =====================================================
            EMPTY STATE
-           ========================= */
+           ===================================================== */
 
         .empty-page {
             min-height: 100vh;
@@ -242,10 +670,12 @@
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 25px;
         }
+
 
         .empty-card {
             width: 100%;
@@ -267,6 +697,7 @@
             backdrop-filter: blur(18px);
         }
 
+
         .empty-icon {
             width: 70px;
             height: 70px;
@@ -274,6 +705,7 @@
             margin: 0 auto 22px;
 
             display: grid;
+
             place-items: center;
 
             border-radius: 50%;
@@ -283,6 +715,7 @@
             font-size: 28px;
         }
 
+
         .empty-card h1 {
             margin: 0;
 
@@ -290,6 +723,7 @@
 
             font-size: 30px;
         }
+
 
         .empty-card p {
             margin: 12px 0 0;
@@ -301,9 +735,10 @@
             font-size: 14px;
         }
 
-        /* =========================
+
+        /* =====================================================
            MOBILE
-           ========================= */
+           ===================================================== */
 
         @media (max-width: 600px) {
 
@@ -317,6 +752,7 @@
 
             .badge {
                 font-size: 10px;
+
                 padding: 7px 12px;
             }
 
@@ -343,26 +779,124 @@
 
                 font-size: 10px;
             }
+
+            .birthday-title {
+                font-size: 38px;
+
+                padding: 0 10px;
+            }
+
+            .birthday-small {
+                font-size: 10px;
+
+                letter-spacing: 2px;
+            }
+
+            .birthday-subtitle {
+                font-size: 12px;
+            }
+
+            .popper.left {
+                left: -8%;
+            }
+
+            .popper.right {
+                right: -8%;
+            }
         }
+
     </style>
 </head>
 
+
 <body>
+
 
 {% if video_url %}
 
-    <main class="page">
+
+    <!-- =====================================================
+         BIRTHDAY INTRO
+         ===================================================== -->
+
+    <div
+        id="birthdayIntro"
+        class="birthday-intro"
+    >
+
+        <!-- CONFETTI -->
+
+        <div
+            id="confettiContainer"
+            class="confetti-container"
+        ></div>
+
+
+        <!-- LEFT PARTY POPPER -->
+
+        <div class="popper left">
+
+            <div class="popper-body"></div>
+
+        </div>
+
+
+        <!-- RIGHT PARTY POPPER -->
+
+        <div class="popper right">
+
+            <div class="popper-body"></div>
+
+        </div>
+
+
+        <!-- BIRTHDAY MESSAGE -->
+
+        <div class="birthday-message">
+
+            <div class="birthday-small">
+                🎂 A Special Day 🎂
+            </div>
+
+            <h1 class="birthday-title">
+                Happy Birthday<br>
+                My Dear Pisasu
+                <span class="birthday-heart">❤️</span>
+            </h1>
+
+            <p class="birthday-subtitle">
+                Today is all about you. ✨
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN VIDEO PAGE
+         ===================================================== -->
+
+    <main
+        id="mainPage"
+        class="page"
+    >
 
         <header class="header">
 
             <div class="badge">
+
                 <span class="badge-dot"></span>
+
                 Birthday Special
+
             </div>
+
 
             <h1 class="title">
                 A Little Birthday Memory ❤️
             </h1>
+
 
             <p class="subtitle">
                 A special moment, made just for you.
@@ -370,6 +904,8 @@
 
         </header>
 
+
+        <!-- VIDEO -->
 
         <section class="video-wrapper">
 
@@ -402,12 +938,22 @@
         </section>
 
 
+        <!-- FOOTER -->
+
         <footer class="footer">
 
             <div class="footer-left">
-                <span class="lock">🔒</span>
-                <span>A special memory</span>
+
+                <span class="lock">
+                    🔒
+                </span>
+
+                <span>
+                    A special memory
+                </span>
+
             </div>
+
 
             <div class="footer-right">
                 Made with ❤️
@@ -417,7 +963,13 @@
 
     </main>
 
+
 {% else %}
+
+
+    <!-- =====================================================
+         EMPTY STATE
+         ===================================================== -->
 
     <main class="empty-page">
 
@@ -427,9 +979,11 @@
                 🎂
             </div>
 
+
             <h1>
                 Your Birthday Surprise
             </h1>
+
 
             <p>
                 This special birthday memory isn't ready yet.
@@ -440,89 +994,328 @@
 
     </main>
 
+
 {% endif %}
 
 
-<script>
-    const video = document.getElementById("birthdayVideo");
 
-    if (video) {
+<script>
+
+    const intro =
+        document.getElementById("birthdayIntro");
+
+    const mainPage =
+        document.getElementById("mainPage");
+
+    const video =
+        document.getElementById("birthdayVideo");
+
+    const confettiContainer =
+        document.getElementById("confettiContainer");
+
+
+    /*
+     * =========================================================
+     * CREATE CONFETTI
+     * =========================================================
+     */
+
+    function createConfetti() {
+
+        if (!confettiContainer) {
+            return;
+        }
+
+
+        const pieces = 100;
+
+
+        for (let i = 0; i < pieces; i++) {
+
+            const confetti =
+                document.createElement("span");
+
+
+            confetti.className = "confetti";
+
+
+            /*
+             * Random horizontal position
+             */
+
+            confetti.style.left =
+                Math.random() * 100 + "%";
+
+
+            /*
+             * Different sizes
+             */
+
+            const width =
+                Math.random() * 7 + 5;
+
+            const height =
+                Math.random() * 10 + 8;
+
+
+            confetti.style.width =
+                width + "px";
+
+            confetti.style.height =
+                height + "px";
+
+
+            /*
+             * Random colors
+             */
+
+            const colors = [
+                "#f9a8d4",
+                "#fb7185",
+                "#fda4af",
+                "#fde68a",
+                "#fef3c7",
+                "#c4b5fd",
+                "#93c5fd",
+                "#ffffff"
+            ];
+
+
+            confetti.style.background =
+                colors[
+                    Math.floor(
+                        Math.random() * colors.length
+                    )
+                ];
+
+
+            /*
+             * Random falling speed
+             */
+
+            confetti.style.animationDuration =
+                (Math.random() * 2 + 2.2) + "s";
+
+
+            /*
+             * Random delay
+             */
+
+            confetti.style.animationDelay =
+                (Math.random() * 0.8) + "s";
+
+
+            confettiContainer.appendChild(confetti);
+
+        }
+
+    }
+
+
+    /*
+     * =========================================================
+     * VIDEO AUTOPLAY
+     * =========================================================
+     */
+
+    async function startVideo() {
+
+        if (!video) {
+            return;
+        }
+
 
         /*
-         * Try to start the video automatically.
-         *
-         * Browsers generally block autoplay with sound.
-         * Therefore we first autoplay muted.
+         * Start muted because browsers commonly
+         * block autoplay with sound.
          */
 
         video.muted = true;
 
-        const startVideo = async () => {
 
-            try {
-                await video.play();
+        try {
 
-                /*
-                 * Once playback has started, attempt
-                 * to enable sound.
-                 *
-                 * Some browsers will allow this,
-                 * others will keep it muted.
-                 */
-
-                video.muted = false;
-
-                try {
-                    await video.play();
-                } catch (error) {
-                    /*
-                     * Browser blocked autoplay with sound.
-                     * Video will continue playing muted.
-                     */
-                    video.muted = true;
-                }
-
-            } catch (error) {
-                console.log("Autoplay was blocked by the browser.");
-            }
-        };
+            await video.play();
 
 
-        /*
-         * Start automatically when the page loads.
-         */
-        window.addEventListener("load", startVideo);
-
-
-        /*
-         * If the browser blocked sound autoplay,
-         * enable sound after the visitor's first interaction.
-         */
-
-        const enableSound = () => {
+            /*
+             * Try to turn sound on.
+             */
 
             video.muted = false;
 
-            video.play().catch(() => {});
 
-            document.removeEventListener("click", enableSound);
-            document.removeEventListener("touchstart", enableSound);
-            document.removeEventListener("keydown", enableSound);
-        };
+            try {
 
-        document.addEventListener("click", enableSound, {
-            once: true
-        });
+                await video.play();
 
-        document.addEventListener("touchstart", enableSound, {
-            once: true
-        });
+            } catch (error) {
 
-        document.addEventListener("keydown", enableSound, {
-            once: true
-        });
+                /*
+                 * Browser blocked sound autoplay.
+                 * Keep video playing muted.
+                 */
+
+                video.muted = true;
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Video autoplay was blocked."
+            );
+
+        }
+
     }
+
+
+    /*
+     * =========================================================
+     * ENABLE SOUND AFTER FIRST USER INTERACTION
+     * =========================================================
+     */
+
+    function enableSound() {
+
+        if (!video) {
+            return;
+        }
+
+
+        video.muted = false;
+
+
+        video.play().catch(() => {});
+
+
+        document.removeEventListener(
+            "click",
+            enableSound
+        );
+
+        document.removeEventListener(
+            "touchstart",
+            enableSound
+        );
+
+        document.removeEventListener(
+            "keydown",
+            enableSound
+        );
+
+    }
+
+
+    /*
+     * =========================================================
+     * BIRTHDAY SEQUENCE
+     *
+     * 0.0s  → Page opens
+     * 0.5s  → Party poppers + confetti
+     * 1.8s  → Birthday message appears
+     * 4.8s  → Birthday intro disappears
+     * 5.8s  → Video visible
+     * 5.8s  → Video starts
+     * =========================================================
+     */
+
+    function startBirthdaySequence() {
+
+        createConfetti();
+
+
+        /*
+         * Give the poppers and message
+         * time to play.
+         */
+
+        setTimeout(() => {
+
+            /*
+             * Show main page behind the intro.
+             */
+
+            if (mainPage) {
+                mainPage.classList.add("show");
+            }
+
+        }, 2500);
+
+
+        /*
+         * Remove birthday intro
+         */
+
+        setTimeout(() => {
+
+            if (intro) {
+
+                intro.classList.add("hide");
+
+            }
+
+
+            /*
+             * Start video immediately
+             * when reveal finishes.
+             */
+
+            startVideo();
+
+        }, 4800);
+
+    }
+
+
+    /*
+     * =========================================================
+     * PAGE LOAD
+     * =========================================================
+     */
+
+    window.addEventListener(
+        "load",
+        startBirthdaySequence
+    );
+
+
+    /*
+     * =========================================================
+     * FIRST INTERACTION → ENABLE SOUND
+     * =========================================================
+     */
+
+    document.addEventListener(
+        "click",
+        enableSound,
+        {
+            once: true
+        }
+    );
+
+
+    document.addEventListener(
+        "touchstart",
+        enableSound,
+        {
+            once: true
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        enableSound,
+        {
+            once: true
+        }
+    );
+
+
 </script>
+
 
 </body>
 </html>
